@@ -154,6 +154,7 @@ int main(int argc, char* argv[])
     //bool isMC_WW     = isMC && (string(url.Data()).find("TeV_WW_")  != string::npos);
     bool isMC_ttbar  = isMC && (string(url.Data()).find("TeV_TT")  != string::npos);
     bool isMC_stop   = isMC && (string(url.Data()).find("TeV_SingleT")  != string::npos);
+    bool isMC_DYatLO = isMC && (string(url.Data()).find("TeV_DYJetsToLLatLO_50toInf") != string::npos);
     //bool isMC_WIMP   = isMC && (string(url.Data()).find("TeV_DM_V_Mx") != string::npos
     //                 || string(url.Data()).find("TeV_DM_A_Mx") != string::npos);
     //bool isMC_ADD    = isMC && (string(url.Data()).find("TeV_ADD_D") != string::npos);
@@ -562,6 +563,9 @@ int main(int argc, char* argv[])
 
         //prepare the tag's vectors for histo filling
         std::vector<TString> tags(1,"all");
+
+        // Check if using LO DY sample (covers HT 0-100 for HT bin stitching)
+        if ( isMC_DYatLO && ev.lheSumPartonHT > 100. ) continue;
 
         //genWeight
         float genWeight = 1.0;

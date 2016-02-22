@@ -407,9 +407,41 @@
                     ]
                 }, 
                 {
-                    "dtag": "MC13TeV_DYJetsToLL_50toInf", 
-                    "xsec": 6025, 
-                    "split": 23, 
+                    "dtag": "MC13TeV_DYJetsToLLatLO_50toInf", 
+                    "xsec": 6025.2, 
+                    "split": 15, 
+                    "br": [
+                        1
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_DYJetsToLL_M50HT100to200", 
+                    "xsec": 181.43, 
+                    "split": 5, 
+                    "br": [
+                        1
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_DYJetsToLL_M50HT200to400", 
+                    "xsec": 50.45, 
+                    "split": 2, 
+                    "br": [
+                        1
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_DYJetsToLL_M50HT400to600", 
+                    "xsec": 6.99, 
+                    "split": 2, 
+                    "br": [
+                        1
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_DYJetsToLL_M50HT600toInf", 
+                    "xsec": 2.71, 
+                    "split": 1, 
                     "br": [
                         1
                     ]
