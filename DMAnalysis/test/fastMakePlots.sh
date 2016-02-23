@@ -13,7 +13,7 @@ output="$2"
 main="${CMSSW_BASE}/src/llvvAnalysis/DMAnalysis"
 json="$main/data/sample_13TeV_25ns_ZHinv_plot_15Feb2016.json"
 Ecm="13"
-Lumi="2263.55"
+Lumi="2318.35" # Moriond 2016
 
 onlyplots="--channel all_ --channel ee --channel mumu --channel emu --channel ll --only raw --only presel --only final --only flow "
 runPlotter --json $json --inDir $input --outDir $output --outFile $output/plotter.root $onlyplots --iEcm $Ecm --iLumi $Lumi   
