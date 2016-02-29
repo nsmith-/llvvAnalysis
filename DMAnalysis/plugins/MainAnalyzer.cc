@@ -451,19 +451,24 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
     edm::Handle<reco::VertexCollection> vertices;
     event.getByToken(vtxTag_, vertices);
     if (vertices->empty()) return; // skip the event if no PV found
-    const reco::Vertex &PV = vertices->front();
 
-    ev.vtx_x = PV.x();
-    ev.vtx_y = PV.y();
-    ev.vtx_z = PV.z();
-
-    ev.nvtx = 0;
     //select good vertices
+    ev.nvtx = 0;
+    size_t chosenVtx{9999};
     for(unsigned int i = 0; i < vertices->size(); i++) {
-        if(vertices->at(i).isValid() && !vertices->at(i).isFake()) ev.nvtx++;
+        if(vertices->at(i).isValid() && !vertices->at(i).isFake()) {
+            ev.nvtx++;
+            if(chosenVtx > i && vertices->at(i).ndof()>4. && abs(vertices->at(i).z()) <= 24. && vertices->at(i).position().Rho() <= 2.) {
+                chosenVtx = i;
+            }
+        }
     }
     if(ev.nvtx == 0) return;
 
+    const reco::Vertex &PV = vertices->at(chosenVtx);
+    ev.vtx_x = PV.x();
+    ev.vtx_y = PV.y();
+    ev.vtx_z = PV.z();
 
     edm::Handle<double> rhoAll;
     edm::Handle<double> rhoFastjetAll;
@@ -495,9 +500,8 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
     const edm::TriggerNames &metNames = event.triggerNames(*metFilterBits);
     bool passMETFilters(true);
     for(unsigned int i = 0, n = metFilterBits->size(); i < n; ++i) {
-        if(strcmp(metNames.triggerName(i).c_str(), "Flag_goodVertices") == 0)
-            passMETFilters &= metFilterBits->accept(i);
-        else if(strcmp(metNames.triggerName(i).c_str(), "Flag_eeBadScFilter") == 0)
+        // All met filters
+        if(strcmp(metNames.triggerName(i).c_str(), "Flag_METFilters") == 0)
             passMETFilters &= metFilterBits->accept(i);
     }
     if(!passMETFilters) return;
