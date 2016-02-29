@@ -123,6 +123,8 @@ private:
 
     edm::EDGetTokenT<edm::TriggerResults> metFilterBitsTag_;
 
+    edm::EDGetTokenT<std::vector<PileupSummaryInfo> > pileupInfoToken_;
+    edm::EDGetTokenT<GenEventInfoProduct> genEventInfoToken_;
     edm::EDGetTokenT<edm::View<reco::GenParticle> > prunedGenTag_;
     edm::EDGetTokenT<edm::View<pat::PackedGenParticle> > packedGenTag_;
     edm::EDGetTokenT<edm::View<reco::GenJet> > genjetTag_;
@@ -235,6 +237,8 @@ MainAnalyzer::MainAnalyzer(const edm::ParameterSet& iConfig):
     metNoHFTag_(        consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metsNoHFTag"))                ),
     metPuppiTag_(       consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metsPuppiTag"))               ),
     metFilterBitsTag_(	consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("metFilterBitsTag"))		),
+    pileupInfoToken_(	consumes<std::vector<PileupSummaryInfo> >(iConfig.getUntrackedParameter<edm::InputTag>("pileupInfo", edm::InputTag("slimmedAddPileupInfo")))	),
+    genEventInfoToken_( consumes<GenEventInfoProduct>(iConfig.getUntrackedParameter<edm::InputTag>("genEventInfo", edm::InputTag("generator"))) ),
     prunedGenTag_(	consumes<edm::View<reco::GenParticle> >(iConfig.getParameter<edm::InputTag>("prunedTag"))	),
     packedGenTag_(	consumes<edm::View<pat::PackedGenParticle> >(iConfig.getParameter<edm::InputTag>("packedTag"))	),
     genjetTag_(		consumes<edm::View<reco::GenJet> >(iConfig.getParameter<edm::InputTag>("genJetsTag"))		),
@@ -878,9 +882,9 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
 	else     ev.fjet_genpt[ev.fjet] = 0;
 
 
-        ev.fjet_prunedM[ev.fjet] = (float) j.userFloat("ak8PFJetsCHSPrunedLinks");
-        ev.fjet_trimmedM[ev.fjet] = (float) j.userFloat("ak8PFJetsCHSTrimmedLinks");
-        ev.fjet_filteredM[ev.fjet] = (float) j.userFloat("ak8PFJetsCHSFilteredLinks");
+        ev.fjet_prunedM[ev.fjet] = (float) j.userFloat("ak8PFJetsCHSPrunedMass");
+        ev.fjet_trimmedM[ev.fjet] = (float) j.userFloat("ak8PFJetsCHSTrimmedMass");
+        ev.fjet_filteredM[ev.fjet] = (float) j.userFloat("ak8PFJetsCHSFilteredMass");
         ev.fjet_tau1[ev.fjet] =  (float) j.userFloat("NjettinessAK8:tau1");
         ev.fjet_tau2[ev.fjet] =  (float) j.userFloat("NjettinessAK8:tau2");
         ev.fjet_tau3[ev.fjet] =  (float) j.userFloat("NjettinessAK8:tau3");
@@ -1022,8 +1026,7 @@ MainAnalyzer::getMCtruth(const edm::Event& event, const edm::EventSetup& iSetup)
     //if(event.isRealData()) return;
 
     edm::Handle<std::vector<PileupSummaryInfo> > puInfoH;
-    //event.getByLabel("addPileupInfo", puInfoH);
-    event.getByLabel("slimmedAddPileupInfo", puInfoH);
+    event.getByToken(pileupInfoToken_, puInfoH);
     int npuOOT(0),npuIT(0),npuOOTm1(0);
     float truePU(0);
     if(puInfoH.isValid()) {
@@ -1047,7 +1050,7 @@ MainAnalyzer::getMCtruth(const edm::Event& event, const edm::EventSetup& iSetup)
 
     //retrieve pdf info
     edm::Handle<GenEventInfoProduct> genEventInfoProd;
-    event.getByLabel("generator", genEventInfoProd);
+    event.getByToken(genEventInfoToken_, genEventInfoProd);
     ev.genWeight = genEventInfoProd->weight();
     ev.qscale = genEventInfoProd->qScale();
     if(genEventInfoProd->pdf()) {
