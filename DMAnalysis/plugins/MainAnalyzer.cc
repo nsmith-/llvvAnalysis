@@ -467,7 +467,7 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
             }
         }
     }
-    if(ev.nvtx == 0) return;
+    if(ev.nvtx == 0 || chosenVtx == 9999) return;
 
     const reco::Vertex &PV = vertices->at(chosenVtx);
     ev.vtx_x = PV.x();
