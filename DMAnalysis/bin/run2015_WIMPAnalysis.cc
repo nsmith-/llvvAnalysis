@@ -138,6 +138,7 @@ int main(int argc, char* argv[])
     //bool isMC_WW     = isMC && (string(url.Data()).find("TeV_WW_")  != string::npos);
     bool isMC_ttbar  = isMC && (string(url.Data()).find("TeV_TT")  != string::npos);
     bool isMC_stop   = isMC && (string(url.Data()).find("TeV_SingleT")  != string::npos);
+    bool isMC_DYatLO = isMC && (string(url.Data()).find("TeV_DYJetsToLLatLO_50toInf") != string::npos);
     //bool isMC_WIMP   = isMC && (string(url.Data()).find("TeV_DM_V_Mx") != string::npos
     //                 || string(url.Data()).find("TeV_DM_A_Mx") != string::npos);
     //bool isMC_ADD    = isMC && (string(url.Data()).find("TeV_ADD_D") != string::npos);
@@ -193,6 +194,8 @@ int main(int argc, char* argv[])
 	if(isMC_ZZ) { 
             varNames.push_back("_ewkup"); 
             varNames.push_back("_ewkdown"); 
+            varNames.push_back("_nnloqcdup"); 
+            varNames.push_back("_nnloqcddown"); 
 	} 
     }
     size_t nvarsToInclude=varNames.size();
@@ -240,9 +243,9 @@ int main(int argc, char* argv[])
     h->GetXaxis()->SetBinLabel(3,"#it{p}_{T}^{ll}>60");
     h->GetXaxis()->SetBinLabel(4,"3^{rd}-lepton veto");
     h->GetXaxis()->SetBinLabel(5,"b-veto");
-    h->GetXaxis()->SetBinLabel(6,"#Delta#it{#phi}(#it{l^{+}l^{-}},E_{T}^{miss})>2.8");
-    h->GetXaxis()->SetBinLabel(7,"#Delta#it{#phi}(#it{l^{+},l^{-}})<#pi/2");
-    h->GetXaxis()->SetBinLabel(8,"|E_{T}^{miss}-#it{q}_{T}|/#it{q}_{T}<0.4");
+    h->GetXaxis()->SetBinLabel(6,"#Delta#phi(l^{+}l^{-},E_{T}^{miss})>2.8");
+    h->GetXaxis()->SetBinLabel(7,"#Delta#phi(l^{+},l^{-})<#pi/2");
+    h->GetXaxis()->SetBinLabel(8,"|E_{T}^{miss}-#it{p}^{ll}_{T}|/#it{p}^{ll}_{T}<0.4");
     h->GetXaxis()->SetBinLabel(9,"E_{T}^{miss}>100");
     h->GetXaxis()->SetBinLabel(10,"m_{T} > 200");
 
@@ -318,11 +321,18 @@ int main(int argc, char* argv[])
     double METBins2[]= {0,10,20,30,40,50,60,70,80,90,100,120,140,160,180,200,250,300,350,400,500,1000};
     const int nBinsMET2 = sizeof(METBins2)/sizeof(double) - 1;
 
+    double PTBins[]= {60, 70, 80, 90, 100, 120, 140, 160, 180, 200, 250, 300, 350, 400, 500, 1000};
+    const int nBinsPT = sizeof(PTBins)/sizeof(double) - 1;
+
     double MTBins[]= {200,250, 300,400,600,800,1000};
     const int nBinsMT = sizeof(MTBins)/sizeof(double) - 1;
 
+    double MTBins2[]= {60, 80, 100, 120, 160, 200, 250, 300, 400, 500, 750, 1000, 2000};
+    const int nBinsMT2 = sizeof(MTBins2)/sizeof(double) - 1;
+
     mon.addHistogram( new TH1F( "zmass_presel",    ";#it{m}_{ll} [GeV];Events", 50,91-15,91+15) );
     mon.addHistogram( new TH1F( "zpt_presel",    ";#it{p}_{T}^{ll} [GeV];Events / 10 GeV", 45,50,500) );
+    mon.addHistogram( new TH1F( "zpt2_presel",    ";#it{p}_{T}^{ll} [GeV];Events / 10 GeV", nBinsPT, MTBins) );
     mon.addHistogram( new TH1F( "pfmet_presel",      ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET, METBins));
     mon.addHistogram( new TH1F( "pfmet2_presel",     ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET2, METBins2));
     mon.addHistogram( new TH1F( "pfmetCtrl_presel",     ";E_{T}^{miss} [GeV];Events / 5 GeV", 20, 0, 100));
@@ -331,18 +341,19 @@ int main(int argc, char* argv[])
     mon.addHistogram( new TH1F( "pfmetCtrl_puppi_presel",     ";E_{T}^{miss} [GeV];Events / 5 GeV", 20, 0, 100));
     mon.addHistogram( new TH1F( "pfmetParallelZ_presel",     ";E_{T}^{miss} Parallel Z [GeV];Events / 10 GeV", 40, -200, 200));
     mon.addHistogram( new TH1F( "pfmetPerpZ_presel",         ";E_{T}^{miss} Perp. Z [GeV];Events / 5 GeV", 40, -100, 100));
-    mon.addHistogram( new TH1F( "dphiZMET_presel",   ";#Delta#it{#phi}(#it{l^{+}l^{-}},E_{T}^{miss});Events", 10,0,TMath::Pi()) );
-    mon.addHistogram( new TH1F( "dphiLL_presel",     ";#Delta#it{#phi}(#it{l^{+},l^{-}});Events", 10,0,TMath::Pi()) );
-    mon.addHistogram( new TH1F( "balancedif_presel", ";|E_{T}^{miss}-#it{q}_{T}|/#it{q}_{T};Events", 5,0,1.0) );
-    mon.addHistogram( new TH1F( "mt_presel",         ";#it{m}_{T} [GeV];Events", 12,0,1200) );
+    mon.addHistogram( new TH1F( "dphiZMET_presel",   ";#Delta#phi(l^{+}l^{-},E_{T}^{miss}) [rad];Events", 10,0,TMath::Pi()) );
+    mon.addHistogram( new TH1F( "dphiLL_presel",     ";#Delta#phi(l^{+},l^{-}) [rad];Events", 10,0,TMath::Pi()) );
+    mon.addHistogram( new TH1F( "balancedif_presel", ";|E_{T}^{miss}-#it{p}^{ll}_{T}|/#it{p}^{ll}_{T};Events", 5,0,1.0) );
+    mon.addHistogram( new TH1F( "mt_presel",         ";m_{T} [GeV];Events", 12,0,1200) );
+    mon.addHistogram( new TH1F( "mt2_presel",        ";m_{T} [GeV];Events", nBinsMT2, MTBins2) );
 
     //MET X-Y shift correction
     mon.addHistogram( new TH2F( "pfmetx_vs_nvtx_presel",";Vertices;E_{X}^{miss} [GeV];Events",50,0,50, 200,-75,75) );
     mon.addHistogram( new TH2F( "pfmety_vs_nvtx_presel",";Vertices;E_{Y}^{miss} [GeV];Events",50,0,50, 200,-75,75) );
     mon.addHistogram( new TH2F( "pfmetParallelZ_vs_nvtx_presel",";Vertices;E_{parallel}^{miss} [GeV];Events",50,0,50, 200,-200,200) );
     mon.addHistogram( new TH2F( "pfmetPerpZ_vs_nvtx_presel",";Vertices;E_{perp.}^{miss} [GeV];Events",50,0,50, 200,-100,100) );
-    mon.addHistogram( new TH1F( "pfmetphi_wocorr_presel",";#it{#phi}(E_{T}^{miss});Events", 50,-1.*TMath::Pi(),TMath::Pi()) );
-    mon.addHistogram( new TH1F( "pfmetphi_wicorr_presel",";#it{#phi}(E_{T}^{miss});Events", 50,-1.*TMath::Pi(),TMath::Pi()) );
+    mon.addHistogram( new TH1F( "pfmetphi_wocorr_presel",";#phi(E_{T}^{miss}) [rad];Events", 50,-1.*TMath::Pi(),TMath::Pi()) );
+    mon.addHistogram( new TH1F( "pfmetphi_wicorr_presel",";#phi(E_{T}^{miss}) [rad];Events", 50,-1.*TMath::Pi(),TMath::Pi()) );
 
 
     // generator level plots
@@ -368,8 +379,8 @@ int main(int argc, char* argv[])
     }
 
 
-    mon.addHistogram( new TH1F( "mt_final",             ";#it{m}_{T} [GeV];Events", nBinsMT, MTBins) );
-    mon.addHistogram( new TH1F( "mt_final120",             ";#it{m}_{T} [GeV];Events", nBinsMT, MTBins) );
+    mon.addHistogram( new TH1F( "mt_final",             ";m_{T} [GeV];Events", nBinsMT, MTBins) );
+    mon.addHistogram( new TH1F( "mt_final120",             ";m_{T} [GeV];Events", nBinsMT, MTBins) );
     mon.addHistogram( new TH1F( "pfmet_final",      ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET, METBins));
     mon.addHistogram( new TH1F( "pfmet2_final",     ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET2, METBins2));
 
@@ -392,7 +403,7 @@ int main(int argc, char* argv[])
     mon.addHistogram( new TH1F( "zpt_wwctrl_raw",   ";#it{p}_{T}^{ll} [GeV];Events", 50,0,300) );
     mon.addHistogram( new TH1F( "zmass_wwctrl_raw", ";#it{m}_{ll} [GeV];Events", 100,20,300) );
     mon.addHistogram( new TH1F( "pfmet_wwctrl_raw", ";E_{T}^{miss} [GeV];Events", 50,0,300) );
-    mon.addHistogram( new TH1F( "mt_wwctrl_raw",";#it{m}_{T}(#it{ll}, E_{T}^{miss}) [GeV];Events", 50,0,300) );
+    mon.addHistogram( new TH1F( "mt_wwctrl_raw",";m_{T}(#it{ll}, E_{T}^{miss}) [GeV];Events", 50,0,300) );
 
 
 
@@ -444,7 +455,7 @@ int main(int argc, char* argv[])
         Hoptim_systs->GetXaxis()->SetBinLabel(ivar+1, varNames[ivar]);
 
         //1D shapes for limit setting
-        mon.addHistogram( new TH2F (TString("mt_shapes")+varNames[ivar],";cut index; #it{m}_{T} [GeV];#Events",nOptims,0,nOptims,nBinsMT,MTBins) );
+        mon.addHistogram( new TH2F (TString("mt_shapes")+varNames[ivar],";cut index; m_{T} [GeV];#Events",nOptims,0,nOptims,nBinsMT,MTBins) );
         //mon.addHistogram( new TH2F (TString("pfmet_shapes")+varNames[ivar],";cut index; E_{T}^{miss} [GeV];#Events",nOptims,0,nOptims,nBinPFMET,xbinsPFMET) );
 
         //2D shapes for limit setting
@@ -546,6 +557,9 @@ int main(int argc, char* argv[])
 
         //prepare the tag's vectors for histo filling
         std::vector<TString> tags(1,"all");
+
+        // Check if using LO DY sample (covers HT 0-100 for HT bin stitching)
+        if ( isMC_DYatLO && ev.lheSumPartonHT > 100. ) continue;
 
         //genWeight
         float genWeight = 1.0;
@@ -692,11 +706,14 @@ int main(int argc, char* argv[])
         ///    = sigma(qq->ZZ) * (1 + ewk_corr + gg_contr) 
         ///  where gg_contr = 0.1 
 
-        float ggZZ_contr = 0.0; // ==> Set it to 0 because we are applying this 10% directly on the ZZ cross section 
+        float ggZZ_contr = 0.1; // ==> Set it to 0 because we are applying this 10% directly on the ZZ cross section 
 	                        //     (i.e. we apply the same EWK corrections to both qq and gg contributions...) 
 
 	// NNLO/NLO k-factor on qq->ZZ -- it should be applied only to qq->ZZ, but we are actually applying it to (qq+gg)->ZZ ... 
 	float qqZZ_NNLO = 1.0; 
+
+	// Variable to assess the hadronic activity in the event 
+	float rhoZZ = 1.0; 
 
         TLorentzVector l1(0.,0.,0.,0.), l2(0.,0.,0.,0.), v1(0.,0.,0.,0.), v2(0.,0.,0.,0.); 
         if(isMC_ZZ) { 
@@ -745,7 +762,9 @@ int main(int argc, char* argv[])
             float z2_pt = (v1+v2).Pt();
             //z_max_pt = z1_pt<z2_pt ? z2_pt : z1_pt; 
             z_min_pt = z1_pt>z2_pt ? z2_pt : z1_pt;
-        
+
+	    rhoZZ = (l1+l2+v1+v2).Pt() / (l1.Pt() + l2.Pt() + v1.Pt() + v2.Pt()); 
+
             if(debug) {
               std::cout << std::endl; 
               std::cout << " *** Zll pt: " << z1_pt << ";  Zvv: " << z2_pt << ";  Zmin: " << z_min_pt << std::endl; 
@@ -755,24 +774,24 @@ int main(int argc, char* argv[])
         
             if( !useEwkTable ) { 
               //Reading by eye from the paper
-              if(     z_min_pt<60.)  ewk_w = 1.-( 4.0/100.) + ggZZ_contr; // N.B.: ggZZ_contr = 0 
-              else if(z_min_pt<80.)  ewk_w = 1.-( 5.0/100.) + ggZZ_contr;
-              else if(z_min_pt<100.) ewk_w = 1.-( 6.3/100.) + ggZZ_contr;
-              else if(z_min_pt<120.) ewk_w = 1.-( 7.6/100.) + ggZZ_contr;
-              else if(z_min_pt<140.) ewk_w = 1.-( 9.2/100.) + ggZZ_contr;
-              else if(z_min_pt<160.) ewk_w = 1.-(10.0/100.) + ggZZ_contr;
-              else if(z_min_pt<180.) ewk_w = 1.-(11.4/100.) + ggZZ_contr;
-              else if(z_min_pt<200.) ewk_w = 1.-(12.8/100.) + ggZZ_contr;
-              else if(z_min_pt<220.) ewk_w = 1.-(14.2/100.) + ggZZ_contr;
-              else if(z_min_pt<240.) ewk_w = 1.-(15.6/100.) + ggZZ_contr;
-              else if(z_min_pt<260.) ewk_w = 1.-(17.0/100.) + ggZZ_contr;
-              else if(z_min_pt<280.) ewk_w = 1.-(18.4/100.) + ggZZ_contr;
-              else if(z_min_pt<300.) ewk_w = 1.-(20.0/100.) + ggZZ_contr;
-              else if(z_min_pt<320.) ewk_w = 1.-(21.2/100.) + ggZZ_contr;
-              else if(z_min_pt<340.) ewk_w = 1.-(22.4/100.) + ggZZ_contr;
-              else if(z_min_pt<360.) ewk_w = 1.-(23.6/100.) + ggZZ_contr;
-              else if(z_min_pt<380.) ewk_w = 1.-(24.8/100.) + ggZZ_contr;
-              else                   ewk_w = 1.-(26.0/100.) + ggZZ_contr;
+              if(     z_min_pt<60.)  ewk_w = 1.-( 4.0/100.); 
+              else if(z_min_pt<80.)  ewk_w = 1.-( 5.0/100.);
+              else if(z_min_pt<100.) ewk_w = 1.-( 6.3/100.);
+              else if(z_min_pt<120.) ewk_w = 1.-( 7.6/100.);
+              else if(z_min_pt<140.) ewk_w = 1.-( 9.2/100.);
+              else if(z_min_pt<160.) ewk_w = 1.-(10.0/100.);
+              else if(z_min_pt<180.) ewk_w = 1.-(11.4/100.);
+              else if(z_min_pt<200.) ewk_w = 1.-(12.8/100.);
+              else if(z_min_pt<220.) ewk_w = 1.-(14.2/100.);
+              else if(z_min_pt<240.) ewk_w = 1.-(15.6/100.);
+              else if(z_min_pt<260.) ewk_w = 1.-(17.0/100.);
+              else if(z_min_pt<280.) ewk_w = 1.-(18.4/100.);
+              else if(z_min_pt<300.) ewk_w = 1.-(20.0/100.);
+              else if(z_min_pt<320.) ewk_w = 1.-(21.2/100.);
+              else if(z_min_pt<340.) ewk_w = 1.-(22.4/100.);
+              else if(z_min_pt<360.) ewk_w = 1.-(23.6/100.);
+              else if(z_min_pt<380.) ewk_w = 1.-(24.8/100.);
+              else                   ewk_w = 1.-(26.0/100.);
             } // end "if not useEwkTable" 
           } // end "foundNeut2 and foundLept2" 
           else { 
@@ -786,8 +805,8 @@ int main(int argc, char* argv[])
 
         } // end "if isMC and is ZZ" 
         
-        // Apply EWK + NNLO k-factor weight 
-        weight *= ewk_w * qqZZ_NNLO; 
+        // Apply EWK + NNLO k-factor weight to qqZZ, then add ggZZ contribution (ggZZ_contr must be ~0.10) 
+        weight *= (ewk_w * qqZZ_NNLO + ggZZ_contr); 
         
 
 
@@ -1236,14 +1255,16 @@ int main(int argc, char* argv[])
 
                         //preselection plots
                         mon.fillHisto("zmass_presel", tags, zll.mass(), weight);
-                        mon.fillHisto("zpt_presel", tags, zll.pt(), weight);
+                        mon.fillHisto("zpt_presel",  tags, zll.pt(), weight);
+                        mon.fillHisto("zpt2_presel", tags, zll.pt(), weight);
                         mon.fillHisto("pfmet_presel", tags, metP4_final.pt(), weight, true);
                         mon.fillHisto("pfmet2_presel",tags, metP4_final.pt(), weight, true);
                         mon.fillHisto("pfmetCtrl_presel", tags, metP4_final.pt(), weight);
                         mon.fillHisto("pfmetCtrl_wocorr_presel", tags, metP4.pt(), weight);
                         mon.fillHisto("pfmetCtrl_noHF_presel", tags, phys.metNoHF.pt(), weight);
                         mon.fillHisto("pfmetCtrl_puppi_presel", tags, phys.metPUPPI.pt(), weight);
-                        mon.fillHisto("mt_presel",   tags, MT_massless, weight);
+                        mon.fillHisto("mt_presel",  tags, MT_massless, weight);
+                        mon.fillHisto("mt2_presel", tags, MT_massless, weight);
                         mon.fillHisto("dphiZMET_presel",tags, dphiZMET, weight);
                         mon.fillHisto("dphiLL_presel",tags, dphiLL, weight);
                         mon.fillHisto("balancedif_presel",tags, balanceDif, weight);
@@ -1450,11 +1471,23 @@ int main(int argc, char* argv[])
 	      Hcutflow->Fill(8, iweight); 
 	    }
 
+	    // 
+	    //// N.B.: weight *= (ewk_w * qqZZ_NNLO + ggZZ_contr) 
+	    // 
+
 	    /// * 5 * 
-	    else if(isMC_ZZ && varNames[ivar]=="_ewkup"  ) { iweight /= (1. + (1.56 - 1.)*(1. - ewk_w)); } // Ewk up 
+	    else if(isMC_ZZ && varNames[ivar]=="_ewkup"  ) { // Ewk up 
+	      iweight /= (ewk_w * qqZZ_NNLO + ggZZ_contr);    // remove the qqZZ NNLO, ggZZ, and EWK weights  
+	      float newEwk_w = ewk_w;  newEwk_w /= (rhoZZ<0.3 ? (1. - (1.6 - 1.)*(1. - ewk_w)) : ewk_w); 
+	      iweight *= (newEwk_w * qqZZ_NNLO + ggZZ_contr); // put back the qqZZ NNLO, ggZZ, and modified EWK weights 
+	    } 
 
 	    /// * 6 * 
-	    else if(isMC_ZZ && varNames[ivar]=="_ewkdown") { iweight *= (1. + (1.56 - 1.)*(1. - ewk_w)); } // Ewk down
+	    else if(isMC_ZZ && varNames[ivar]=="_ewkdown") { // Ewk down
+	      iweight /= (ewk_w * qqZZ_NNLO + ggZZ_contr);    // remove the qqZZ NNLO, ggZZ, and EWK weights  
+	      float newEwk_w = ewk_w;  newEwk_w *= (rhoZZ<0.3 ? (1. - (1.6 - 1.)*(1. - ewk_w)) : ewk_w); 
+	      iweight *= (newEwk_w * qqZZ_NNLO + ggZZ_contr); // put back the qqZZ NNLO, ggZZ, and modified EWK weights 
+	    } 
 
 	    // WZ: assign 100% uncertainty (TEMPORARY) 
 	    /// * 7 * 
@@ -1463,6 +1496,18 @@ int main(int argc, char* argv[])
 	    /// * 8 * 
 	    //else if(isMC_WZ && varNames[ivar]=="_ewkdown") { iweight *= ewk_w; } // Ewk down
 	    // //if(varNames[ivar]=="_ewkdown") { iweight /= ewk_w; iweight *=(1-(1-EWK_w)*2);} // Ewk down 2012 
+
+	    /// * 9 * 
+	    else if(isMC_ZZ && varNames[ivar]=="_nnloqcdup"  ) { // NNLO QCD up 
+	      iweight /= (ewk_w * qqZZ_NNLO             + ggZZ_contr); // remove the ggZZ, EWK, and qqZZ NNLO weights 
+	      iweight *= (ewk_w * qqZZ_NNLO * qqZZ_NNLO + ggZZ_contr); // put back the ggZZ, EWK, and modified qqZZ NNLO weights 
+	    } 
+
+	    /// * 10 * 
+	    else if(isMC_ZZ && varNames[ivar]=="_nnloqcddown") { // NNLO QCD down
+	      iweight /= (ewk_w * qqZZ_NNLO + ggZZ_contr); // remove the ggZZ, EWK, and qqZZ NNLO weights 
+	      iweight *= (ewk_w             + ggZZ_contr); // put back the ggZZ, EWK, and modified qqZZ NNLO weights 
+	    } 
 
 	  } // end if(isSignal || isMC_ZZ || isMC_WZ)
 

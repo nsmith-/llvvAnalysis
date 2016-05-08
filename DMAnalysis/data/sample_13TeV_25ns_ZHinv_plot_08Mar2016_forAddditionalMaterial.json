@@ -2,56 +2,16 @@
     "proc": [
         {
             "isdata": false, 
-            "color": "856", 
-            "lcolor": "1", 
-            "tag": "WZ#rightarrow 3l#nu", 
-            "marker": 856, 
-            "data": [
-                {
-                    "dtag": "MC13TeV_WZpowheg", 
-                    "xsec": 4.42965, 
-                    "split": 2, 
-                    "br": [
-                        1
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_WZamcatnloFXFX", 
-                    "xsec": 5.29, 
-                    "split": 11, 
-                    "br": [
-                        1
-                    ]
-                }
-            ]
-        }, 
-        {
-            "isdata": false, 
-            "color": "798", 
-            "lcolor": "1", 
-            "tag": "WW#rightarrow l#nul#nu", 
-            "marker": 798, 
-            "data": [
-                {
-                    "dtag": "MC13TeV_WW", 
-                    "xsec": 10.481, 
-                    "split": 4, 
-                    "br": [
-                        1
-                    ]
-                }
-            ]
-        }, 
-        {
-            "isdata": false, 
             "color": "842", 
-            "lcolor": "1", 
-            "tag": "ZZ#rightarrow 2l2#nu", 
+            "lcolor": "0", 
+            "lwidth": "0", 
+            "lstyle": "0", 
+            "tag": "ZZ", 
             "marker": 842, 
             "data": [
                 {
                     "dtag": "MC13TeV_ZZTo2L2Nu", 
-                    "xsec": 0.6204,
+                    "xsec": 0.564,
                     "split": 13, 
                     "br": [
                         1
@@ -59,7 +19,7 @@
                 }, 
                 {
                     "dtag": "MC13TeV_ZZTo4L", 
-                    "xsec": 1.3332, 
+                    "xsec": 1.212, 
                     "split": 9, 
                     "br": [
                         1
@@ -67,7 +27,7 @@
                 }, 
                 {
                     "dtag": "MC13TeV_ZZTo2L2Q", 
-                    "xsec": 3.542, 
+                    "xsec": 3.220, 
                     "split": 15, 
                     "br": [
                         1
@@ -77,8 +37,29 @@
         }, 
         {
             "isdata": false, 
+            "color": "856", 
+            "lcolor": "0", 
+            "lwidth": "0", 
+            "lstyle": "0", 
+            "tag": "WZ", 
+            "marker": 856, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_WZpowheg", 
+                    "xsec": 4.42965, 
+                    "split": 2, 
+                    "br": [
+                        1
+                    ]
+                }
+            ]
+        }, 
+        {
+            "isdata": false, 
             "color": "832", 
-            "lcolor": "1", 
+            "lcolor": "0", 
+            "lwidth": "0", 
+            "lstyle": "0", 
             "tag": "VVV", 
             "marker": 832, 
             "data": [
@@ -111,18 +92,12 @@
         {
             "isdata": false, 
             "color": "400", 
-            "lcolor": "1", 
+            "lcolor": "0", 
+            "lwidth": "0", 
+            "lstyle": "0", 
             "tag": "W+jets", 
             "marker": 400, 
             "data": [
-                {
-                    "dtag": "MC13TeV_WJetsamcatnloFXFX", 
-                    "xsec": 61526.7, 
-                    "split": 10, 
-                    "br": [
-                        1
-                    ]
-                }, 
                 {
                     "dtag": "MC13TeV_WJetsmadgraphMLM", 
                     "xsec": 61526.7, 
@@ -135,31 +110,62 @@
         }, 
         {
             "isdata": false, 
+            "color": "798", 
+            "lcolor": "0", 
+            "lwidth": "0", 
+            "lstyle": "0", 
+            "tag": "WW#rightarrow l#nul#nu", 
+            "marker": 798, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_WW", 
+                    "xsec": 10.481, 
+                    "split": 4, 
+                    "br": [
+                        1
+                    ]
+                }
+            ]
+        }, 
+        {
+            "isdata": false, 
+            "color": "876", 
+            "lcolor": "0", 
+            "lwidth": "0", 
+            "lstyle": "0", 
+            "tag": "Single top", 
+            "marker": 876, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_ST_tW_top_5f", 
+                    "xsec": 35.6, 
+                    "split": 1
+                }, 
+                {
+                    "dtag": "MC13TeV_ST_tW_antitop_5f", 
+                    "xsec": 35.6, 
+                    "split": 1
+                }, 
+                {
+                    "dtag": "MC13TeV_ST_t-channel_4f", 
+                    "xsec": 70.69, 
+                    "split": 17
+                }
+            ]
+        }, 
+        {
+            "isdata": false, 
             "color": "885", 
-            "lcolor": "1", 
+            "lcolor": "0", 
+            "lwidth": "0", 
+            "lstyle": "0", 
             "tag": "t#bar{t}", 
             "marker": 885, 
             "data": [
                 {
-                    "dtag": "MC13TeV_TTpowheg", 
-                    "xsec": 831.76, 
-                    "split": 16, 
-                    "br": [
-                        1
-                    ]
-                }, 
-                {
                     "dtag": "MC13TeV_TTJetsamcatnloFXFX", 
                     "xsec": 831.76, 
                     "split": 31, 
-                    "br": [
-                        1
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_TTTo2L2Nupowheg", 
-                    "xsec": 87.31, 
-                    "split": 8, 
                     "br": [
                         1
                     ]
@@ -184,97 +190,10 @@
         }, 
         {
             "isdata": false, 
-            "color": "876", 
-            "lcolor": "1", 
-            "tag": "Single top", 
-            "marker": 876, 
-            "data": [
-                {
-                    "dtag": "MC13TeV_ST_tW_top_5f", 
-                    "xsec": 35.6, 
-                    "split": 1
-                }, 
-                {
-                    "dtag": "MC13TeV_ST_tW_antitop_5f", 
-                    "xsec": 35.6, 
-                    "split": 1
-                }, 
-                {
-                    "dtag": "MC13TeV_ST_t-channel_4f", 
-                    "xsec": 70.69, 
-                    "split": 17
-                }
-            ]
-        }, 
-        {
-            "isdata": false, 
-            "color": "901", 
-            "lcolor": "1", 
-            "tag": "Z+jets", 
-            "marker": 901, 
-            "data": [
-                {
-                    "dtag": "MC13TeV_DYJetsToLL_10to50", 
-                    "xsec": 18610, 
-                    "split": 10, 
-                    "br": [
-                        1
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_DYJetsToLLatLO_50toInf", 
-                    "xsec": 6025.2, 
-                    "split": 15, 
-                    "br": [
-                        1
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_DYJetsToLL_M50HT100to200", 
-                    "xsec": 181.43, 
-                    "split": 5, 
-                    "br": [
-                        1
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_DYJetsToLL_M50HT200to400", 
-                    "xsec": 50.45, 
-                    "split": 2, 
-                    "br": [
-                        1
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_DYJetsToLL_M50HT400to600", 
-                    "xsec": 6.99, 
-                    "split": 2, 
-                    "br": [
-                        1
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_DYJetsToLL_M50HT600toInf", 
-                    "xsec": 2.71, 
-                    "split": 1, 
-                    "br": [
-                        1
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_DYJetsToLL_50toInf", 
-                    "xsec": 6025, 
-                    "split": 23, 
-                    "br": [
-                        1
-                    ]
-                }
-            ]
-        }, 
-        {
-            "isdata": false, 
             "color": "900", 
-            "lcolor": "1", 
+            "lcolor": "0", 
+            "lwidth": "0", 
+            "lstyle": "0", 
             "tag": "Multijets", 
             "marker": 900, 
             "data": [
@@ -489,6 +408,33 @@
             ]
         }, 
         {
+            "isdata": false, 
+            "color": "901", 
+            "lcolor": "0", 
+            "lwidth": "0", 
+            "lstyle": "0", 
+            "tag": "Z+jets", 
+            "marker": 901, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_DYJetsToLL_10to50", 
+                    "xsec": 18610, 
+                    "split": 10, 
+                    "br": [
+                        1
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_DYJetsToLL_50toInf", 
+                    "xsec": 6025, 
+                    "split": 23, 
+                    "br": [
+                        1
+                    ]
+                }
+            ]
+        }, 
+        {
             "isdata": true, 
             "color": 1, 
             "tag": "Data", 
@@ -559,36 +505,6 @@
         }, 
         {
             "isdata": false, 
-            "color": "2", 
-            "issignal": true, 
-            "lcolor": "2", 
-            "spimpose": true, 
-            "tag": "ZH110", 
-            "lstyle": 2, 
-            "lwidth": 2, 
-            "marker": 2, 
-            "data": [
-                {
-                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M110", 
-                    "xsec": 1.4291, 
-                    "split": 1, 
-                    "br": [
-                        0.033658
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M110", 
-                    "xsec": 1.4291, 
-                    "split": 1, 
-                    "br": [
-                        0.033658
-                    ]
-                }
-            ], 
-            "fill": 0
-        }, 
-        {
-            "isdata": false, 
             "color": "809", 
             "issignal": true, 
             "lcolor": "809", 
@@ -600,7 +516,7 @@
             "data": [
                 {
                     "dtag": "MC13TeV_ZH_ZToEE_HToInv_M125", 
-                    "xsec": 0.969, 
+                    "xsec": 0.8696, 
                     "split": 1, 
                     "br": [
                         0.033658
@@ -608,7 +524,7 @@
                 }, 
                 {
                     "dtag": "MC13TeV_ZH_ZToMM_HToInv_M125", 
-                    "xsec": 0.969, 
+                    "xsec": 0.8696, 
                     "split": 1, 
                     "br": [
                         0.033658
@@ -616,186 +532,6 @@
                 }
             ], 
             "fill": 0
-        }, 
-        {
-            "isdata": false, 
-            "color": "90", 
-            "issignal": true, 
-            "lcolor": "90", 
-            "spimpose": true, 
-            "tag": "ZH150", 
-            "lstyle": 1, 
-            "lwidth": 2, 
-            "marker": 90, 
-            "data": [
-                {
-                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M150", 
-                    "xsec": 0.5385, 
-                    "split": 1, 
-                    "br": [
-                        0.033658
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M150", 
-                    "xsec": 0.5385, 
-                    "split": 1, 
-                    "br": [
-                        0.033658
-                    ]
-                }
-            ], 
-            "fill": 0
-        }, 
-        {
-            "isdata": false, 
-            "color": "6", 
-            "issignal": true, 
-            "lcolor": "6", 
-            "spimpose": true, 
-            "tag": "ZH200", 
-            "lstyle": 7, 
-            "lwidth": 2, 
-            "marker": 6, 
-            "data": [
-                {
-                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M200", 
-                    "xsec": 0.1981, 
-                    "split": 1, 
-                    "br": [
-                        0.033658
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M200", 
-                    "xsec": 0.1981, 
-                    "split": 1, 
-                    "br": [
-                        0.033658
-                    ]
-                }
-            ], 
-            "fill": 0
-        }, 
-        {
-            "isdata": false, 
-            "color": "28", 
-            "issignal": true, 
-            "lcolor": "28", 
-            "spimpose": true, 
-            "tag": "ZH300", 
-            "lstyle": 3, 
-            "lwidth": 2, 
-            "marker": 28, 
-            "data": [
-                {
-                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M300", 
-                    "xsec": 0.03796, 
-                    "split": 1, 
-                    "br": [
-                        0.033658
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M300", 
-                    "xsec": 0.03796, 
-                    "split": 1, 
-                    "br": [
-                        0.033658
-                    ]
-                }
-            ], 
-            "fill": 0
-        }, 
-        {
-            "isdata": false, 
-            "color": "28", 
-            "issignal": true, 
-            "lcolor": "28", 
-            "spimpose": true, 
-            "tag": "ZH400", 
-            "lstyle": 3, 
-            "lwidth": 2, 
-            "marker": 28, 
-            "data": [
-                {
-                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M400", 
-                    "xsec": 0.03796, 
-                    "split": 1, 
-                    "br": [
-                        0.033658
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M400", 
-                    "xsec": 0.03796, 
-                    "split": 1, 
-                    "br": [
-                        0.033658
-                    ]
-                }
-            ], 
-            "fill": 0
-        }, 
-        {
-            "isdata": false, 
-            "color": "28", 
-            "issignal": true, 
-            "lcolor": "28", 
-            "spimpose": true, 
-            "tag": "ZH500", 
-            "lstyle": 3, 
-            "lwidth": 2, 
-            "marker": 28, 
-            "data": [
-                {
-                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M500", 
-                    "xsec": 0.03796, 
-                    "split": 1, 
-                    "br": [
-                        0.033658
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M500", 
-                    "xsec": 0.03796, 
-                    "split": 1, 
-                    "br": [
-                        0.033658
-                    ]
-                }
-            ], 
-            "fill": 0
-        }, 
-        {
-            "isdata": false, 
-            "color": "28", 
-            "issignal": true, 
-            "lcolor": "28", 
-            "spimpose": true, 
-            "tag": "ZH600", 
-            "lstyle": 3, 
-            "lwidth": 2, 
-            "marker": 28, 
-            "data": [
-                {
-                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M600", 
-                    "xsec": 0.03796, 
-                    "split": 1, 
-                    "br": [
-                        0.033658
-                    ]
-                }, 
-                {
-                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M600", 
-                    "xsec": 0.03796, 
-                    "split": 1, 
-                    "br": [
-                        0.033658
-                    ]
-                }
-            ], 
-            "fill": 0
-        }
+        } 
     ]
 }
