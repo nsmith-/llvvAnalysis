@@ -95,30 +95,14 @@ int main(int argc, char* argv[])
     AutoLibraryLoader::enable();
 
     // configure the process
-    const edm::ParameterSet &runProcess = edm::readPSetsFrom(argv[1])->getParameter<edm::ParameterSet>("runProcess");
-
-    bool isMC       = runProcess.getParameter<bool>("isMC");
-    int mctruthmode = runProcess.getParameter<int>("mctruthmode");
+    std::shared_ptr<edm::ParameterSet> config = edm::readConfig(argv[1], argc, argv);
+    const edm::ParameterSet &runProcess = config->getParameter<edm::ParameterSet>("config");
 
     TString url=runProcess.getParameter<std::string>("input");
-    TString outFileUrl(gSystem->BaseName(url));
-    outFileUrl.ReplaceAll(".root","");
-    if(mctruthmode!=0) {
-        outFileUrl += "_filt";
-        outFileUrl += mctruthmode;
-    }
-    TString outdir=runProcess.getParameter<std::string>("outdir");
-    TString outUrl( outdir );
-    gSystem->Exec("mkdir -p " + outUrl);
+    TString outUrl=runProcess.getParameter<std::string>("output");
 
-
-    TString outTxtUrl_final= outUrl + "/" + outFileUrl + "_FinalList.txt";
-    FILE* outTxtFile_final = NULL;
-    if ( runProcess.getUntrackedParameter<bool>("saveFinalList", true) ) {
-        outTxtFile_final = fopen(outTxtUrl_final.Data(), "w");
-        printf("TextFile URL = %s\n",outTxtUrl_final.Data());
-        fprintf(outTxtFile_final,"run lumi event\n");
-    }
+    bool isMC = false;
+    if(url.Contains("MC13TeV")) isMC = true;
 
     // Embed final list in root file
     int eventList_run, eventList_lumi, eventList_evt, eventList_nJets, eventList_category;
@@ -1300,7 +1284,6 @@ int main(int argc, char* argv[])
                                             mon.fillHisto("pfmet2_final",tags, metP4_final.pt(), weight);
                                             if(passMETcut120) mon.fillHisto("mt_final120",   tags, MT_massless, weight);
 
-                                            if(!isMC && outTxtFile_final) fprintf(outTxtFile_final,"%d | %d | %d | pfmet: %f | mt: %f \n",ev.run,ev.lumi,ev.event,metP4_final.pt(), MT_massless);
                                             if(saveEventList) {
                                                 eventList_run = ev.run;
                                                 eventList_lumi = ev.lumi;
@@ -1625,8 +1608,6 @@ int main(int argc, char* argv[])
     //########     SAVING HISTO TO FILE     ########
     //##############################################
     //save control plots to file
-    outUrl += "/";
-    outUrl += outFileUrl + ".root";
     printf("Results saved in %s\n", outUrl.Data());
 
     //save all to the file
@@ -1640,7 +1621,6 @@ int main(int argc, char* argv[])
     PU_Up_File->Close();
     PU_Down_File->Close();
 
-    if(outTxtFile_final)fclose(outTxtFile_final);
 }
 
 /* vim: set ts=4 sw=4 tw=0 et :*/

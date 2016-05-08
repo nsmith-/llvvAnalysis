@@ -2,19 +2,18 @@
 inputdir=$1
 shift
 
-if [[ $@ != *"--resubmit-failed-jobs"* ]]; then
-  rm -rf /nfs_scratch/nsmith/llvvAnalysis-run2015_WIMPAnalysis
-  gsido rm -rf /hdfs/store/user/nsmith/llvvAnalysis-run2015_WIMPAnalysis
-fi
-
-farmoutAnalysisJobs \
-  --infer-cmssw-path \
-  --fwklite \
-  --input-dir=$(pwd)/$inputdir \
-  --match-input-files="*_cfg.py" \
-  --job-generates-output-name \
-  $@ \
-  llvvAnalysis \
-  $CMSSW_BASE/bin/$SCRAM_ARCH/run2015_WIMPAnalysis \
-  '$inputFileNames'
-
+for name in $inputdir/MC13TeV_DYJetsToLL_M50Pt100_amcatnlo; do
+  sample=${name##*/}
+  farmoutAnalysisJobs \
+    --infer-cmssw-path \
+    --fwklite \
+    --submit-dir=/nfs_scratch/nsmith/llvvAnalysis-$inputdir/$sample \
+    --input-dir=root://cmsxrootd.hep.wisc.edu//store/user/nsmith/$inputdir/$sample \
+    --output-dir=/nfs_scratch/nsmith/llvvAnalysis-$inputdir/output \
+    --job-generates-output-name \
+    --extra-inputs=runAnalysis_template.py \
+    $@ \
+    llvvAnalysis \
+    $CMSSW_BASE/bin/$SCRAM_ARCH/run2015_WIMPAnalysis \
+    runAnalysis_template.py inputFiles='$inputFileNames' jobNumber='$jobNumber'
+done

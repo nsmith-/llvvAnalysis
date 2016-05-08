@@ -1,0 +1,505 @@
+{
+    "proc": [
+        {
+            "isdata": false, 
+            "color": "856", 
+            "lcolor": "1", 
+            "tag": "WZ", 
+            "marker": 856, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_WZTo3LNu", 
+                    "xsec": 4.42965, 
+                    "split": 4, 
+                    "br": [
+                        1
+                    ]
+                },
+                {
+                    "dtag": "MC13TeV_WZToLNuQQ", 
+                    "xsec": 10.71, 
+                    "split": 38, 
+                    "br": [
+                        1
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_WZTo2L2Q", 
+                    "xsec": 5.595, 
+                    "split": 64, 
+                    "br": [
+                        1
+                    ]
+                }
+            ]
+        }, 
+        {
+            "isdata": false, 
+            "color": "798", 
+            "lcolor": "1", 
+            "tag": "WW", 
+            "marker": 798, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_WWTo2L2Nu", 
+                    "xsec": 12.178, 
+                    "split": 3, 
+                    "br": [
+                        1
+                    ]
+                },
+                {
+                    "dtag": "MC13TeV_WWToLNuQQ", 
+                    "xsec": 49.997, 
+                    "split": 4, 
+                    "br": [
+                        1
+                    ]
+                }
+            ]
+        }, 
+        {
+            "isdata": false, 
+            "color": "842", 
+            "lcolor": "1", 
+            "tag": "ZZ", 
+            "marker": 842, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_ZZTo2L2Nu", 
+                    "xsec": 0.564,
+                    "split": 12, 
+                    "br": [
+                        1
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_ZZTo4L", 
+                    "xsec": 1.212, 
+                    "split": 11, 
+                    "br": [
+                        1
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_ZZTo2L2Q", 
+                    "xsec": 3.22, 
+                    "split": 28, 
+                    "br": [
+                        1
+                    ]
+                }
+            ]
+        }, 
+        {
+            "isdata": false, 
+            "color": "832", 
+            "lcolor": "1", 
+            "tag": "VVV", 
+            "marker": 832, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_WZZ", 
+                    "xsec": 0.05565, 
+                    "split": 1, 
+                    "br": [
+                        1
+                    ]
+                }
+            ]
+        }, 
+        {
+            "isdata": false, 
+            "color": "400", 
+            "lcolor": "1", 
+            "tag": "W+jets", 
+            "marker": 400, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_WJetsmadgraphMLM", 
+                    "xsec": 61526.7, 
+                    "split": 68, 
+                    "br": [
+                        1
+                    ]
+                }
+            ]
+        }, 
+        {
+            "isdata": false, 
+            "color": "885", 
+            "lcolor": "1", 
+            "tag": "t#bar{t}", 
+            "marker": 885, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_TTpowheg", 
+                    "xsec": 831.76, 
+                    "split": 423, 
+                    "br": [
+                        1
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_TTWJets", 
+                    "xsec": 0.2043, 
+                    "split": 1, 
+                    "br": [
+                        1
+                    ]
+                } 
+            ]
+        }, 
+        {
+            "isdata": false, 
+            "color": "876", 
+            "lcolor": "1", 
+            "tag": "Single top", 
+            "marker": 876, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_ST_t-channel_antitop_4f", 
+                    "xsec": 26.38, 
+                    "split": 4
+                },
+                {
+                    "dtag": "MC13TeV_ST_t-channel_top_4f", 
+                    "xsec": 44.33, 
+                    "split": 7
+                }, 
+                {
+                    "dtag": "MC13TeV_ST_tW_antitop_5f", 
+                    "xsec": 35.6, 
+                    "split": 3
+                }, 
+                {
+                    "dtag": "MC13TeV_ST_tW_top_5f", 
+                    "xsec": 35.6, 
+                    "split": 3
+                }
+            ]
+        }, 
+        {
+            "isdata": false, 
+            "color": "901", 
+            "lcolor": "1", 
+            "tag": "Z+jets", 
+            "marker": 901, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_DYJetsToLL_10to50", 
+                    "xsec": 18610, 
+                    "split": 92, 
+                    "br": [
+                        1
+                    ]
+                },
+                {
+                    "dtag": "MC13TeV_DYJetsToLL_50toInf_amcatnlo", 
+                    "xsec": 6025, 
+                    "split": 54, 
+                    "br": [
+                        1
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_DYJetsToLL_M50Pt100_amcatnlo", 
+                    "xsec": 8.628, 
+                    "split": 10, 
+                    "br": [
+                        1
+                    ]
+                }
+            ]
+        }, 
+        {
+            "isdata": true, 
+            "color": 1, 
+            "tag": "Data", 
+            "marker": 20, 
+            "data": [
+                {
+                    "dtag": "Data13TeV_DoubleEG2015C", 
+                    "split": 3
+                }, 
+                {
+                    "dtag": "Data13TeV_DoubleMuon2015C", 
+                    "split": 1
+                }, 
+                {
+                    "dtag": "Data13TeV_MuonEG2015C", 
+                    "split": 1
+                }, 
+                {
+                    "dtag": "Data13TeV_SingleElectron2015C", 
+                    "split": 2
+                }, 
+                {
+                    "dtag": "Data13TeV_SingleMuon2015C", 
+                    "split": 1
+                }, 
+                {
+                    "dtag": "Data13TeV_DoubleEG2015D", 
+                    "split": 165
+                }, 
+                {
+                    "dtag": "Data13TeV_DoubleMuon2015D", 
+                    "split": 67
+                }, 
+                {
+                    "dtag": "Data13TeV_MuonEG2015D", 
+                    "split": 4
+                }, 
+                {
+                    "dtag": "Data13TeV_SingleElectron2015D", 
+                    "split": 117
+                }, 
+                {
+                    "dtag": "Data13TeV_SingleMuon2015D", 
+                    "split": 107
+                } 
+            ], 
+            "fill": 0
+        }, 
+        {
+            "isdata": false, 
+            "color": "2", 
+            "issignal": true, 
+            "lcolor": "2", 
+            "spimpose": true, 
+            "tag": "ZH110", 
+            "lstyle": 2, 
+            "lwidth": 2, 
+            "marker": 2, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M110", 
+                    "xsec": 1.4291, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M110", 
+                    "xsec": 1.4291, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }
+            ], 
+            "fill": 0
+        }, 
+        {
+            "isdata": false, 
+            "color": "809", 
+            "issignal": true, 
+            "lcolor": "809", 
+            "spimpose": true, 
+            "tag": "ZH125", 
+            "lstyle": 8, 
+            "lwidth": 2, 
+            "marker": 809, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M125", 
+                    "xsec": 0.969, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M125", 
+                    "xsec": 0.969, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }
+            ], 
+            "fill": 0
+        }, 
+        {
+            "isdata": false, 
+            "color": "90", 
+            "issignal": true, 
+            "lcolor": "90", 
+            "spimpose": true, 
+            "tag": "ZH150", 
+            "lstyle": 1, 
+            "lwidth": 2, 
+            "marker": 90, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M150", 
+                    "xsec": 0.5385, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M150", 
+                    "xsec": 0.5385, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }
+            ], 
+            "fill": 0
+        }, 
+        {
+            "isdata": false, 
+            "color": "6", 
+            "issignal": true, 
+            "lcolor": "6", 
+            "spimpose": true, 
+            "tag": "ZH200", 
+            "lstyle": 7, 
+            "lwidth": 2, 
+            "marker": 6, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M200", 
+                    "xsec": 0.1981, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M200", 
+                    "xsec": 0.1981, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }
+            ], 
+            "fill": 0
+        }, 
+        {
+            "isdata": false, 
+            "color": "28", 
+            "issignal": true, 
+            "lcolor": "28", 
+            "spimpose": true, 
+            "tag": "ZH300", 
+            "lstyle": 3, 
+            "lwidth": 2, 
+            "marker": 28, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M300", 
+                    "xsec": 0.03796, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M300", 
+                    "xsec": 0.03796, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }
+            ], 
+            "fill": 0
+        }, 
+        {
+            "isdata": false, 
+            "color": "28", 
+            "issignal": true, 
+            "lcolor": "28", 
+            "spimpose": true, 
+            "tag": "ZH400", 
+            "lstyle": 3, 
+            "lwidth": 2, 
+            "marker": 28, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M400", 
+                    "xsec": 0.03796, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M400", 
+                    "xsec": 0.03796, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }
+            ], 
+            "fill": 0
+        }, 
+        {
+            "isdata": false, 
+            "color": "28", 
+            "issignal": true, 
+            "lcolor": "28", 
+            "spimpose": true, 
+            "tag": "ZH500", 
+            "lstyle": 3, 
+            "lwidth": 2, 
+            "marker": 28, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M500", 
+                    "xsec": 0.03796, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M500", 
+                    "xsec": 0.03796, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }
+            ], 
+            "fill": 0
+        }, 
+        {
+            "isdata": false, 
+            "color": "28", 
+            "issignal": true, 
+            "lcolor": "28", 
+            "spimpose": true, 
+            "tag": "ZH600", 
+            "lstyle": 3, 
+            "lwidth": 2, 
+            "marker": 28, 
+            "data": [
+                {
+                    "dtag": "MC13TeV_ZH_ZToEE_HToInv_M600", 
+                    "xsec": 0.03796, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }, 
+                {
+                    "dtag": "MC13TeV_ZH_ZToMM_HToInv_M600", 
+                    "xsec": 0.03796, 
+                    "split": 1, 
+                    "br": [
+                        0.033658
+                    ]
+                }
+            ], 
+            "fill": 0
+        }
+    ]
+}
