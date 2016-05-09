@@ -138,7 +138,8 @@ int main(int argc, char* argv[])
     //bool isMC_WW     = isMC && (string(url.Data()).find("TeV_WW_")  != string::npos);
     bool isMC_ttbar  = isMC && (string(url.Data()).find("TeV_TT")  != string::npos);
     bool isMC_stop   = isMC && (string(url.Data()).find("TeV_SingleT")  != string::npos);
-    bool isMC_DYatLO = isMC && (string(url.Data()).find("TeV_DYJetsToLLatLO_50toInf") != string::npos);
+    bool isMC_DY     = isMC && (string(url.Data()).find("TeV_DYJetsToLL_") != string::npos);
+    bool isMC_DYpt100= isMC && (string(url.Data()).find("TeV_DYJetsToLL_M50Pt100") != string::npos);
     //bool isMC_WIMP   = isMC && (string(url.Data()).find("TeV_DM_V_Mx") != string::npos
     //                 || string(url.Data()).find("TeV_DM_A_Mx") != string::npos);
     //bool isMC_ADD    = isMC && (string(url.Data()).find("TeV_ADD_D") != string::npos);
@@ -331,8 +332,8 @@ int main(int argc, char* argv[])
     const int nBinsMT2 = sizeof(MTBins2)/sizeof(double) - 1;
 
     mon.addHistogram( new TH1F( "zmass_presel",    ";#it{m}_{ll} [GeV];Events", 50,91-15,91+15) );
-    mon.addHistogram( new TH1F( "zpt_presel",    ";#it{p}_{T}^{ll} [GeV];Events / 10 GeV", 45,50,500) );
-    mon.addHistogram( new TH1F( "zpt2_presel",    ";#it{p}_{T}^{ll} [GeV];Events / 10 GeV", nBinsPT, MTBins) );
+    mon.addHistogram( new TH1F( "zpt_presel",    ";#it{p}_{T}^{ll} [GeV];Events", 45,50,500) );
+    mon.addHistogram( new TH1F( "zpt2_presel",    ";#it{p}_{T}^{ll} [GeV];Events / 10 GeV", nBinsPT, PTBins) );
     mon.addHistogram( new TH1F( "pfmet_presel",      ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET, METBins));
     mon.addHistogram( new TH1F( "pfmet2_presel",     ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET2, METBins2));
     mon.addHistogram( new TH1F( "pfmetCtrl_presel",     ";E_{T}^{miss} [GeV];Events / 5 GeV", 20, 0, 100));
@@ -558,13 +559,21 @@ int main(int argc, char* argv[])
         //prepare the tag's vectors for histo filling
         std::vector<TString> tags(1,"all");
 
-        // Check if using LO DY sample (covers HT 0-100 for HT bin stitching)
-        if ( isMC_DYatLO && ev.lheSumPartonHT > 100. ) continue;
-
         //genWeight
         float genWeight = 1.0;
         if(isMC && ev.genWeight<0) genWeight = -1.0;
 
+        // Check if DY and not pt>100 sample, cut
+        if ( isMC_DY && !isMC_DYpt100 ) {
+            bool skip = false;
+            for(Int_t ipart=0; ipart<ev.nmcparticles; ++ipart) { 
+                double pt = sqrt(pow(ev.mc_px[ipart],2)+pow(ev.mc_py[ipart],2));
+                if ( ev.mc_id[ipart] == 23 && pt > 100. ) {
+                    skip = true;
+                }
+            }
+            if ( skip ) continue;
+        }
         // total event weight, accrued over time
         float weight = 1.0;
         if(isMC) weight *= genWeight;
