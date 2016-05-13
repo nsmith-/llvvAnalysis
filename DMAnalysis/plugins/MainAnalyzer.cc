@@ -625,9 +625,9 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
         ev.ta_pileupIso[ev.ta]  = tau.tauID("puCorrPtSum");
 
         //Electron Rejection
-        ev.ta_passEleVetoLoose[ev.ta] = bool(tau.tauID("againstElectronLooseMVA5"));
-        ev.ta_passEleVetoMedium[ev.ta] = bool(tau.tauID("againstElectronMediumMVA5"));
-        ev.ta_passEleVetoTight[ev.ta] = bool(tau.tauID("againstElectronTightMVA5"));
+        ev.ta_passEleVetoLoose[ev.ta] = bool(tau.tauID("againstElectronLooseMVA6"));
+        ev.ta_passEleVetoMedium[ev.ta] = bool(tau.tauID("againstElectronMediumMVA6"));
+        ev.ta_passEleVetoTight[ev.ta] = bool(tau.tauID("againstElectronTightMVA6"));
 
         //Muon Rejection
         ev.ta_passMuVetoLoose3[ev.ta] = bool(tau.tauID("againstMuonLoose3"));
