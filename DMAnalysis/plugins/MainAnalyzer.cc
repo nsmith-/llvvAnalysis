@@ -76,7 +76,6 @@
 #include "llvvAnalysis/DMAnalysis/interface/PDFWeightsHelper.h"
 
 #include "DataFormats/Common/interface/ValueMap.h"
-//#include "llvvAnalysis/DMAnalysis/interface/EGammaMvaEleEstimatorCSA14.h"
 
 
 //
@@ -107,7 +106,6 @@ private:
     edm::EDGetTokenT<reco::VertexCollection> vtxTag_;
     edm::EDGetTokenT<reco::BeamSpot> beamSpotTag_;
     edm::EDGetTokenT<pat::MuonCollection> muonTag_;
-//    edm::EDGetTokenT<pat::ElectronCollection> electronTag_;
     edm::EDGetTokenT<edm::View<pat::Electron> > electronTag_;
     edm::EDGetTokenT<edm::ValueMap<bool> > electronVetoIdTag_;
     edm::EDGetTokenT<edm::ValueMap<bool> > electronLooseIdTag_;
@@ -117,8 +115,6 @@ private:
     edm::EDGetTokenT<pat::TauCollection> tauTag_;
     edm::EDGetTokenT<pat::PhotonCollection> photonTag_;
     edm::EDGetTokenT<pat::JetCollection> jetTag_;
-//    edm::EDGetTokenT<pat::JetCollection> jetPuppiTag_;
-//    edm::EDGetTokenT<pat::JetCollection> fatjetTag_;
     edm::EDGetTokenT<pat::METCollection> metTag_;
     edm::EDGetTokenT<pat::METCollection> metNoHFTag_;
     edm::EDGetTokenT<pat::METCollection> metPuppiTag_;
@@ -147,19 +143,7 @@ private:
     bool verbose_;
 
 
-    //edm::EDGetTokenT<double> rhoAllTag_;
     edm::EDGetTokenT<double> rhoFastjetAllTag_;
-    //edm::EDGetTokenT<double> rhoFastjetAllCaloTag_;
-    //edm::EDGetTokenT<double> rhoFastjetCentralCaloTag_;
-    //edm::EDGetTokenT<double> rhoFastjetCentralChargedPileUpTag_;
-    //edm::EDGetTokenT<double> rhoFastjetCentralNeutralTag_;
-
-
-//    std::map<std::string, edm::ParameterSet> objConfig_;
-
-    //MVAs for triggering and non-triggering electron ID
-    //EGammaMvaEleEstimatorCSA14* myMVATrig;
-    //EGammaMvaEleEstimatorCSA14* myMVANonTrig;
 
 
 
@@ -185,10 +169,7 @@ private:
     void findFirstNonElectronMother(const reco::Candidate *particle, int &ancestorPID, int &ancestorStatus);
 
     virtual void beginRun(edm::Run const&, edm::EventSetup const&) override;
-    //void beginRun(const edm::Run& iRun, const edm::EventSetup& iSetup);
     virtual void endRun(edm::Run const&, edm::EventSetup const&) override;
-    //virtual void beginLuminosityBlock(edm::LuminosityBlock &iLumi, edm::EventSetup &iSetup);
-    //virtual void endLuminosityBlock(edm::LuminosityBlock &iLumi, edm::EventSetup &iSetup);
 
     // ----------member data ---------------------------
     float curAvgInstLumi_;
@@ -230,64 +211,51 @@ const float effectiveAreaValues[nEtaBins] = {
 // constructors and destructor
 //
 MainAnalyzer::MainAnalyzer(const edm::ParameterSet& iConfig):
-    vtxTag_(		consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("verticesTag"))		),
-    beamSpotTag_(	consumes<reco::BeamSpot>(iConfig.getParameter<edm::InputTag>("beamSpotTag"))			),
-    muonTag_(		consumes<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muonsTag"))			),
-//    electronTag_(	consumes<pat::ElectronCollection>(iConfig.getParameter<edm::InputTag>("electronsTag"))		),
-    electronTag_(	consumes<edm::View<pat::Electron> >(iConfig.getParameter<edm::InputTag>("electronsTag"))	),
-    electronVetoIdTag_(	consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("electronVetoIdTag"))	),
+    vtxTag_(        consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("verticesTag"))        ),
+    beamSpotTag_(   consumes<reco::BeamSpot>(iConfig.getParameter<edm::InputTag>("beamSpotTag"))            ),
+    muonTag_(       consumes<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muonsTag"))          ),
+    electronTag_(   consumes<edm::View<pat::Electron> >(iConfig.getParameter<edm::InputTag>("electronsTag"))    ),
+    electronVetoIdTag_( consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("electronVetoIdTag"))    ),
     electronLooseIdTag_(consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("electronLooseIdTag"))       ),
     electronMediumIdTag_(consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("electronMediumIdTag"))     ),
-    electronTightIdTag_(consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("electronTightIdTag"))	),
+    electronTightIdTag_(consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("electronTightIdTag"))   ),
     electronHEEPIdTag_(consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("electronHEEPIdTag"))         ),
-    tauTag_(		consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("tausTag"))			),
-    photonTag_(		consumes<pat::PhotonCollection>(iConfig.getParameter<edm::InputTag>("photonsTag"))		),
-    jetTag_(		consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetsTag"))			),
-//    jetPuppiTag_(       consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetsPuppiTag"))               ),
-//    fatjetTag_(		consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("fatjetsTag"))			),
-    metTag_(		consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metsTag"))			),
+    tauTag_(        consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("tausTag"))            ),
+    photonTag_(     consumes<pat::PhotonCollection>(iConfig.getParameter<edm::InputTag>("photonsTag"))      ),
+    jetTag_(        consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetsTag"))            ),
+    metTag_(        consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metsTag"))            ),
     metNoHFTag_(        consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metsNoHFTag"))                ),
     metPuppiTag_(       consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metsPuppiTag"))               ),
-    metFilterBitsTag_(	consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("metFilterBitsTag"))		),
-    prunedGenTag_(	consumes<edm::View<reco::GenParticle> >(iConfig.getParameter<edm::InputTag>("prunedTag"))	),
+    metFilterBitsTag_(  consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("metFilterBitsTag"))      ),
+    prunedGenTag_(  consumes<edm::View<reco::GenParticle> >(iConfig.getParameter<edm::InputTag>("prunedTag"))   ),
     puInfoTag_(         consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("puInfoTag"))     ),
     genInfoTag_(        consumes<GenEventInfoProduct>(iConfig.getParameter<edm::InputTag>("genInfoTag"))                ),
-    packedGenTag_(	consumes<edm::View<pat::PackedGenParticle> >(iConfig.getParameter<edm::InputTag>("packedTag"))	),
-    genjetTag_(		consumes<edm::View<reco::GenJet> >(iConfig.getParameter<edm::InputTag>("genJetsTag"))		),
+    packedGenTag_(  consumes<edm::View<pat::PackedGenParticle> >(iConfig.getParameter<edm::InputTag>("packedTag"))  ),
+    genjetTag_(     consumes<edm::View<reco::GenJet> >(iConfig.getParameter<edm::InputTag>("genJetsTag"))       ),
     lheRunInfoTag_(     iConfig.getParameter<edm::InputTag>("lheInfo")                                                  ),
-    lheRunInfoToken_(   consumes<LHERunInfoProduct,edm::InRun>(lheRunInfoTag_)						),
-    triggerBits_(	consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("bits"))			),
-    triggerObjects_(	consumes<pat::TriggerObjectStandAloneCollection>(iConfig.getParameter<edm::InputTag>("objects"))),
-    triggerPrescales_(	consumes<pat::PackedTriggerPrescales>(iConfig.getParameter<edm::InputTag>("prescales"))		),
-    DoubleMuTrigs_(	iConfig.getParameter<std::vector<std::string> >("DoubleMuTrigs")				),
+    lheRunInfoToken_(   consumes<LHERunInfoProduct,edm::InRun>(lheRunInfoTag_)                      ),
+    triggerBits_(   consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("bits"))          ),
+    triggerObjects_(    consumes<pat::TriggerObjectStandAloneCollection>(iConfig.getParameter<edm::InputTag>("objects"))),
+    triggerPrescales_(  consumes<pat::PackedTriggerPrescales>(iConfig.getParameter<edm::InputTag>("prescales"))     ),
+    DoubleMuTrigs_( iConfig.getParameter<std::vector<std::string> >("DoubleMuTrigs")                ),
     DoubleEleTrigs_(    iConfig.getParameter<std::vector<std::string> >("DoubleEleTrigs")                               ),
-    SingleMuTrigs_(	iConfig.getParameter<std::vector<std::string> >("SingleMuTrigs")				),
-    SingleEleTrigs_(    iConfig.getParameter<std::vector<std::string> >("SingleEleTrigs")				),
-    MuEGTrigs_(		iConfig.getParameter<std::vector<std::string> >("MuEGTrigs")					),
-//    DoubleTauTrigs_(     iConfig.getParameter<std::vector<std::string> >("DoubleTauTrigs")                                ),
-    controlHistos_(	iConfig.getParameter<std::string>("dtag")							),
-    isPythia8_(		iConfig.getParameter<bool>("isPythia8")								),
-    isMC_(		iConfig.getParameter<bool>("isMC")								),
-    verbose_(		iConfig.getParameter<bool>("verbose")								),
-    //rhoAllTag_(			consumes<double>(iConfig.getParameter<edm::InputTag>("rhoAll"))				),
-    rhoFastjetAllTag_(  	consumes<double>(iConfig.getParameter<edm::InputTag>("rhoFastjetAll")) 			),
-    //rhoFastjetAllCaloTag_( 	consumes<double>(iConfig.getParameter<edm::InputTag>("rhoFastjetAllCalo")) 		),
-    //rhoFastjetCentralCaloTag_(  consumes<double>(iConfig.getParameter<edm::InputTag>("rhoFastjetCentralCalo")) 		),
-    //rhoFastjetCentralChargedPileUpTag_(  consumes<double>(iConfig.getParameter<edm::InputTag>("rhoFastjetCentralChargedPileUp")) ),
-    //rhoFastjetCentralNeutralTag_(  	consumes<double>(iConfig.getParameter<edm::InputTag>("rhoFastjetCentralNeutral"))	 ),
-    eleMediumIdMapTokenTrig_(	consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleMediumIdMapTrig"))	),
-    eleTightIdMapTokenTrig_(	consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleTightIdMapTrig"))	),
-    mvaValuesMapTokenTrig_(	consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvaValuesMapTrig"))	),
-    mvaCategoriesMapTokenTrig_(	consumes<edm::ValueMap<int> >(iConfig.getParameter<edm::InputTag>("mvaCategoriesMapTrig"))	),
+    SingleMuTrigs_( iConfig.getParameter<std::vector<std::string> >("SingleMuTrigs")                ),
+    SingleEleTrigs_(    iConfig.getParameter<std::vector<std::string> >("SingleEleTrigs")               ),
+    MuEGTrigs_(     iConfig.getParameter<std::vector<std::string> >("MuEGTrigs")                    ),
+    controlHistos_( iConfig.getParameter<std::string>("dtag")                           ),
+    isPythia8_(     iConfig.getParameter<bool>("isPythia8")                             ),
+    isMC_(      iConfig.getParameter<bool>("isMC")                              ),
+    verbose_(       iConfig.getParameter<bool>("verbose")                               ),
+    rhoFastjetAllTag_(      consumes<double>(iConfig.getParameter<edm::InputTag>("rhoFastjetAll"))          ),
+    eleMediumIdMapTokenTrig_(   consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleMediumIdMapTrig"))   ),
+    eleTightIdMapTokenTrig_(    consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleTightIdMapTrig"))    ),
+    mvaValuesMapTokenTrig_( consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvaValuesMapTrig"))    ),
+    mvaCategoriesMapTokenTrig_( consumes<edm::ValueMap<int> >(iConfig.getParameter<edm::InputTag>("mvaCategoriesMapTrig"))  ),
     curAvgInstLumi_(0),
     curIntegLumi_(0)
 
 
 {
-
-//    std::string objs[]= {"triggerPaths"};
-//    for(size_t iobj=0; iobj<sizeof(objs)/sizeof(string); iobj++)
-//        objConfig_[ objs[iobj] ] = iConfig.getParameter<edm::ParameterSet>( objs[iobj] );
 
     consumesMany<LHEEventProduct>();
 
@@ -315,57 +283,6 @@ MainAnalyzer::MainAnalyzer(const edm::ParameterSet& iConfig):
     controlHistos_.addHistogram("sumScaleWeights",";;sumScaleWeights;",9,-0.5,8.5);
     controlHistos_.addHistogram("sumPdfWeights",";;sumPdfWeights;",100,-0.5,99.5);
     controlHistos_.addHistogram("sumAlphasWeights",";;sumAlphasWeights;",2,-0.5,1.5);
-
-    //set up electron MVA ID
-    /*
-        //twiki.cern.ch/twiki/bin/viewauth/CMS/CutBasedElectronIdentificationRun2
-        //twiki.cern.ch/twiki/bin/viewauth/CMS/MultivariateElectronIdentificationRun2
-        //twiki.cern.ch/twiki/bin/viewauth/CMS/HEEPElectronIdentificationRun2
-        std::vector<std::string> myTrigWeights;
-    //    myTrigWeights.push_back(edm::FileInPath("llvvAnalysis/DMAnalysis/data/CSA14/TrigIDMVA_25ns_EB_BDT.weights.xml").fullPath().c_str());
-    //    myTrigWeights.push_back(edm::FileInPath("llvvAnalysis/DMAnalysis/data/CSA14/TrigIDMVA_25ns_EE_BDT.weights.xml").fullPath().c_str());
-        myTrigWeights.push_back(edm::FileInPath("llvvAnalysis/DMAnalysis/data/CSA14/TrigIDMVA_50ns_EB_BDT.weights.xml").fullPath().c_str());
-        myTrigWeights.push_back(edm::FileInPath("llvvAnalysis/DMAnalysis/data/CSA14/TrigIDMVA_50ns_EE_BDT.weights.xml").fullPath().c_str());
-
-
-        myMVATrig = new EGammaMvaEleEstimatorCSA14();
-        myMVATrig->initialize("BDT",
-                              EGammaMvaEleEstimatorCSA14::kTrig,
-                              true,
-                              myTrigWeights);
-
-        std::vector<std::string> myNonTrigWeights;
-    //    myNonTrigWeights.push_back(edm::FileInPath("llvvAnalysis/DMAnalysis/data/CSA14/EIDmva_EB_5_25ns_BDT.weights.xml").fullPath().c_str());
-    //    myNonTrigWeights.push_back(edm::FileInPath("llvvAnalysis/DMAnalysis/data/CSA14/EIDmva_EE_5_25ns_BDT.weights.xml").fullPath().c_str());
-    //    myNonTrigWeights.push_back(edm::FileInPath("llvvAnalysis/DMAnalysis/data/CSA14/EIDmva_EB_10_25ns_BDT.weights.xml").fullPath().c_str());
-    //    myNonTrigWeights.push_back(edm::FileInPath("llvvAnalysis/DMAnalysis/data/CSA14/EIDmva_EE_10_25ns_BDT.weights.xml").fullPath().c_str());
-        myNonTrigWeights.push_back(edm::FileInPath("llvvAnalysis/DMAnalysis/data/CSA14/EIDmva_EB_5_50ns_BDT.weights.xml").fullPath().c_str());
-        myNonTrigWeights.push_back(edm::FileInPath("llvvAnalysis/DMAnalysis/data/CSA14/EIDmva_EE_5_50ns_BDT.weights.xml").fullPath().c_str());
-        myNonTrigWeights.push_back(edm::FileInPath("llvvAnalysis/DMAnalysis/data/CSA14/EIDmva_EB_10_50ns_BDT.weights.xml").fullPath().c_str());
-        myNonTrigWeights.push_back(edm::FileInPath("llvvAnalysis/DMAnalysis/data/CSA14/EIDmva_EE_10_50ns_BDT.weights.xml").fullPath().c_str());
-
-
-        myMVANonTrig = new EGammaMvaEleEstimatorCSA14();
-        myMVANonTrig->initialize("BDT",
-                                 EGammaMvaEleEstimatorCSA14::kNonTrig,
-                                 true,
-                                 myNonTrigWeights);
-
-    */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
@@ -427,7 +344,6 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
     bool hasSingleMuTrigs(false);
     bool hasSingleEleTrigs(false);
     bool hasMuEGTrigs(false);
-//    bool hasDoubleTauTrigs(false);
 
     const edm::TriggerNames &names = event.triggerNames(*triggerBits);
 
@@ -456,20 +372,15 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
     for(size_t it=0; it<MuEGTrigs_.size(); it++) {
         hasMuEGTrigs |= checkIfTriggerFired(triggerBits, names, MuEGTrigs_[it]);
     }
-//    for(size_t it=0; it<DoubleTauTrigs_.size(); it++) {
-//        hasDoubleTauTrigs |= checkIfTriggerFired(triggerBits, names, DoubleTauTrigs_[it]);
-//    }
 
-    ev.hasTrigger = (hasDoubleMuTrigs || hasDoubleEleTrigs || hasSingleMuTrigs || hasSingleEleTrigs || hasMuEGTrigs);//|| hasDoubleTauTrigs);
+    ev.hasTrigger = (hasDoubleMuTrigs || hasDoubleEleTrigs || hasSingleMuTrigs || hasSingleEleTrigs || hasMuEGTrigs);
 
     ev.triggerType = ( hasDoubleMuTrigs  << 0 )
                      | ( hasSingleMuTrigs  << 1 )
                      | ( hasDoubleEleTrigs << 2 )
                      | ( hasSingleEleTrigs << 3 )
-                     | ( hasMuEGTrigs	 << 4 );
-    //| ( hasDoubleTauTrigs << 5 );
+                     | ( hasMuEGTrigs    << 4 );
 
-    //if(!isMC_ && !ev.hasTrigger) return; // skip the event if no trigger, only for Data
     if(!ev.hasTrigger) return; // skip the event if no trigger, for both Data and MC
 
 
@@ -498,28 +409,10 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
     if(ev.nvtx == 0) return;
 
 
-    //edm::Handle<double> rhoAll;
-    edm::Handle<double> rhoFastjetAll;
-    //edm::Handle<double> rhoFastjetAllCalo;
-    //edm::Handle<double> rhoFastjetCentralCalo;
-    //edm::Handle<double> rhoFastjetCentralChargedPileUp;
-    //edm::Handle<double> rhoFastjetCentralNeutral;
-
-    //event.getByToken(rhoAllTag_,rhoAll);
-    event.getByToken(rhoFastjetAllTag_,rhoFastjetAll);
-    //event.getByToken(rhoFastjetAllCaloTag_,rhoFastjetAllCalo);
-    //event.getByToken(rhoFastjetCentralCaloTag_,rhoFastjetCentralCalo);
-    //event.getByToken(rhoFastjetCentralChargedPileUpTag_,rhoFastjetCentralChargedPileUp);
-    //event.getByToken(rhoFastjetCentralNeutralTag_,rhoFastjetCentralNeutral);
-
     //get rho
-    //ev.fixedGridRhoAll = *rhoAll;
+    edm::Handle<double> rhoFastjetAll;
+    event.getByToken(rhoFastjetAllTag_,rhoFastjetAll);
     float fixedGridRhoFastjetAll = *rhoFastjetAll;
-    //ev.fixedGridRhoFastjetAllCalo = *rhoFastjetAllCalo;
-    //ev.fixedGridRhoFastjetCentralCalo = *rhoFastjetCentralCalo;
-    //ev.fixedGridRhoFastjetCentralChargedPileUp = *rhoFastjetCentralChargedPileUp;
-    //ev.fixedGridRhoFastjetCentralNeutral = *rhoFastjetCentralNeutral;
-
 
 
     //met filters
@@ -528,11 +421,11 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
     const edm::TriggerNames &metNames = event.triggerNames(*metFilterBits);
     bool passMETFilters(true);
     for(unsigned int i = 0, n = metFilterBits->size(); i < n; ++i) {
-        if(strcmp(metNames.triggerName(i).c_str(), 	 "Flag_goodVertices") == 0){
+        if(strcmp(metNames.triggerName(i).c_str(),   "Flag_goodVertices") == 0){
             passMETFilters &= metFilterBits->accept(i);
-	}else if(strcmp(metNames.triggerName(i).c_str(), "Flag_eeBadScFilter") == 0){
+        }else if(strcmp(metNames.triggerName(i).c_str(), "Flag_eeBadScFilter") == 0){
             passMETFilters &= metFilterBits->accept(i);
-	}else if(strcmp(metNames.triggerName(i).c_str(), "Flag_HBHENoiseFilter") == 0){
+        }else if(strcmp(metNames.triggerName(i).c_str(), "Flag_HBHENoiseFilter") == 0){
             passMETFilters &= metFilterBits->accept(i);
         }else if(strcmp(metNames.triggerName(i).c_str(), "Flag_HBHENoiseIsoFilter") == 0){
             passMETFilters &= metFilterBits->accept(i);
@@ -540,7 +433,7 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
             passMETFilters &= metFilterBits->accept(i);
         }else if(strcmp(metNames.triggerName(i).c_str(), "Flag_EcalDeadCellTriggerPrimitiveFilter") == 0){
             passMETFilters &= metFilterBits->accept(i);
-	}
+        }
     }
     if(!passMETFilters) return;
 
@@ -582,20 +475,13 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
         ev.mn_photonIsoR04[ev.mn] = mu.pfIsolationR04().sumPhotonEt;
         ev.mn_neutralHadIsoR04[ev.mn] = mu.pfIsolationR04().sumNeutralHadronEt;
 
-        //ev.mn_nMatches[ev.mn]                   = mu.numberOfMatches();
-        //ev.mn_nMatchedStations[ev.mn]           = mu.numberOfMatchedStations();
-        //ev.mn_validMuonHits[ev.mn]              = mu.isGlobalMuon() ? mu.globalTrack().hitPattern().numberOfValidMuonHits() : 0.;
-        //ev.mn_innerTrackChi2[ev.mn]             = mu.isTrackerMuon() ? mu.innerTrack().normalizedChi2() : 0.;
-        //ev.mn_trkLayersWithMeasurement[ev.mn]   = mu.track().hitPattern().trackerLayersWithMeasurement();
-        //ev.mn_pixelLayersWithMeasurement[ev.mn] = mu.isTrackerMuon() ? mu.innerTrack().hitPattern().pixelLayersWithMeasurement() : 0.;
-
-        ev.mn_type[ev.mn]   = (	mu.isMuon() 		<< 0)
-                              | (	mu.isGlobalMuon() 	<< 1)
-                              | (	mu.isTrackerMuon() 	<< 2)
-                              | (	mu.isStandAloneMuon()	<< 3)
-                              | (	mu.isCaloMuon() 	<< 4)
-                              | (	mu.isPFMuon() 		<< 5)
-                              | (	mu.isRPCMuon()		<< 6);
+        ev.mn_type[ev.mn]   = ( mu.isMuon()         << 0)
+                              | (   mu.isGlobalMuon()   << 1)
+                              | (   mu.isTrackerMuon()  << 2)
+                              | (   mu.isStandAloneMuon()   << 3)
+                              | (   mu.isCaloMuon()     << 4)
+                              | (   mu.isPFMuon()       << 5)
+                              | (   mu.isRPCMuon()      << 6);
         ev.mn++;
     }
 
@@ -641,7 +527,6 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
 
 
     ev.en=0;
-    //for (const pat::Electron &el : *electrons) {
     for( View<pat::Electron>::const_iterator el = electrons->begin(); el != electrons->end(); el++ ) {
         float pt_ = el->pt();
         if (pt_ < 5) continue;
@@ -653,36 +538,6 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
         ev.en_en[ev.en] = el->energy();
         ev.en_id[ev.en] = 11*el->charge();
 
-        /*
-                ev.en_EtaSC[ev.en] = el->superCluster()->eta();
-                ev.en_PhiSC[ev.en] = el->superCluster()->phi();
-                ev.en_EnSC[ev.en] = el->superCluster()->energy();
-
-                // ID and matching
-                ev.en_dEtaIn[ev.en] = el->deltaEtaSuperClusterTrackAtVtx();
-                ev.en_dPhiIn[ev.en] = el->deltaPhiSuperClusterTrackAtVtx();
-                ev.en_hOverE[ev.en] = el->hcalOverEcal();
-                ev.en_R9[ev.en] = el->r9();
-                ev.en_sigmaIetaIeta[ev.en] = el->sigmaIetaIeta();
-                ev.en_sigmaIetaIeta5x5[ev.en] = el->full5x5_sigmaIetaIeta();
-
-                // |1/E-1/p| = |1/E - EoverPinner/E| is computed below
-                // The if protects against ecalEnergy == inf or zero (always
-                // the case for electrons below 5 GeV in miniAOD)
-                if( el->ecalEnergy() == 0 ) {
-                    //printf("Electron energy is zero!\n");
-                    ev.en_ooEmooP[ev.en] = 1e30;
-                } else if( !std::isfinite(el->ecalEnergy())) {
-                    //printf("Electron energy is not finite!\n");
-                    ev.en_ooEmooP[ev.en] = 1e30;
-                } else {
-                    ev.en_ooEmooP[ev.en] = fabs(1.0/el->ecalEnergy() - el->eSuperClusterOverP()/el->ecalEnergy() );
-                }
-
-                // Impact parameter
-                ev.en_d0[ev.en] = (-1) * el->gsfTrack()->dxy(PV.position());
-                ev.en_dZ[ev.en] = el->gsfTrack()->dz(PV.position());
-        */
         //Isolation
         GsfElectron::PflowIsolationVariables pfIso = el->pfIsolationVariables();
         ev.en_pileupIso[ev.en] = pfIso.sumPUPt;
@@ -724,13 +579,10 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
 
         //ID MVA
         //https://twiki.cern.ch/twiki/bin/viewauth/CMS/MultivariateElectronIdentificationRun2
-        ev.en_passMVATrigMedium[ev.en] 	= (*mvaTrig_medium_id_decisions)[ elPtr ];
-        ev.en_passMVATrigTight[ev.en] 	= (*mvaTrig_tight_id_decisions) [ elPtr ];
-        ev.en_IDMVATrigValue[ev.en] 	= (*mvaTrigValues)	        [ elPtr ];
-        ev.en_IDMVATrigCategory[ev.en] 	= (*mvaTrigCategories)		[ elPtr ];
-
-        //ev.en_IDMVATrig[ev.en] = myMVATrig->mvaValue(*el,false);
-        //ev.en_IDMVANonTrig[ev.en] = myMVANonTrig->mvaValue(*el,false);
+        ev.en_passMVATrigMedium[ev.en]  = (*mvaTrig_medium_id_decisions)[ elPtr ];
+        ev.en_passMVATrigTight[ev.en]   = (*mvaTrig_tight_id_decisions) [ elPtr ];
+        ev.en_IDMVATrigValue[ev.en]     = (*mvaTrigValues)          [ elPtr ];
+        ev.en_IDMVATrigCategory[ev.en]  = (*mvaTrigCategories)      [ elPtr ];
 
         //
         // Explicit loop over gen candidates method
@@ -837,73 +689,6 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
         ev.jet++;
     }
 
-    /*
-        //
-        // slimmedJetsPuppi
-        //
-        edm::Handle<pat::JetCollection> puppijets;
-        event.getByToken(jetPuppiTag_, puppijets);
-
-        ev.pjet=0;
-        if(puppijets.isValid()) {
-            for (const pat::Jet &j : *puppijets) {
-                if(j.pt() < 20) continue;
-                ev.pjet_px[ev.pjet] = j.px(); //correctedP4(0).px();
-                ev.pjet_py[ev.pjet] = j.px(); //correctedP4(0).py();
-                ev.pjet_pz[ev.pjet] = j.pz(); //correctedP4(0).pz();
-                ev.pjet_en[ev.pjet] = j.energy(); //correctedP4(0).energy();
-
-                const reco::GenJet *gJet=j.genJet();
-                if(gJet) ev.pjet_genpt[ev.pjet] = gJet->pt();
-                else     ev.pjet_genpt[ev.pjet] = 0;
-
-                ev.pjet_btag0[ev.pjet] = j.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-                ev.pjet_btag1[ev.pjet] = j.bDiscriminator("pfJetBProbabilityBJetTags");
-                ev.pjet_btag2[ev.pjet] = j.bDiscriminator("pfJetProbabilityBJetTags");
-                ev.pjet_btag3[ev.pjet] = j.bDiscriminator("pfTrackCountingHighPurBJetTags");
-                ev.pjet_btag4[ev.pjet] = j.bDiscriminator("pfTrackCountingHighEffBJetTags");
-                ev.pjet_btag5[ev.pjet] = j.bDiscriminator("pfSimpleSecondaryVertexHighEffBJetTags");
-                ev.pjet_btag6[ev.pjet] = j.bDiscriminator("pfSimpleSecondaryVertexHighPurBJetTags");
-                ev.pjet_btag7[ev.pjet] = j.bDiscriminator("combinedSecondaryVertexBJetTags");
-                ev.pjet_btag8[ev.pjet] = j.bDiscriminator("pfCombinedSecondaryVertexV2BJetTags");
-                ev.pjet_btag9[ev.pjet] = j.bDiscriminator("pfCombinedSecondaryVertexSoftLeptonBJetTags");
-                ev.pjet_btag10[ev.pjet] = j.bDiscriminator("pfCombinedMVABJetTags");
-                ev.pjet++;
-            }
-        }
-
-    */
-    //
-    // fat jet selection (ak8PFJetsCHS)
-    //
-    /*
-        edm::Handle<pat::JetCollection> fatjets;
-        event.getByToken(fatjetTag_, fatjets);
-        ev.fjet=0;
-        for (const pat::Jet &j : *fatjets) {
-            ev.fjet_px[ev.fjet] = j.correctedP4(0).px();
-            ev.fjet_py[ev.fjet] = j.correctedP4(0).py();
-            ev.fjet_pz[ev.fjet] = j.correctedP4(0).pz();
-            ev.fjet_en[ev.fjet] = j.correctedP4(0).energy();
-
-            const reco::GenJet *gJet=j.genJet();
-            if(gJet) ev.fjet_genpt[ev.fjet] = gJet->pt();
-            else     ev.fjet_genpt[ev.fjet] = 0;
-
-
-            ev.fjet_prunedM[ev.fjet] = (float) j.userFloat("ak8PFJetsCHSPrunedLinks");
-            ev.fjet_trimmedM[ev.fjet] = (float) j.userFloat("ak8PFJetsCHSTrimmedLinks");
-            ev.fjet_filteredM[ev.fjet] = (float) j.userFloat("ak8PFJetsCHSFilteredLinks");
-            ev.fjet_tau1[ev.fjet] =  (float) j.userFloat("NjettinessAK8:tau1");
-            ev.fjet_tau2[ev.fjet] =  (float) j.userFloat("NjettinessAK8:tau2");
-            ev.fjet_tau3[ev.fjet] =  (float) j.userFloat("NjettinessAK8:tau3");
-
-            ev.fjet++;
-        }
-    */
-
-
-
     //
     // met selection
     //
@@ -946,59 +731,6 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
         ev.metPuppi_sumMET = metPuppi.sumEt();
     }
 
-
-
-    /*
-        //met filters
-        edm::Handle<edm::TriggerResults> metFilterBits;
-        event.getByToken(metFilterBitsTag_, metFilterBits);
-        const edm::TriggerNames &metNames = event.triggerNames(*metFilterBits);
-        for(unsigned int i = 0, n = metFilterBits->size(); i < n; ++i) {
-            if(strcmp(metNames.triggerName(i).c_str(), "Flag_HBHENoiseFilter") == 0)
-                ev.flag_HBHENoiseFilter = metFilterBits->accept(i);
-            else if(strcmp(metNames.triggerName(i).c_str(), "Flag_HBHENoiseIsoFilter") == 0)
-                ev.flag_HBHENoiseIsoFilter = metFilterBits->accept(i);
-            else if(strcmp(metNames.triggerName(i).c_str(), "Flag_CSCTightHaloFilter") == 0)
-                ev.flag_CSCTightHaloFilter = metFilterBits->accept(i);
-            else if(strcmp(metNames.triggerName(i).c_str(), "Flag_hcalLaserEventFilter") == 0)
-                ev.flag_hcalLaserEventFilter = metFilterBits->accept(i);
-            else if(strcmp(metNames.triggerName(i).c_str(), "Flag_EcalDeadCellTriggerPrimitiveFilter") == 0)
-                ev.flag_EcalDeadCellTriggerPrimitiveFilter = metFilterBits->accept(i);
-            else if(strcmp(metNames.triggerName(i).c_str(), "Flag_EcalDeadCellBoundaryEnergyFilter") == 0)
-                ev.flag_EcalDeadCellBoundaryEnergyFilter = metFilterBits->accept(i);
-            else if(strcmp(metNames.triggerName(i).c_str(), "Flag_goodVertices") == 0)
-                ev.flag_goodVertices = metFilterBits->accept(i);
-            else if(strcmp(metNames.triggerName(i).c_str(), "Flag_trackingFailureFilter") == 0)
-                ev.flag_trackingFailureFilter = metFilterBits->accept(i);
-            else if(strcmp(metNames.triggerName(i).c_str(), "Flag_eeBadScFilter") == 0)
-                ev.flag_eeBadScFilter = metFilterBits->accept(i);
-            else if(strcmp(metNames.triggerName(i).c_str(), "Flag_ecalLaserCorrFilter") == 0)
-                ev.flag_ecalLaserCorrFilter = metFilterBits->accept(i);
-            else if(strcmp(metNames.triggerName(i).c_str(), "Flag_trkPOGFilters") == 0)
-                ev.flag_trkPOGFilters = metFilterBits->accept(i);
-            else if(strcmp(metNames.triggerName(i).c_str(), "Flag_trkPOG_manystripclus53X") == 0)
-                ev.flag_trkPOG_manystripclus53X = metFilterBits->accept(i);
-            else if(strcmp(metNames.triggerName(i).c_str(), "Flag_trkPOG_toomanystripclus53X") == 0)
-                ev.flag_trkPOG_toomanystripclus53X = metFilterBits->accept(i);
-            else if(strcmp(metNames.triggerName(i).c_str(), "Flag_trkPOG_logErrorTooManyClusters") == 0)
-                ev.flag_trkPOG_logErrorTooManyClusters = metFilterBits->accept(i);
-            else if(strcmp(metNames.triggerName(i).c_str(), "Flag_METFilters") == 0)
-                ev.flag_METFilters = metFilterBits->accept(i);
-        }
-    */
-
-    /*
-        edm::Handle<pat::PhotonCollection> photons;
-        event.getByToken(photonTag_, photons);
-        for (const pat::Photon &pho : *photons) {
-            if (pho.pt() < 20 or pho.chargedHadronIso()/pho.pt() > 0.3) continue;
-            printf("phot with pt %4.1f, supercluster eta %+5.3f, sigmaIetaIeta %.3f (%.3f with full5x5 shower shapes)\n",
-                   pho.pt(), pho.superCluster()->eta(), pho.sigmaIetaIeta(), pho.full5x5_sigmaIetaIeta());
-        }
-
-
-    */
-
     summaryHandler_.fillTree();
 }
 
@@ -1031,11 +763,8 @@ MainAnalyzer::getMCtruth(const edm::Event& event, const edm::EventSetup& iSetup)
 {
     DataEvtSummary_t &ev=summaryHandler_.getEvent();
     ev.nmcparticles = 0;
-    //if(event.isRealData()) return;
 
     edm::Handle<std::vector<PileupSummaryInfo> > puInfoH;
-    //event.getByLabel("addPileupInfo", puInfoH);
-    //event.getByLabel("slimmedAddPileupInfo", puInfoH);
     event.getByToken(puInfoTag_,puInfoH);
     int npuOOT(0),npuIT(0),npuOOTm1(0);
     float truePU(0);
@@ -1060,7 +789,6 @@ MainAnalyzer::getMCtruth(const edm::Event& event, const edm::EventSetup& iSetup)
 
     //retrieve pdf info
     edm::Handle<GenEventInfoProduct> genEventInfoProd;
-    //event.getByLabel("generator", genEventInfoProd);
     event.getByToken(genInfoTag_, genEventInfoProd);
     ev.genWeight = genEventInfoProd->weight();
     float SignGenWeight=1;
@@ -1093,17 +821,17 @@ MainAnalyzer::getMCtruth(const edm::Event& event, const edm::EventSetup& iSetup)
 
             //fill scale variation weights
             if(EvtHandle->weights().size()>=9) {
-                ev.weight_QCDscale_muR1_muF1 		= SignGenWeight * EvtHandle->weights()[0].wgt/EvtHandle->originalXWGTUP();
-                ev.weight_QCDscale_muR1_muF2 		= SignGenWeight * EvtHandle->weights()[1].wgt/EvtHandle->originalXWGTUP();
-                ev.weight_QCDscale_muR1_muF0p5 		= SignGenWeight * EvtHandle->weights()[2].wgt/EvtHandle->originalXWGTUP();
-                ev.weight_QCDscale_muR2_muF1 		= SignGenWeight * EvtHandle->weights()[3].wgt/EvtHandle->originalXWGTUP();
-                ev.weight_QCDscale_muR2_muF2 		= SignGenWeight * EvtHandle->weights()[4].wgt/EvtHandle->originalXWGTUP();
-                ev.weight_QCDscale_muR2_muF0p5 		= SignGenWeight * EvtHandle->weights()[5].wgt/EvtHandle->originalXWGTUP();
-                ev.weight_QCDscale_muR0p5_muF1 		= SignGenWeight * EvtHandle->weights()[6].wgt/EvtHandle->originalXWGTUP();
-                ev.weight_QCDscale_muR0p5_muF2 		= SignGenWeight * EvtHandle->weights()[7].wgt/EvtHandle->originalXWGTUP();
-                ev.weight_QCDscale_muR0p5_muF0p5 	= SignGenWeight * EvtHandle->weights()[8].wgt/EvtHandle->originalXWGTUP();
+                ev.weight_QCDscale_muR1_muF1        = SignGenWeight * EvtHandle->weights()[0].wgt/EvtHandle->originalXWGTUP();
+                ev.weight_QCDscale_muR1_muF2        = SignGenWeight * EvtHandle->weights()[1].wgt/EvtHandle->originalXWGTUP();
+                ev.weight_QCDscale_muR1_muF0p5      = SignGenWeight * EvtHandle->weights()[2].wgt/EvtHandle->originalXWGTUP();
+                ev.weight_QCDscale_muR2_muF1        = SignGenWeight * EvtHandle->weights()[3].wgt/EvtHandle->originalXWGTUP();
+                ev.weight_QCDscale_muR2_muF2        = SignGenWeight * EvtHandle->weights()[4].wgt/EvtHandle->originalXWGTUP();
+                ev.weight_QCDscale_muR2_muF0p5      = SignGenWeight * EvtHandle->weights()[5].wgt/EvtHandle->originalXWGTUP();
+                ev.weight_QCDscale_muR0p5_muF1      = SignGenWeight * EvtHandle->weights()[6].wgt/EvtHandle->originalXWGTUP();
+                ev.weight_QCDscale_muR0p5_muF2      = SignGenWeight * EvtHandle->weights()[7].wgt/EvtHandle->originalXWGTUP();
+                ev.weight_QCDscale_muR0p5_muF0p5    = SignGenWeight * EvtHandle->weights()[8].wgt/EvtHandle->originalXWGTUP();
 
-		for(int w=0; w<9; w++) controlHistos_.fillHisto("sumScaleWeights","all",double(w), SignGenWeight * EvtHandle->weights()[w].wgt/EvtHandle->originalXWGTUP());
+        for(int w=0; w<9; w++) controlHistos_.fillHisto("sumScaleWeights","all",double(w), SignGenWeight * EvtHandle->weights()[w].wgt/EvtHandle->originalXWGTUP());
 
             } // scale variation weights END
 
@@ -1112,26 +840,18 @@ MainAnalyzer::getMCtruth(const edm::Event& event, const edm::EventSetup& iSetup)
             if (firstPdfWeight>=0 && lastPdfWeight>=0 && lastPdfWeight<int(EvtHandle->weights().size()) && (lastPdfWeight-firstPdfWeight+1)==100) {
 
                 //fill pdf variation weights after converting with mc2hessian transformation
-                //std::array<double, 100> inpdfweights;
                 for (int iwgt=firstPdfWeight; iwgt<=lastPdfWeight; ++iwgt) {
                     ev.pdfWeights[ev.npdfs] = SignGenWeight * EvtHandle->weights()[iwgt].wgt/EvtHandle->originalXWGTUP();
-		    controlHistos_.fillHisto("sumPdfWeights","all",double(ev.npdfs), ev.pdfWeights[ev.npdfs]);
-		    ev.npdfs++;
+                    controlHistos_.fillHisto("sumPdfWeights","all",double(ev.npdfs), ev.pdfWeights[ev.npdfs]);
+                    ev.npdfs++;
                 }
-
-                //std::array<double, 60> outpdfweights;
-                //pdfweightshelper.DoMC2Hessian(EvtHandle->originalXWGTUP(),inpdfweights.data(),outpdfweights.data());
-                //for (unsigned int iwgt=0; iwgt<60; ++iwgt) {
-                //    ev.pdfWeights[ev.npdfs] = ev.genWeight * outpdfweights[iwgt];
-                //    ev.npdfs++;
-                //}
 
                 //fill alpha_s variation weights
                 if (firstAlphasWeight>=0 && lastAlphasWeight>=0 && lastAlphasWeight<int(EvtHandle->weights().size())) {
                     for (int iwgt = firstAlphasWeight; iwgt<=lastAlphasWeight; ++iwgt) {
                         ev.alphaSWeights[ev.nalphaS] = SignGenWeight * EvtHandle->weights()[iwgt].wgt/EvtHandle->originalXWGTUP();
-			controlHistos_.fillHisto("sumAlphasWeights","all",double(ev.nalphaS), ev.alphaSWeights[ev.nalphaS]);
-			ev.nalphaS++;
+            controlHistos_.fillHisto("sumAlphasWeights","all",double(ev.nalphaS), ev.alphaSWeights[ev.nalphaS]);
+            ev.nalphaS++;
                     }
                 }
 
@@ -1173,12 +893,11 @@ MainAnalyzer::getMCtruth(const edm::Event& event, const edm::EventSetup& iSetup)
         }
 
         //Allows easier comparison for mother finding
-        //std::vector<const reco::Candidate*> prunedV;
         for(size_t i=0; i<pruned->size(); i++) {
             const Candidate * genParticle = &(*pruned)[i];
             int status=genParticle->status();
             int pid=genParticle->pdgId();
-            if(	//( abs(pid) >= 1  && abs(pid) <= 6 && status < 30 )
+            if( //( abs(pid) >= 1  && abs(pid) <= 6 && status < 30 )
                 ( abs(pid) >= 11 && abs(pid) <= 16 )
                 //|| ( abs(pid) == 21 && status < 30 )
                 || ( abs(pid) >= 23 && abs(pid) <= 25 && status < 30 )
@@ -1186,7 +905,6 @@ MainAnalyzer::getMCtruth(const edm::Event& event, const edm::EventSetup& iSetup)
                 || ( abs(pid) >= 1  && abs(pid) <= 6 && status < 30 )
                 //|| ( abs(pid) >= 32 && abs(pid) <= 42 )
             ) {
-//		cout << "pid: " << pid << " status: " << status << endl;
                 prunedV.push_back(genParticle);
             }
         }
@@ -1203,8 +921,6 @@ MainAnalyzer::getMCtruth(const edm::Event& event, const edm::EventSetup& iSetup)
 
                     if( !(abs(pid)>=1 && abs(pid)<=6) && abs(pid)!=23 && abs(pid)!=2000012 && abs(pid)!=5000039 && abs(mompid)!=23 && abs(mompid)!=24 && abs(mompid)!=25) continue;
                     if( status!=1 && status!=2 && status!=22  && status!=23 ) continue;
-
-                    //cout << "saving --> pid: " << pid << " mom: " << mompid << " status: " << status << endl;
 
                     ev.mc_px[ev.nmcparticles] = prunedV[i]->px();
                     ev.mc_py[ev.nmcparticles] = prunedV[i]->py();
@@ -1479,42 +1195,6 @@ MainAnalyzer::endRun(edm::Run const&, edm::EventSetup const&)
 {
 }
 
-
-// ------------ method called when starting to processes a luminosity block  ------------
-/*
-void
-MainAnalyzer::beginLuminosityBlock(edm::LuminosityBlock &iLumi, edm::EventSetup &iSetup)
-{
-  edm::Handle<LumiSummary> l;
-  iLumi.getByLabel("lumiProducer", l);
-  if (!l.isValid())  return;
-  curAvgInstLumi_ = l->avgInsDelLumi();
-  curIntegLumi_   = l->intgDelLumi();
-  controlHistos_.fillHisto("instlumi","all",curAvgInstLumi_);
-  controlHistos_.fillHisto("integlumi","all",curIntegLumi_);
-}
-*/
-
-// ------------ method called when ending the processing of a luminosity block  ------------
-/*
-void
-MainAnalyzer::endLuminosityBlock(edm::LuminosityBlock &iLumi, edm::EventSetup &iSetup)
-{
-    TString filterCtrs[]= {"startCounter","noScrapCounter","goodVertexCounter","noHBHEnoiseCounter","nobeamHaloCounter"};
-    const size_t nselFilters=sizeof(filterCtrs)/sizeof(TString);
-    for(size_t istep=0; istep<nselFilters; istep++) {
-        std::string fname(filterCtrs[istep].Data());
-        try {
-            edm::Handle<edm::MergeableCounter> ctrHandle;
-            iLumi.getByLabel(fname, ctrHandle);
-            if(!ctrHandle.isValid()) continue;
-            controlHistos_.fillHisto("cutflow","all",istep,ctrHandle->value);
-        } catch(std::exception) {
-            controlHistos_.fillHisto("cutflow","all",istep);
-        }
-    }
-}
-*/
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
 void
