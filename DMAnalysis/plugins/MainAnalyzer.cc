@@ -256,6 +256,7 @@ MainAnalyzer::MainAnalyzer(const edm::ParameterSet& iConfig):
 
 
 {
+    consumes<LHERunInfoProduct,edm::InRun >(lheRunInfoTag_),
 
     consumesMany<LHEEventProduct>();
 
