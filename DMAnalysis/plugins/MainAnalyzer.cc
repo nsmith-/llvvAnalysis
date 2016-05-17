@@ -273,6 +273,9 @@ MainAnalyzer::MainAnalyzer(const edm::ParameterSet& iConfig):
 //    for(size_t istep=0; istep<nselFilters; istep++) h->GetXaxis()->SetBinLabel(istep+1,selFilters[istep]);
 
     controlHistos_.addHistogram("nevents",";nevents; nevents",1,-0.5,0.5);
+    controlHistos_.addHistogram("passTrigger",";;passTrigger;",2,-0.5,1.5);
+    controlHistos_.addHistogram("passVertex",";;passVertex;",2,-0.5,1.5);
+    controlHistos_.addHistogram("passMETFilter",";;passMETFilter;",2,-0.5,1.5);
     controlHistos_.addHistogram("n_negevents",";n_negevents; n_negevents",1,-0.5,0.5);
     controlHistos_.addHistogram("n_posevents",";n_posevents; n_posevents",1,-0.5,0.5);
     controlHistos_.addHistogram("pileup", ";Pileup; Events",100,-0.5,99.5);
@@ -382,6 +385,8 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
                      | ( hasSingleEleTrigs << 3 )
                      | ( hasMuEGTrigs    << 4 );
 
+
+    controlHistos_.fillHisto("passTrigger","all",ev.hasTrigger);
     if(!ev.hasTrigger) return; // skip the event if no trigger, for both Data and MC
 
 
@@ -395,7 +400,10 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
 
     edm::Handle<reco::VertexCollection> vertices;
     event.getByToken(vtxTag_, vertices);
+
+    controlHistos_.fillHisto("passVertex","all",!vertices->empty());
     if (vertices->empty()) return; // skip the event if no PV found
+
     const reco::Vertex &PV = vertices->front();
 
     ev.vtx_x = PV.x();
@@ -436,6 +444,7 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
             passMETFilters &= metFilterBits->accept(i);
         }
     }
+    controlHistos_.fillHisto("passMETFilter","all",passMETFilters);
     if(!passMETFilters) return;
 
 
