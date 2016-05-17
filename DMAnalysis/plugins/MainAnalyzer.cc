@@ -361,20 +361,30 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
         }
     }
 
-    for(size_t it=0; it<DoubleMuTrigs_.size(); it++) {
-        hasDoubleMuTrigs |= checkIfTriggerFired(triggerBits, names, DoubleMuTrigs_[it]);
-    }
-    for(size_t it=0; it<DoubleEleTrigs_.size(); it++) {
-        hasDoubleEleTrigs |= checkIfTriggerFired(triggerBits, names, DoubleEleTrigs_[it]);
-    }
-    for(size_t it=0; it<SingleMuTrigs_.size(); it++) {
-        hasSingleMuTrigs |= checkIfTriggerFired(triggerBits, names, SingleMuTrigs_[it]);
-    }
-    for(size_t it=0; it<SingleEleTrigs_.size(); it++) {
-        hasSingleEleTrigs |= checkIfTriggerFired(triggerBits, names, SingleEleTrigs_[it]);
-    }
-    for(size_t it=0; it<MuEGTrigs_.size(); it++) {
-        hasMuEGTrigs |= checkIfTriggerFired(triggerBits, names, MuEGTrigs_[it]);
+    // Pre-ICHEP 2016 there is no proper HLT info in MC
+    // So we just pass all events through.
+    if( isMC_ ) {
+        hasDoubleMuTrigs  |= true;
+        hasDoubleEleTrigs |= true;
+        hasSingleMuTrigs  |= true;
+        hasSingleEleTrigs |= true;
+        hasMuEGTrigs      |= true;
+    } else {
+        for(size_t it=0; it<DoubleMuTrigs_.size(); it++) {
+            hasDoubleMuTrigs |= checkIfTriggerFired(triggerBits, names, DoubleMuTrigs_[it]);
+        }
+        for(size_t it=0; it<DoubleEleTrigs_.size(); it++) {
+            hasDoubleEleTrigs |= checkIfTriggerFired(triggerBits, names, DoubleEleTrigs_[it]);
+        }
+        for(size_t it=0; it<SingleMuTrigs_.size(); it++) {
+            hasSingleMuTrigs |= checkIfTriggerFired(triggerBits, names, SingleMuTrigs_[it]);
+        }
+        for(size_t it=0; it<SingleEleTrigs_.size(); it++) {
+            hasSingleEleTrigs |= checkIfTriggerFired(triggerBits, names, SingleEleTrigs_[it]);
+        }
+        for(size_t it=0; it<MuEGTrigs_.size(); it++) {
+            hasMuEGTrigs |= checkIfTriggerFired(triggerBits, names, MuEGTrigs_[it]);
+        }
     }
 
     ev.hasTrigger = (hasDoubleMuTrigs || hasDoubleEleTrigs || hasSingleMuTrigs || hasSingleEleTrigs || hasMuEGTrigs);
