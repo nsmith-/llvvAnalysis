@@ -19,6 +19,8 @@ datasets = []
 ### Get datasets from input list
 with open(inputpath,'r') as f:
     for l in f.readlines():
+        if( l.startswith( '#' ) ):
+            continue
         if(':' in l):
             datasets.append( tuple(l.rstrip('\n').split(':')) )
 
