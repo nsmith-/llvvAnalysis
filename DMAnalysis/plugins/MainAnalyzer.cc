@@ -213,20 +213,34 @@ const float effectiveAreaValues[nEtaBins] = {
 MainAnalyzer::MainAnalyzer(const edm::ParameterSet& iConfig):
     vtxTag_(                    consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("verticesTag"))        ),
     beamSpotTag_(               consumes<reco::BeamSpot>(iConfig.getParameter<edm::InputTag>("beamSpotTag"))            ),
+
+    //// Muons
     muonTag_(                   consumes<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muonsTag"))          ),
+
+    //// Electrons
     electronTag_(               consumes<edm::View<pat::Electron> >(iConfig.getParameter<edm::InputTag>("electronsTag"))    ),
     electronVetoIdTag_(         consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("electronVetoIdTag"))    ),
     electronLooseIdTag_(        consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("electronLooseIdTag"))       ),
     electronMediumIdTag_(       consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("electronMediumIdTag"))     ),
     electronTightIdTag_(        consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("electronTightIdTag"))   ),
     electronHEEPIdTag_(         consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("electronHEEPIdTag"))         ),
+
+    //// Taus
     tauTag_(                    consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("tausTag"))            ),
+
+    //// Photons
     photonTag_(                 consumes<pat::PhotonCollection>(iConfig.getParameter<edm::InputTag>("photonsTag"))      ),
+
+    //// Jets
     jetTag_(                    consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jetsTag"))            ),
+
+    //// MET
     metTag_(                    consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metsTag"))            ),
     metNoHFTag_(                consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metsNoHFTag"))                ),
     metPuppiTag_(               consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metsPuppiTag"))               ),
     metFilterBitsTag_(          consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("metFilterBitsTag"))      ),
+
+    //// GEN
     prunedGenTag_(              consumes<edm::View<reco::GenParticle> >(iConfig.getParameter<edm::InputTag>("prunedTag"))   ),
     puInfoTag_(                 consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("puInfoTag"))     ),
     genInfoTag_(                consumes<GenEventInfoProduct>(iConfig.getParameter<edm::InputTag>("genInfoTag"))                ),
@@ -234,6 +248,8 @@ MainAnalyzer::MainAnalyzer(const edm::ParameterSet& iConfig):
     genjetTag_(                 consumes<edm::View<reco::GenJet> >(iConfig.getParameter<edm::InputTag>("genJetsTag"))       ),
     lheRunInfoTag_(             iConfig.getParameter<edm::InputTag>("lheInfo")                                                  ),
     lheRunInfoToken_(           consumes<LHERunInfoProduct,edm::InRun>(lheRunInfoTag_)                      ),
+
+    //// Trigger
     triggerBits_(               consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("bits"))          ),
     triggerObjects_(            consumes<pat::TriggerObjectStandAloneCollection>(iConfig.getParameter<edm::InputTag>("objects"))),
     triggerPrescales_(          consumes<pat::PackedTriggerPrescales>(iConfig.getParameter<edm::InputTag>("prescales"))     ),
@@ -266,12 +282,6 @@ MainAnalyzer::MainAnalyzer(const edm::ParameterSet& iConfig):
     TFileDirectory baseDir=fs->mkdir(iConfig.getParameter<std::string>("dtag"));
 
     //cut flow histograms for book keeping
-//    TString selFilters[]= {"Reco","no scrap","#geq 1 vertex","HB/HE noise","No beam halo"};
-//    const size_t nselFilters=sizeof(selFilters)/sizeof(TString);
-//    controlHistos_.addHistogram("cutflow", ";Steps; Events", nselFilters, 0.,nselFilters);
-//    TH1 *h = controlHistos_.getHisto("cutflow");
-//    for(size_t istep=0; istep<nselFilters; istep++) h->GetXaxis()->SetBinLabel(istep+1,selFilters[istep]);
-
     controlHistos_.addHistogram("nevents",";nevents; nevents",1,-0.5,0.5);
     controlHistos_.addHistogram("passTrigger",";;passTrigger;",2,-0.5,1.5);
     controlHistos_.addHistogram("passVertex",";;passVertex;",2,-0.5,1.5);
@@ -279,8 +289,6 @@ MainAnalyzer::MainAnalyzer(const edm::ParameterSet& iConfig):
     controlHistos_.addHistogram("n_negevents",";n_negevents; n_negevents",1,-0.5,0.5);
     controlHistos_.addHistogram("n_posevents",";n_posevents; n_posevents",1,-0.5,0.5);
     controlHistos_.addHistogram("pileup", ";Pileup; Events",100,-0.5,99.5);
-    //controlHistos_.addHistogram("integlumi", ";Integrated luminosity ; Events",100,0,1e5);
-    //controlHistos_.addHistogram("instlumi", ";Max average inst. luminosity; Events",100,0,1e5);
     controlHistos_.addHistogram("pileuptrue", ";True pileup; Events",100,-0.5,99.5);
 
     controlHistos_.addHistogram("sumWeights",";;sumWeights;",1,-0.5,0.5);
@@ -395,16 +403,12 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
                      | ( hasSingleEleTrigs << 3 )
                      | ( hasMuEGTrigs    << 4 );
 
-
     controlHistos_.fillHisto("passTrigger","all",ev.hasTrigger);
     if(!ev.hasTrigger) return; // skip the event if no trigger, for both Data and MC
-
-
 
     //
     // vertex and beam spot
     //
-
     edm::Handle<reco::BeamSpot> beamSpot;
     event.getByToken(beamSpotTag_, beamSpot);
 
