@@ -41,7 +41,7 @@
 #include "PhysicsTools/SelectorUtils/interface/PFJetIDSelectionFunctor.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
-
+#include "DataFormats/PatCandidates/interface/VIDCutFlowResult.h"
 #include "DataFormats/Common/interface/MergeableCounter.h"
 #include "DataFormats/PatCandidates/interface/PackedGenParticle.h"
 #include "DataFormats/Candidate/interface/Candidate.h"
@@ -112,6 +112,7 @@ private:
     edm::EDGetTokenT<edm::ValueMap<bool> > electronMediumIdTag_;
     edm::EDGetTokenT<edm::ValueMap<bool> > electronTightIdTag_;
     edm::EDGetTokenT<edm::ValueMap<bool> > electronHEEPIdTag_;
+    edm::EDGetTokenT<edm::ValueMap<vid::CutFlowResult> >electronMediumIdFullInfoTag_;
     edm::EDGetTokenT<pat::TauCollection> tauTag_;
     edm::EDGetTokenT<pat::PhotonCollection> photonTag_;
     edm::EDGetTokenT<pat::JetCollection> jetTag_;
@@ -225,6 +226,7 @@ MainAnalyzer::MainAnalyzer(const edm::ParameterSet& iConfig):
     electronTightIdTag_(        consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("electronTightIdTag"))   ),
     electronHEEPIdTag_(         consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("electronHEEPIdTag"))         ),
 
+    electronMediumIdFullInfoTag_( consumes<edm::ValueMap<vid::CutFlowResult> >( iConfig.getParameter<edm::InputTag>("electronMediumIdFullInfoTag") ) ),
     //// Taus
     tauTag_(                    consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("tausTag"))            ),
 
@@ -534,6 +536,8 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
     event.getByToken(electronTightIdTag_,tight_id_decisions);
     event.getByToken(electronHEEPIdTag_,heep_id_decisions);
 
+    edm::Handle<edm::ValueMap<vid::CutFlowResult> > medium_id_cutflow_data;
+    event.getByToken(electronMediumIdFullInfoTag_,medium_id_cutflow_data);
 
     // Get the electron ID data from the event stream.
     // Note: this implies that the VID ID modules have been run upstream.
@@ -600,6 +604,10 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
         ev.en_passMedium[ev.en]= (*medium_id_decisions)[ elPtr ];
         ev.en_passTight[ev.en] = (*tight_id_decisions)[ elPtr ];
         ev.en_passHEEP[ev.en]  = (*heep_id_decisions) [ elPtr ];
+
+
+        vid::CutFlowResult fullCutFlowData_noIso =  (*medium_id_cutflow_data)[elPtr].getCutFlowResultMasking("GsfEleEffAreaPFIsoCut_0");
+        ev.en_passMedium_noIso[ev.en] = fullCutFlowData_noIso.cutFlowPassed();
 
         //ID MVA
         //https://twiki.cern.ch/twiki/bin/viewauth/CMS/MultivariateElectronIdentificationRun2

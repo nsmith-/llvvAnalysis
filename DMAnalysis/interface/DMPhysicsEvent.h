@@ -37,7 +37,7 @@ public :
     PhysicsObject_Lepton(LorentzVector vec, Int_t id_):
         LorentzVector(vec), id(id_) { }
     void setLeptonIDInfo(bool isLooseMu_, bool isTightMu_, bool isMediumMu_, bool isSoftMu_, bool isHighPtMu_,
-                         bool isElpassVeto_, bool isElpassLoose_, bool isElpassMedium_, bool isElpassTight_,
+                         bool isElpassVeto_, bool isElpassLoose_, bool isElpassMedium_, bool isElpassTight_, bool isElpassMedium_noIso_,
 			 bool isTauDM_) {
         isLooseMu = isLooseMu_;
         isTightMu = isTightMu_;
@@ -50,6 +50,7 @@ public :
         isElpassMedium = isElpassMedium_;
         isElpassTight = isElpassTight_;
 
+        isElpassMedium_noIso = isElpassMedium_noIso_,
 	isTauDM = isTauDM_;
     }
 
@@ -87,7 +88,7 @@ public :
 
     Int_t id;
     bool isLooseMu, isTightMu, isMediumMu, isSoftMu, isHighPtMu;
-    bool isElpassVeto, isElpassLoose, isElpassMedium, isElpassTight;
+    bool isElpassVeto, isElpassLoose, isElpassMedium, isElpassTight, isElpassMedium_noIso;
     bool isTauDM;
     float mn_pileupIso, mn_chargedIso, mn_photonIso, mn_neutralHadIso;
     float en_pileupIso, en_chargedIso, en_photonIso, en_neutralHadIso;

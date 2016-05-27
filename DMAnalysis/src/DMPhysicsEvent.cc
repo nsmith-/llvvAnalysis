@@ -28,7 +28,7 @@ PhysicsEvent_t getPhysicsEventFrom(DataEvtSummary_t &ev)
         if(P4.pt()>0) {
             phys.leptons.push_back(PhysicsObject_Lepton(P4, ev.mn_id[i]));
             phys.leptons[nlep].setLeptonIDInfo(ev.mn_IsLoose[i], ev.mn_IsTight[i], ev.mn_IsMedium[i], ev.mn_IsSoft[i],ev.mn_IsHighPt[i],
-                                               ev.en_passVeto[i], ev.en_passLoose[i], ev.en_passMedium[i], ev.en_passTight[i],
+                                               ev.en_passVeto[i], ev.en_passLoose[i], ev.en_passMedium[i], ev.en_passTight[i],ev.en_passMedium_noIso[i],
                                                ev.ta_dm[i]
                                               );
             phys.leptons[nlep].setLeptonIsoInfo(ev.mn_pileupIsoR03[i],ev.mn_chargedIsoR03[i],ev.mn_photonIsoR03[i],ev.mn_neutralHadIsoR03[i],
@@ -45,7 +45,7 @@ PhysicsEvent_t getPhysicsEventFrom(DataEvtSummary_t &ev)
         if(P4.pt()>0) {
             phys.leptons.push_back(PhysicsObject_Lepton(P4, ev.en_id[i]));
             phys.leptons[nlep].setLeptonIDInfo(ev.mn_IsLoose[i], ev.mn_IsTight[i], ev.mn_IsMedium[i], ev.mn_IsSoft[i],ev.mn_IsHighPt[i],
-                                               ev.en_passVeto[i], ev.en_passLoose[i], ev.en_passMedium[i], ev.en_passTight[i],
+                                               ev.en_passVeto[i], ev.en_passLoose[i], ev.en_passMedium[i], ev.en_passTight[i],ev.en_passMedium_noIso[i],
                                                ev.ta_dm[i]
                                               );
             phys.leptons[nlep].setLeptonIsoInfo(ev.mn_pileupIsoR03[i],ev.mn_chargedIsoR03[i],ev.mn_photonIsoR03[i],ev.mn_neutralHadIsoR03[i],
@@ -64,7 +64,7 @@ PhysicsEvent_t getPhysicsEventFrom(DataEvtSummary_t &ev)
         if(P4.pt()>0) {
             phys.leptons.push_back(PhysicsObject_Lepton(P4, ev.ta_id[i]));
             phys.leptons[nlep].setLeptonIDInfo(ev.mn_IsLoose[i], ev.mn_IsTight[i], ev.mn_IsMedium[i], ev.mn_IsSoft[i],ev.mn_IsHighPt[i],
-                                               ev.en_passVeto[i], ev.en_passLoose[i], ev.en_passMedium[i], ev.en_passTight[i],
+                                               ev.en_passVeto[i], ev.en_passLoose[i], ev.en_passMedium[i], ev.en_passTight[i],ev.en_passMedium_noIso[i],
                                                ev.ta_dm[i]
                                               );
             phys.leptons[nlep].setLeptonIsoInfo(ev.mn_pileupIsoR03[i],ev.mn_chargedIsoR03[i],ev.mn_photonIsoR03[i],ev.mn_neutralHadIsoR03[i],
