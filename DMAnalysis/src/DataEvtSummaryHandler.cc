@@ -147,7 +147,7 @@ bool DataEvtSummaryHandler::initTree(TTree *t)
     t_->Branch("en_passHEEP",           evSummary_.en_passHEEP,             "en_passHEEP[en]/O");
     t_->Branch("en_passMVATrigMedium",  evSummary_.en_passMVATrigMedium,             "en_passMVATrigMedium[en]/O");
     t_->Branch("en_passMVATrigTight",   evSummary_.en_passMVATrigTight,             "en_passMVATrigTight[en]/O");
-    t_->Branch("en_passMedium_noIso",   evSummary_.en_passMVATrigTight,             "en_passMedium_noIso[en]/O");
+    t_->Branch("en_passMedium_noIso",   evSummary_.en_passMedium_noIso,             "en_passMedium_noIso[en]/O");
     t_->Branch("en_IDMVATrigValue",     evSummary_.en_IDMVATrigValue,            "en_IDMVATrigValue[en]/F");
     t_->Branch("en_IDMVATrigCategory",  evSummary_.en_IDMVATrigCategory,         "en_IDMVATrigCategory[en]/I");
     t_->Branch("en_istrue",             evSummary_.en_istrue,               "en_istrue[en]/I");
