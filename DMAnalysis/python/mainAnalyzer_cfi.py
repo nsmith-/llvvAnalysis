@@ -56,6 +56,8 @@ process.mainAnalyzer = cms.EDAnalyzer('MainAnalyzer',
     electronMediumIdTag = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium"),
     electronTightIdTag = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight"),
     electronHEEPIdTag = cms.InputTag("egmGsfElectronIDs:heepElectronID-HEEPV60"),
+
+    electronMediumIdFullInfoTag = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium"),
     #
     # ID decisions (common to all formats)
     #

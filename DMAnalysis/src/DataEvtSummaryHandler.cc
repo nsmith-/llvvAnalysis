@@ -418,6 +418,7 @@ bool DataEvtSummaryHandler::attachToTree(TTree *t)
     t_->SetBranchAddress("en_passLoose",            evSummary_.en_passLoose);
     t_->SetBranchAddress("en_passMedium",           evSummary_.en_passMedium);
     t_->SetBranchAddress("en_passTight",            evSummary_.en_passTight);
+    t_->SetBranchAddress("en_passMedium_noIso",     evSummary_.en_passMedium_noIso);
     t_->SetBranchAddress("en_passHEEP",             evSummary_.en_passHEEP);
     t_->SetBranchAddress("en_passMVATrigMedium",    evSummary_.en_passMVATrigMedium);
     t_->SetBranchAddress("en_passMVATrigTight",     evSummary_.en_passMVATrigTight);
