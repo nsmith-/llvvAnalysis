@@ -12,5 +12,5 @@
  <bin name="run2016_DibosonAnalysis" file="run2016_DibosonAnalysis.cc"></bin>
 
 </environment>
-<Flags CXXFLAGS="-g -std=c++0x"/>
+<Flags CXXFLAGS="-g -std=c++0x -Wno-unused-variable -Wno-unused-but-set-variable"/>
 
