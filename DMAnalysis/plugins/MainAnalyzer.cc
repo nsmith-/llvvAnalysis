@@ -677,8 +677,8 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
     edm::Handle<pat::JetCollection> jets;
     event.getByToken(jetTag_, jets);
     ev.jet=0;
-    PFJetIDSelectionFunctor looseJetIdSelector(PFJetIDSelectionFunctor::FIRSTDATA,PFJetIDSelectionFunctor::LOOSE);
-    PFJetIDSelectionFunctor tightJetIdSelector(PFJetIDSelectionFunctor::FIRSTDATA,PFJetIDSelectionFunctor::TIGHT);
+    PFJetIDSelectionFunctor looseJetIdSelector(PFJetIDSelectionFunctor::RUNIISTARTUP,PFJetIDSelectionFunctor::LOOSE);
+    PFJetIDSelectionFunctor tightJetIdSelector(PFJetIDSelectionFunctor::RUNIISTARTUP,PFJetIDSelectionFunctor::TIGHT);
     pat::strbitset hasLooseId = looseJetIdSelector.getBitTemplate();
     pat::strbitset hasTightId = tightJetIdSelector.getBitTemplate();
 
