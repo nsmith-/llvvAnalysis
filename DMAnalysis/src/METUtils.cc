@@ -167,19 +167,23 @@ void computeVariation(PhysicsObjectJetCollection& jets,
                 tempJets = jets;
         }
 
-        //// Loop over the (potentially) JES corrected jets and perform JER smearing
-        // Smearing is applied to all variations.
-        // Which variation of JER smearing is performed is handled by the "mode" argument of METUtils::smearedJet.
-        // The smeared jets are stored in 'newJets'
+        bool doJER = false;
         PhysicsObjectJetCollection newJets;
-        for(auto &jet:tempJets) {
-            PhysicsObject_Jet iSmearJet=METUtils::smearedJet(jet,jet.genPt,ivar);
-            jetDiff += (iSmearJet-jet);
-            newJets.push_back( iSmearJet );
+        if( doJER ) {
+            //// Loop over the (potentially) JES corrected jets and perform JER smearing
+            // Smearing is applied to all variations.
+            // Which variation of JER smearing is performed is handled by the "mode" argument of METUtils::smearedJet.
+            // The smeared jets are stored in 'newJets'
+            for(auto &jet:tempJets) {
+                PhysicsObject_Jet iSmearJet=METUtils::smearedJet(jet,jet.genPt,ivar);
+                jetDiff += (iSmearJet-jet);
+                newJets.push_back( iSmearJet );
+            }
+        } else {
+            newJets = tempJets;
         }
         // The further steps do not change the jets, so we can return them already
         jetsVar.push_back(newJets);
-
 
         //// Unclustered MET variation
         LorentzVector clusteredFlux(0,0,0,0), unclustDiff(0,0,0,0);
