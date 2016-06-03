@@ -964,7 +964,6 @@ int main(int argc, char* argv[])
             if(lep.pt()<20) continue;
             if(abs(lepid)==13 && fabs(lep.eta())> 2.4) continue;
             if(abs(lepid)==11 && fabs(lep.eta())> 2.5) continue;
-            //~ if(abs(lepid)==11 && fabs(lep.eta()) > 1.442 && fabs(lep.eta()) < 1.556) continue;
 
             bool hasTightIdandIso(true);
             if(abs(lepid)==13) { //muon
@@ -1174,7 +1173,6 @@ int main(int argc, char* argv[])
             if(abs(lepid)==13 && fabs(lep.eta()) > 2.4) continue;
             //electront veto
             if(abs(lepid)==11 && fabs(lep.eta()) > 2.5) continue;
-            //~ if(abs(lepid)==11 && fabs(lep.eta()) > 1.442 && fabs(lep.eta()) < 1.556) continue;
             //tau veto
             //if(abs(lepid)==15 && fabs(lep.eta())> 2.4) continue;
 
