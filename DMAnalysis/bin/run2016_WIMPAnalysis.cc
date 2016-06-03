@@ -77,7 +77,24 @@ const float CSVLooseWP = 0.460;
 const float CSVMediumWP = 0.800;
 const float CSVTightWP = 0.935;
 
-
+void dumpList( std::vector<LorentzVector> particles, std::string tag ) {
+    std::cout << std::endl  << "--- DUMP " << tag << std::endl;
+    for (auto const & part : particles ) {
+        std::cout << part.pt() << " " << part.phi() << " " << part.eta() << std::endl;
+    }
+}
+void dumpList( PhysicsObjectLeptonCollection particles, std::string tag ) {
+    std::cout << std::endl  << "--- DUMP " << tag << std::endl;
+    for (auto const & part : particles ) {
+        std::cout << part.pt() << " " << part.phi() << " " << part.eta() << std::endl;
+    }
+}
+void dumpList( PhysicsObjectJetCollection particles, std::string tag ) {
+    std::cout << std::endl  << "--- DUMP " << tag << std::endl;
+    for (auto const & part : particles ) {
+        std::cout << part.pt() << " " << part.phi() << " " << part.eta() << " " << part.isPFLoose << std::endl;
+    }
+}
 int main(int argc, char* argv[])
 {
     //##################################################################################
@@ -120,12 +137,26 @@ int main(int argc, char* argv[])
     outTxtFile_final = fopen(outTxtUrl_final.Data(), "w");
     printf("TextFile URL = %s\n",outTxtUrl_final.Data());
     fprintf(outTxtFile_final,"run lumi event\n");
-    
-    TString outTxtUrl_ee_afterID= outUrl + "/" + outFileUrl + "_ee_afterID.txt";
-    FILE* outTxtFile_ee_afterID = NULL;
-    outTxtFile_ee_afterID = fopen(outTxtUrl_ee_afterID.Data(), "w");
-    printf("TextFile URL = %s\n",outTxtUrl_ee_afterID.Data());
-    fprintf(outTxtFile_ee_afterID,"run lumi event\n");
+
+    TString outTxtUrl_mumu_after_3rdlep= outUrl + "/" + outFileUrl + "_mumu_after_3rdlep.txt";
+    FILE* outTxtFile_mumu_after_3rdlep = NULL;
+    outTxtFile_mumu_after_3rdlep = fopen(outTxtUrl_mumu_after_3rdlep.Data(), "w");
+    printf("TextFile URL = %s\n",outTxtUrl_mumu_after_3rdlep.Data());
+
+    TString outTxtUrl_ee_after_3rdlep= outUrl + "/" + outFileUrl + "_ee_after_3rdlep.txt";
+    FILE* outTxtFile_ee_after_3rdlep = NULL;
+    outTxtFile_ee_after_3rdlep = fopen(outTxtUrl_ee_after_3rdlep.Data(), "w");
+    printf("TextFile URL = %s\n",outTxtUrl_ee_after_3rdlep.Data());
+
+    TString outTxtUrl_mumu_after_njet= outUrl + "/" + outFileUrl + "_mumu_after_njet.txt";
+    FILE* outTxtFile_mumu_after_njet = NULL;
+    outTxtFile_mumu_after_njet = fopen(outTxtUrl_mumu_after_njet.Data(), "w");
+    printf("TextFile URL = %s\n",outTxtUrl_mumu_after_njet.Data());
+
+    TString outTxtUrl_ee_after_njet= outUrl + "/" + outFileUrl + "_ee_after_njet.txt";
+    FILE* outTxtFile_ee_after_njet = NULL;
+    outTxtFile_ee_after_njet = fopen(outTxtUrl_ee_after_njet.Data(), "w");
+    printf("TextFile URL = %s\n",outTxtUrl_ee_after_njet.Data());
 
     int fType(0);
     if(url.Contains("DoubleEG")) fType=EE;
@@ -1017,7 +1048,6 @@ int main(int argc, char* argv[])
             break;
         case EE   :
             tag_cat = "ee";
-            fprintf(outTxtFile_ee_afterID,"%d:%d:%d\n",ev.run,ev.lumi,ev.event);
             break;
         case EMU  :
             tag_cat = "emu";
@@ -1345,9 +1375,20 @@ int main(int argc, char* argv[])
     if( pass3dLeptonVeto ) {
         mon.fillHisto( "sync_njet_minus", tags, nJetsGood30, weight );
         mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
+        if( tag_cat == "ee" ) {
+            fprintf(outTxtFile_ee_after_3rdlep,"%d:%d:%d\n",ev.run,ev.lumi,ev.event);
+        } else if( tag_cat == "mumu" ) {
+            fprintf(outTxtFile_mumu_after_3rdlep,"%d:%d:%d\n",ev.run,ev.lumi,ev.event);
+        }
             if( nJetsGood30 < 2 ) {
                 mon.fillHisto( "sync_zmass_minus", tags, zll.mass(), weight );
                 mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
+                if( tag_cat == "ee" ) {
+                    fprintf(outTxtFile_ee_after_njet,"%d:%d:%d\n",ev.run,ev.lumi,ev.event);
+                } else if( tag_cat == "mumu" ) {
+                    fprintf(outTxtFile_mumu_after_njet,"%d:%d:%d\n",ev.run,ev.lumi,ev.event);
+                }
+
                 if( passZmass ) {
                     mon.fillHisto( "sync_ptz_minus", tags, zll.pt(), weight );
                     mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
