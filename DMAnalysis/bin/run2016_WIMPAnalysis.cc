@@ -1185,12 +1185,14 @@ int main(int argc, char* argv[])
             bool hasTightIdandIso(true);
             if(abs(lepid)==13) { //muon
                 hasLooseIdandIso &= ( phys.leptons[ilep].isLooseMu && phys.leptons[ilep].m_pfRelIsoDbeta()<0.25 && phys.leptons[ilep].pt()>10 );
-                hasLooseIdandIso |= ( phys.leptons[ilep].isSoftMu  && phys.leptons[ilep].pt()>3 );
+                //~ hasLooseIdandIso |= ( phys.leptons[ilep].isSoftMu  && phys.leptons[ilep].pt()>3 );
                 //
                 hasTightIdandIso |= ( phys.leptons[ilep].isMediumMu && phys.leptons[ilep].m_pfRelIsoDbeta()<0.15 && phys.leptons[ilep].pt()>10 );
             } else if(abs(lepid)==11) { //electron
                 hasLooseIdandIso &= ( phys.leptons[ilep].isElpassVeto && phys.leptons[ilep].pt()>10 );
                 hasLooseIdandIso |= ( phys.leptons[ilep].isElpassMedium && phys.leptons[ilep].pt()>10 );
+                //
+                hasTightIdandIso &= ( phys.leptons[ilep].isElpassMedium && phys.leptons[ilep].pt()>10 );
 
             //} else if(abs(lepid)==15) { //tau
                 //hasLooseIdandIso &= ( phys.leptons[ilep].isTauDM && phys.leptons[ilep].ta_IsLooseIso && phys.leptons[ilep].pt()>20 );
