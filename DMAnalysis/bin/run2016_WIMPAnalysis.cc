@@ -304,9 +304,10 @@ int main(int argc, char* argv[])
     h->GetXaxis()->SetBinLabel(8,"E_{T}^{miss}>80");
 
     int nbin = 1;
-    h=(TH1F*) mon.addHistogram( new TH1F ("sync_cutflow", ";;Events", 10,0,10) );
+    h=(TH1F*) mon.addHistogram( new TH1F ("sync_cutflow", ";;Events", 11,0,11) );
     h->GetXaxis()->SetBinLabel(nbin++,"Trigger && 2 leptons");
     h->GetXaxis()->SetBinLabel(nbin++,"No third lepton");
+    h->GetXaxis()->SetBinLabel(nbin++,"b veto");
     h->GetXaxis()->SetBinLabel(nbin++,"#lesq 1 jets"); 
     h->GetXaxis()->SetBinLabel(nbin++,"76.1876<#it{m}_{ll}<101.1876");
     h->GetXaxis()->SetBinLabel(nbin++,"#it{p}_{T}^{ll}>60");
@@ -1250,12 +1251,11 @@ int main(int argc, char* argv[])
             if(corrJets[ijet].pt()>30) nJetsGood30++;
 
             //https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation74X
-            if(corrJets[ijet].pt()>30 && fabs(corrJets[ijet].eta())<2.4)  {
+            if(corrJets[ijet].pt()>20 && fabs(corrJets[ijet].eta())<2.4)  {
 
                 nCSVLtags += (corrJets[ijet].btag0>CSVLooseWP);
                 nCSVMtags += (corrJets[ijet].btag0>CSVMediumWP);
                 nCSVTtags += (corrJets[ijet].btag0>CSVTightWP);
-
 
                 if(!isMC) continue;
                 bool isCSVtagged(corrJets[ijet].btag0>CSVMediumWP);
@@ -1379,6 +1379,8 @@ int main(int argc, char* argv[])
         } else if( tag_cat == "mumu" ) {
             fprintf(outTxtFile_mumu_after_3rdlep,"%d:%d:%d\n",ev.run,ev.lumi,ev.event);
         }
+        if ( passBveto ) {
+            mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
             if( nJetsGood30 < 2 ) {
                 mon.fillHisto( "sync_zmass_minus", tags, zll.mass(), weight );
                 mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
@@ -1416,7 +1418,8 @@ int main(int argc, char* argv[])
                     } //passZpt
                 } // passZmass
             } // nJetsGood30
-        } // pass3dLeptonVeto 
+        }// passBveto
+    } // pass3dLeptonVeto
 
 
         mon.fillHisto("zpt_raw"                         ,tags, zll.pt(),   weight);
