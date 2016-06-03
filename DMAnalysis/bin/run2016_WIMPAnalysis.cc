@@ -1214,8 +1214,7 @@ int main(int argc, char* argv[])
             }
         }
 
-        //~ pass3dLeptonVeto=(n3rdLeptons==0);
-        pass3dLeptonVeto=true;
+        pass3dLeptonVeto=(n3rdLeptons==0);
         hasTight3dLepton=(nTight3rdLeptons==1);
 
 
