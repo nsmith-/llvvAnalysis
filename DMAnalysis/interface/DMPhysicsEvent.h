@@ -56,7 +56,7 @@ public :
 
     void setLeptonIsoInfo(float mn_pileupIso_, float mn_chargedIso_, float mn_photonIso_, float mn_neutralHadIso_,
                           float en_pileupIso_, float en_chargedIso_, float en_photonIso_, float en_neutralHadIso_, float en_relIsoWithEA_,
-			  bool ta_IsLooseIso_, bool ta_IsMediumIso_, bool ta_IsTightIso_ ) {
+                          bool ta_IsLooseIso_, bool ta_IsMediumIso_, bool ta_IsTightIso_, float ta_combIsoDBeta3Hits_ ) {
 
         mn_pileupIso = mn_pileupIso_;
         mn_chargedIso = mn_chargedIso_;
@@ -69,9 +69,10 @@ public :
         en_neutralHadIso = en_neutralHadIso_;
         en_relIsoWithEA = en_relIsoWithEA_;
 
-	ta_IsLooseIso = ta_IsLooseIso_;
-	ta_IsMediumIso = ta_IsMediumIso_;
-	ta_IsTightIso = ta_IsTightIso_;
+        ta_IsLooseIso = ta_IsLooseIso_;
+        ta_IsMediumIso = ta_IsMediumIso_;
+        ta_IsTightIso = ta_IsTightIso_;
+        ta_combIsoDBeta3Hits = ta_combIsoDBeta3Hits_;
     }
     void setLeptonIPInfo(float mn_d0_, float mn_dZ_) {
         mn_dZ = mn_dZ_;
@@ -99,6 +100,7 @@ public :
     float en_relIsoWithEA;
     float mn_dZ, mn_d0;
     bool ta_IsLooseIso, ta_IsMediumIso, ta_IsTightIso;
+    float ta_combIsoDBeta3Hits;
 };
 
 

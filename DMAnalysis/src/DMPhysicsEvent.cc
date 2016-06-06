@@ -33,7 +33,7 @@ PhysicsEvent_t getPhysicsEventFrom(DataEvtSummary_t &ev)
                                               );
             phys.leptons[nlep].setLeptonIsoInfo(ev.mn_pileupIsoR04[i],ev.mn_chargedIsoR04[i],ev.mn_photonIsoR04[i],ev.mn_neutralHadIsoR04[i],
                                                 ev.en_pileupIso[i],ev.en_chargedIso[i],ev.en_photonIso[i],ev.en_neutralHadIso[i],ev.en_relIsoWithEA[i],
-                                                ev.ta_IsLooseIso[i], ev.ta_IsMediumIso[i], ev.ta_IsTightIso[i]
+                                                ev.ta_IsLooseIso[i], ev.ta_IsMediumIso[i], ev.ta_IsTightIso[i], ev.ta_combIsoDBeta3Hits[i]
                                                );
             phys.leptons[nlep].setLeptonIPInfo(ev.mn_dZ[i], ev.mn_d0[i]);
             nlep++;
@@ -50,7 +50,7 @@ PhysicsEvent_t getPhysicsEventFrom(DataEvtSummary_t &ev)
                                               );
             phys.leptons[nlep].setLeptonIsoInfo(ev.mn_pileupIsoR04[i],ev.mn_chargedIsoR04[i],ev.mn_photonIsoR04[i],ev.mn_neutralHadIsoR04[i],
                                                 ev.en_pileupIso[i],ev.en_chargedIso[i],ev.en_photonIso[i],ev.en_neutralHadIso[i],ev.en_relIsoWithEA[i],
-                                                ev.ta_IsLooseIso[i], ev.ta_IsMediumIso[i], ev.ta_IsTightIso[i]
+                                                ev.ta_IsLooseIso[i], ev.ta_IsMediumIso[i], ev.ta_IsTightIso[i], ev.ta_combIsoDBeta3Hits[i]
                                                );
 
 
@@ -69,7 +69,7 @@ PhysicsEvent_t getPhysicsEventFrom(DataEvtSummary_t &ev)
                                               );
             phys.leptons[nlep].setLeptonIsoInfo(ev.mn_pileupIsoR04[i],ev.mn_chargedIsoR04[i],ev.mn_photonIsoR04[i],ev.mn_neutralHadIsoR04[i],
                                                 ev.en_pileupIso[i],ev.en_chargedIso[i],ev.en_photonIso[i],ev.en_neutralHadIso[i],ev.en_relIsoWithEA[i],
-                                                ev.ta_IsLooseIso[i], ev.ta_IsMediumIso[i], ev.ta_IsTightIso[i]
+                                                ev.ta_IsLooseIso[i], ev.ta_IsMediumIso[i], ev.ta_IsTightIso[i], ev.ta_combIsoDBeta3Hits[i]
                                                );
 
             nlep++;

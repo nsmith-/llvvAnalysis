@@ -304,10 +304,11 @@ int main(int argc, char* argv[])
     h->GetXaxis()->SetBinLabel(8,"E_{T}^{miss}>80");
 
     int nbin = 1;
-    h=(TH1F*) mon.addHistogram( new TH1F ("sync_cutflow", ";;Events", 11,0,11) );
+    h=(TH1F*) mon.addHistogram( new TH1F ("sync_cutflow", ";;Events", 12,0,12) );
     h->GetXaxis()->SetBinLabel(nbin++,"Trigger && 2 leptons");
     h->GetXaxis()->SetBinLabel(nbin++,"No third lepton");
     h->GetXaxis()->SetBinLabel(nbin++,"b veto");
+    h->GetXaxis()->SetBinLabel(nbin++,"#tau veto");
     h->GetXaxis()->SetBinLabel(nbin++,"#lesq 1 jets"); 
     h->GetXaxis()->SetBinLabel(nbin++,"76.1876<#it{m}_{ll}<101.1876");
     h->GetXaxis()->SetBinLabel(nbin++,"#it{p}_{T}^{ll}>60");
@@ -1161,8 +1162,9 @@ int main(int argc, char* argv[])
 
         //loop over all lepton again, check deltaR with dilepton,
         bool pass3dLeptonVeto(true);
+        bool passTauVeto(true);
         bool hasTight3dLepton(false);
-        int n3rdLeptons(0), nTight3rdLeptons(0);
+        int n3rdLeptons(0), nTight3rdLeptons(0), nTaus(0);
         vector<LorentzVector> allLeptons;
         allLeptons.push_back(lep1);
         allLeptons.push_back(lep2);
@@ -1175,18 +1177,22 @@ int main(int argc, char* argv[])
             //electront veto
             if(abs(lepid)==11 && fabs(lep.eta()) > 2.5) continue;
             //tau veto
-            //if(abs(lepid)==15 && fabs(lep.eta())> 2.4) continue;
+            if(abs(lepid)==15 && fabs(lep.eta())> 2.3) continue;
 
             bool isMatched(false);
-            isMatched |= (deltaR(lep1,lep) < 0.01);
-            isMatched |= (deltaR(lep2,lep) < 0.01);
+            if( abs(lepid)==15 ) {
+                isMatched |= (deltaR(lep1,lep) < 0.4);
+                isMatched |= (deltaR(lep2,lep) < 0.4);
+            } else {
+                isMatched |= (deltaR(lep1,lep) < 0.01);
+                isMatched |= (deltaR(lep2,lep) < 0.01);
+            }
             if(isMatched) continue;
 
             bool hasLooseIdandIso(true);
             bool hasTightIdandIso(true);
             if(abs(lepid)==13) { //muon
                 hasLooseIdandIso &= ( phys.leptons[ilep].isLooseMu && phys.leptons[ilep].m_pfRelIsoDbeta()<0.25 && phys.leptons[ilep].pt()>10 );
-                //~ hasLooseIdandIso |= ( phys.leptons[ilep].isSoftMu  && phys.leptons[ilep].pt()>3 );
                 //
                 hasTightIdandIso |= ( phys.leptons[ilep].isMediumMu && phys.leptons[ilep].m_pfRelIsoDbeta()<0.15 && phys.leptons[ilep].pt()>10 );
             } else if(abs(lepid)==11) { //electron
@@ -1194,20 +1200,19 @@ int main(int argc, char* argv[])
                 hasLooseIdandIso |= ( phys.leptons[ilep].isElpassMedium && phys.leptons[ilep].pt()>10 );
                 //
                 hasTightIdandIso &= ( phys.leptons[ilep].isElpassMedium && phys.leptons[ilep].pt()>10 );
-
-            //} else if(abs(lepid)==15) { //tau
-                //hasLooseIdandIso &= ( phys.leptons[ilep].isTauDM && phys.leptons[ilep].ta_IsLooseIso && phys.leptons[ilep].pt()>20 );
+            } else if(abs(lepid)==15) { //tau
+                hasLooseIdandIso &= ( phys.leptons[ilep].isTauDM && ( phys.leptons[ilep].ta_combIsoDBeta3Hits < 5 ) && phys.leptons[ilep].pt()>18 );
                 //
-                //hasTightIdandIso &= ( phys.leptons[ilep].isTauDM && phys.leptons[ilep].ta_IsTightIso && phys.leptons[ilep].pt()>20 );
-
+                hasTightIdandIso &= ( phys.leptons[ilep].isTauDM && phys.leptons[ilep].ta_IsTightIso && phys.leptons[ilep].pt()>20 );
             } else continue;
 
 
 
             if(!hasLooseIdandIso) continue;
-            allLeptons.push_back(lep);
-            n3rdLeptons++;
+            if( abs(lepid)==15 ) nTaus++;
+            else n3rdLeptons++;
 
+            allLeptons.push_back(lep);
 
             if(hasTightIdandIso) {
                 extraTight10Leptons.push_back(lep);
@@ -1216,8 +1221,8 @@ int main(int argc, char* argv[])
         }
 
         pass3dLeptonVeto=(n3rdLeptons==0);
+        passTauVeto=(nTaus==0);
         hasTight3dLepton=(nTight3rdLeptons==1);
-
 
 
 
@@ -1374,50 +1379,43 @@ int main(int argc, char* argv[])
     if( pass3dLeptonVeto ) {
         mon.fillHisto( "sync_njet_minus", tags, nJetsGood30, weight );
         mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-        if( tag_cat == "ee" ) {
-            fprintf(outTxtFile_ee_after_3rdlep,"%d:%d:%d\n",ev.run,ev.lumi,ev.event);
-        } else if( tag_cat == "mumu" ) {
-            fprintf(outTxtFile_mumu_after_3rdlep,"%d:%d:%d\n",ev.run,ev.lumi,ev.event);
-        }
         if ( passBveto ) {
             mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-            if( nJetsGood30 < 2 ) {
-                mon.fillHisto( "sync_zmass_minus", tags, zll.mass(), weight );
+            if( tag_cat == "ee" ) fprintf(outTxtFile_ee_after_bveto,"%d:%d:%d\n",ev.run,ev.lumi,ev.event);
+            if( passTauVeto ) {
                 mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                if( tag_cat == "ee" ) {
-                    fprintf(outTxtFile_ee_after_njet,"%d:%d:%d\n",ev.run,ev.lumi,ev.event);
-                } else if( tag_cat == "mumu" ) {
-                    fprintf(outTxtFile_mumu_after_njet,"%d:%d:%d\n",ev.run,ev.lumi,ev.event);
-                }
-
-                if( passZmass ) {
-                    mon.fillHisto( "sync_ptz_minus", tags, zll.pt(), weight );
+                if( nJetsGood30 < 2 ) {
+                    mon.fillHisto( "sync_zmass_minus", tags, zll.mass(), weight );
                     mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                    if( passZpt ) {
+                    if( passZmass ) {
+                        mon.fillHisto( "sync_ptz_minus", tags, zll.pt(), weight );
                         mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                        mon.fillHisto( "sync_met_minus",        tags, metP4.pt(), weight );
-                        if( passMETcut ) {
+                        if( passZpt ) {
                             mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                            mon.fillHisto( "sync_dPhiZMET_minus",   tags, dphiZMET, weight );
-                            if( passDphiZMETcut ) {
+                            mon.fillHisto( "sync_met_minus",        tags, metP4.pt(), weight );
+                            if( passMETcut ) {
                                 mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                                mon.fillHisto( "sync_balance_minus",    tags, balanceDif, weight );
-                                if(passBalanceCut) {
+                                mon.fillHisto( "sync_dPhiZMET_minus",   tags, dphiZMET, weight );
+                                if( passDphiZMETcut ) {
                                     mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                                    mon.fillHisto( "sync_dPhiJetMET_minus", tags, dphiJetMET, weight );
-                                    if(passDphiJetMETCut) {
+                                    mon.fillHisto( "sync_balance_minus",    tags, balanceDif, weight );
+                                    if(passBalanceCut) {
                                         mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                                        mon.fillHisto( "sync_response_minus",   tags, response, weight );
-                                        if(passResponseCut) {
+                                        mon.fillHisto( "sync_dPhiJetMET_minus", tags, dphiJetMET, weight );
+                                        if(passDphiJetMETCut) {
                                             mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                                        } // passResponseCut
-                                    } // passDphiJetMET
-                                } // passBalanceCut
-                            } // passDphiZMET
-                        } // passMET
-                    } //passZpt
-                } // passZmass
-            } // nJetsGood30
+                                            mon.fillHisto( "sync_response_minus",   tags, response, weight );
+                                            if(passResponseCut) {
+                                                mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
+                                            } // passResponseCut
+                                        } // passDphiJetMET
+                                    } // passBalanceCut
+                                } // passDphiZMET
+                            } // passMET
+                        } //passZpt
+                    } // passZmass
+                } // nJetsGood30
+            }// passTauVeto
         }// passBveto
     } // pass3dLeptonVeto
 

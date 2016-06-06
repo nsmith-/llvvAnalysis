@@ -635,7 +635,7 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
     event.getByToken(tauTag_, taus);
     ev.ta=0;
     for (const pat::Tau &tau : *taus) {
-        if(tau.pt() < 20) continue;
+        if(tau.pt() < 10 ) continue;
 
         ev.ta_px[ev.ta] = tau.px();
         ev.ta_py[ev.ta] = tau.py();
