@@ -949,8 +949,9 @@ int main(int argc, char* argv[])
             bool hasTightIdandIso(true);
             if(abs(lepid)==13) { //muon
                 hasTightIdandIso &= phys.leptons[ilep].isMediumMu;
-                //~ hasTightIdandIso &= ( fabs(phys.leptons[ilep].mn_dZ) < 0.1 );
-                //~ hasTightIdandIso &= ( fabs(phys.leptons[ilep].mn_ip3d) < 0.01 );
+                hasTightIdandIso &= ( fabs(phys.leptons[ilep].mn_dZ) < 0.1 );
+                hasTightIdandIso &= ( fabs(phys.leptons[ilep].mn_d0) < 0.02 );
+
                 //https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideMuonIdRun2?sortcol=1;table=7;up=0#Muon_Isolation
                 hasTightIdandIso &= ( phys.leptons[ilep].m_pfRelIsoDbeta() < 0.15 );
             } else if(abs(lepid)==11) { //electron
