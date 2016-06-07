@@ -131,32 +131,11 @@ int main(int argc, char* argv[])
     TString outUrl( outdir );
     gSystem->Exec("mkdir -p " + outUrl);
 
-
     TString outTxtUrl_final= outUrl + "/" + outFileUrl + "_FinalList.txt";
     FILE* outTxtFile_final = NULL;
     outTxtFile_final = fopen(outTxtUrl_final.Data(), "w");
     printf("TextFile URL = %s\n",outTxtUrl_final.Data());
     fprintf(outTxtFile_final,"run lumi event\n");
-
-    TString outTxtUrl_mumu_after_3rdlep= outUrl + "/" + outFileUrl + "_mumu_after_3rdlep.txt";
-    FILE* outTxtFile_mumu_after_3rdlep = NULL;
-    outTxtFile_mumu_after_3rdlep = fopen(outTxtUrl_mumu_after_3rdlep.Data(), "w");
-    printf("TextFile URL = %s\n",outTxtUrl_mumu_after_3rdlep.Data());
-
-    TString outTxtUrl_ee_after_3rdlep= outUrl + "/" + outFileUrl + "_ee_after_3rdlep.txt";
-    FILE* outTxtFile_ee_after_3rdlep = NULL;
-    outTxtFile_ee_after_3rdlep = fopen(outTxtUrl_ee_after_3rdlep.Data(), "w");
-    printf("TextFile URL = %s\n",outTxtUrl_ee_after_3rdlep.Data());
-
-    TString outTxtUrl_mumu_after_njet= outUrl + "/" + outFileUrl + "_mumu_after_njet.txt";
-    FILE* outTxtFile_mumu_after_njet = NULL;
-    outTxtFile_mumu_after_njet = fopen(outTxtUrl_mumu_after_njet.Data(), "w");
-    printf("TextFile URL = %s\n",outTxtUrl_mumu_after_njet.Data());
-
-    TString outTxtUrl_ee_after_njet= outUrl + "/" + outFileUrl + "_ee_after_njet.txt";
-    FILE* outTxtFile_ee_after_njet = NULL;
-    outTxtFile_ee_after_njet = fopen(outTxtUrl_ee_after_njet.Data(), "w");
-    printf("TextFile URL = %s\n",outTxtUrl_ee_after_njet.Data());
 
     int fType(0);
     if(url.Contains("DoubleEG")) fType=EE;
@@ -1381,7 +1360,6 @@ int main(int argc, char* argv[])
         mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
         if ( passBveto ) {
             mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-            if( tag_cat == "ee" ) fprintf(outTxtFile_ee_after_bveto,"%d:%d:%d\n",ev.run,ev.lumi,ev.event);
             if( passTauVeto ) {
                 mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
                 if( nJetsGood30 < 2 ) {
