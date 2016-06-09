@@ -60,7 +60,7 @@ def parseCommandline():
         options.inputpath       = os.path.expandvars( '$CMSSW_BASE/src/llvvAnalysis/DMAnalysis/data/skimlist_MC13TeV_80X.txt' )
         options.configfile_mc   = os.path.expandvars( '$CMSSW_BASE/src/llvvAnalysis/DMAnalysis/test/run_mainAnalyzer_mc_cfg_80X.py' )
         options.configfile_data = os.path.expandvars( '$CMSSW_BASE/src/llvvAnalysis/DMAnalysis/test/run_mainAnalyzer_data_cfg_80X.py' )
-        options.outtag_mc       = 'RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3'
+        options.outtag_mc       = 'RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1'
         options.splitting_mc    = 'FileBased'
         options.json_mc         = ''
         options.splitting_data  = 'LumiBased'
