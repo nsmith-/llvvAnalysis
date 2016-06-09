@@ -25,7 +25,7 @@ config.Data.outLFNDirBase = '@OUTPATH'       # e.g. /store/user/aalbert/myFolder
 config.Data.outputDatasetTag = '@OUTTAG'     # e.g. 76X_mcRun2_asymptotic_RunIIFall15DR76_v1
 
 config.section_("Site")
-config.Site.storageSite = 'T2_IT_Bari'
+config.Site.storageSite = '@STORAGESITE'
 
 config.section_("User")
 #config.User.voGroup = 'dcms'

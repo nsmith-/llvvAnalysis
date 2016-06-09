@@ -11,15 +11,21 @@ log = logging.getLogger( 'submitLlvv' )
 
 def parseCommandline():
     usage = '%prog [options] SKIMTAG'
-    descr = ""
+    descr = "SKIMTAG may be any string that is suited as a folder name. It will be used to identify your skim."
 
     parser = optparse.OptionParser( usage=usage, description=descr, version='%prog v0' )
     parser.add_option(       '--debug', metavar='LEVEL', default='INFO',
                         help='Set the debug level. Allowed values: ERROR, WARNING, INFO, DEBUG. [default = %default]' )
     parser.add_option( '-f', '--filesPerJob', type ='int', default=3,
                         help='Set the maximum number of files to be processed by one CRAB job [default = %default].' )
+    parser.add_option( '-o', '--outpath', type='str', default='/store/user/aalbert/crab/',
+                        help='The path where CRAB will place output files on STORAGE.[default = %default]')
+    parser.add_option( '-s', '--storageSite', metavar='STORAGE', type='str', default='T2_DE_RWTH',
+                        help='The storage site where CRAB will place output files.[default = %default].')
     parser.add_option( '-t', '--template', type ='str', default='$CMSSW_BASE/src/llvvAnalysis/DMAnalysis/data/crab_template_cfg.py',
                         help='Path to the CRAB template config. [default = %default].' )
+    parser.add_option( '-w', '--workarea', type ='str', default='.',
+                        help='Path where CRAB config files will be created. [default = %default].' )
 
     ( options, args ) = parser.parse_args()
 
@@ -35,12 +41,11 @@ def parseCommandline():
 
     options.skimtag = args[0]
 
-    outpath = '/store/user/aalbert/crab/'
 
     ### Creat the working area.
-    workarea = '/disk1/albert/test'
+    options.workarea = os.path.abspath( options.workarea )
     try:
-        os.mkdir( workarea )
+        os.mkdir( options.workarea )
     except OSError: pass
 
     ### Configuration dependent on the CMSSW version you sourced.
@@ -49,19 +54,19 @@ def parseCommandline():
         options.inputpath       = os.path.expandvars( '$CMSSW_BASE/src/llvvAnalysis/DMAnalysis/data/skimlist_MC13TeV_76X.txt' )
         options.configfile_mc   = os.path.expandvars( '$CMSSW_BASE/src/llvvAnalysis/DMAnalysis/test/run_mainAnalyzer_mc_cfg_76X.py' )
         options.outtag_mc       = 'RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12'
-        options.outpath         = os.path.join( outpath, 'llvv_76', options.skimtag )
-        options.workarea        = os.path.join( workarea, 'llvv_76', options.skimtag )
+        options.outpath         = os.path.join( options.outpath, 'llvv_76', options.skimtag )
+        options.workarea        = os.path.join( options.workarea, 'llvv_76', options.skimtag )
     elif( 'CMSSW_8_0' in cmssw ):
         options.inputpath       = os.path.expandvars( '$CMSSW_BASE/src/llvvAnalysis/DMAnalysis/data/skimlist_MC13TeV_80X.txt' )
         options.configfile_mc   = os.path.expandvars( '$CMSSW_BASE/src/llvvAnalysis/DMAnalysis/test/run_mainAnalyzer_mc_cfg_80X.py' )
         options.configfile_data = os.path.expandvars( '$CMSSW_BASE/src/llvvAnalysis/DMAnalysis/test/run_mainAnalyzer_data_cfg_80X.py' )
         options.outtag_mc       = 'RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3'
-        options.splitting_mc    = 'FileBased' 
+        options.splitting_mc    = 'FileBased'
         options.json_mc         = ''
         options.splitting_data  = 'LumiBased'
         options.json_data       = os.path.expandvars( '$CMSSW_BASE/src/llvvAnalysis/DMAnalysis/data/Cert_271036-274240_13TeV_PromptReco_Collisions16_JSON.txt')
-        options.outpath         = os.path.join( outpath, 'llvv_80', options.skimtag )
-        options.workarea        = os.path.join( workarea, 'llvv_80', options.skimtag )
+        options.outpath         = os.path.join( options.outpath, 'llvv_80', options.skimtag )
+        options.workarea        = os.path.join( options.workarea, 'llvv_80', options.skimtag )
     else:
         print "Unknown CMSSW version: %s" % cmssw
         print "Exiting."
@@ -130,7 +135,8 @@ def main():
                         ( '@FILESPERJOB',  str(options.filesPerJob) ),
                         ( '@JSON',  json ),
                         ( '@Method',  split ),
-                        ( '@OUTTAG',       outtag           ) ]
+                        ( '@OUTTAG',       outtag           ),
+                        ( '@STORAGESITE', options.storageSite ) ]
 
         thistemplate = template
         for rep in replacements:
