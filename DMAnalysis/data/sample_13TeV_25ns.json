@@ -450,44 +450,24 @@
       "marker": 20,
       "data": [
         {
-          "dtag": "Data13TeV_DoubleEG2015C_16Dec2015",
+          "dtag":"Data13TeV_DoubleEG2016B_PromptReco_v2",
           "split": 1
         },
         {
-          "dtag": "Data13TeV_DoubleMuon2015C_16Dec2015",
+          "dtag":"Data13TeV_SingleElectron2016B_PromptReco_v2",
           "split": 1
         },
         {
-          "dtag": "Data13TeV_MuonEG2015C_16Dec2015",
+          "dtag":"Data13TeV_DoubleMuon2016B_PromptReco_v2",
           "split": 1
         },
         {
-          "dtag": "Data13TeV_SingleElectron2015C_16Dec2015",
+          "dtag":"Data13TeV_SingleMuon2016B_PromptReco_v2",
           "split": 1
         },
         {
-          "dtag": "Data13TeV_SingleMuon2015C_16Dec2015",
+          "dtag":"Data13TeV_MuonEG2016B_PromptReco_v2",
           "split": 1
-        },
-        {
-          "dtag": "Data13TeV_DoubleEG2015D_16Dec2015",
-          "split": 20
-        },
-        {
-          "dtag": "Data13TeV_DoubleMuon2015D_16Dec2015",
-          "split": 20
-        },
-        {
-          "dtag": "Data13TeV_MuonEG2015D_16Dec2015",
-          "split": 10
-        },
-        {
-          "dtag": "Data13TeV_SingleElectron2015D_16Dec2015",
-          "split": 40
-        },
-        {
-          "dtag": "Data13TeV_SingleMuon2015D_16Dec2015",
-          "split": 20
         }
       ],
       "fill": 0
