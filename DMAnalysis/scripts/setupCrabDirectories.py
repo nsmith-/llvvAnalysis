@@ -5,7 +5,7 @@ import sys
 import logging
 import optparse
 
-log = logging.getLogger( 'submitLlvv' )
+log = logging.getLogger( 'setupCrabDirectories' )
 
 
 
@@ -41,13 +41,6 @@ def parseCommandline():
 
     options.skimtag = args[0]
 
-
-    ### Creat the working area.
-    options.workarea = os.path.abspath( options.workarea )
-    try:
-        os.mkdir( options.workarea )
-    except OSError: pass
-
     ### Configuration dependent on the CMSSW version you sourced.
     cmssw = os.environ['CMSSW_VERSION']
     if( 'CMSSW_7_6' in cmssw ):
@@ -72,12 +65,8 @@ def parseCommandline():
         print "Exiting."
         sys.exit(1)
 
-    try:
-        os.mkdir( options.workarea )
-    except OSError: pass
-
-
     options.template = os.path.expandvars( options.template )
+
     # All good to go
     return options
 
@@ -85,6 +74,9 @@ def parseCommandline():
 def main():
     ### Read command line arguments
     options = parseCommandline()
+    log.info( 'Using work area: %s' % options.workarea )
+    log.info( 'Using T2 storage site: %s' % options.storageSite )
+    log.info( 'Using T2 storage path: %s' % options.outpath )
 
     ### Read CRAB template config
     with open( options.template, 'r' )as f:
@@ -97,6 +89,7 @@ def main():
         for l in f.readlines():
             if(':' in l):
                 datasets.append( tuple(l.rstrip('\n').split(':')) )
+    log.info( 'Creating CRAB configs for %i data sets.' % len(datasets) )
 
     ### For each dataset
     ###     create a separate subfolder
@@ -121,12 +114,12 @@ def main():
             log.error( "Cannot decide whether this tag is MC or data: '%s'" % tag )
             log.info ( "Skipping tag: '%s'" % tag )
 
+        ### Create folder
+        subdir = os.path.join( options.workarea,'cfg' )
+        if not os.path.exists( subdir ):
+            os.makedirs( subdir )
 
-        try:
-            os.mkdir( os.path.join( options.workarea,'cfg' ) )
-        except OSError: pass
-        cfgpath = os.path.join( options.workarea,'cfg', 'crab_' + tag + '.py' )
-
+        ### Fill the template
         replacements = [ ( '@NAME',        tag              ),
                         ( '@WORKAREA',     options.workarea         ),
                         ( '@CONFIGFILE',   configfile       ),
@@ -137,13 +130,15 @@ def main():
                         ( '@Method',  split ),
                         ( '@OUTTAG',       outtag           ),
                         ( '@STORAGESITE', options.storageSite ) ]
-
         thistemplate = template
         for rep in replacements:
             thistemplate = thistemplate.replace( *rep )
 
+        ### Save the filled template
+        cfgpath = os.path.join( subdir, 'crab_' + tag + '.py' )
         with( open(cfgpath,'w') ) as f:
             f.write(thistemplate)
+    log.info( 'Done.' )
 
 if __name__ == '__main__':
     main()
