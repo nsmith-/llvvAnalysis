@@ -462,7 +462,7 @@ int main(int argc, char* argv[])
 
 
 
-
+*/
     //#################################################
     //############# CONTROL PLOTS #####################
     //#################################################
@@ -492,15 +492,6 @@ int main(int argc, char* argv[])
 
 
 
-    // DY ctrl
-    mon.addHistogram( new TH1F( "pfmet_DYctrlN_3",      ";E_{T}^{miss} [GeV];Events", 100,0,500));
-    mon.addHistogram( new TH1F( "balancedif_DYctrlN_3", ";|E_{T}^{miss}-#it{q}_{T}|/#it{q}_{T};Events", 20,0,1.0) );
-    mon.addHistogram( new TH1F( "dphiZMET_DYctrlN_3",   ";#Delta#it{#phi}(#it{l^{+}l^{-}},E_{T}^{miss});Events", 100,0,TMath::Pi()) );
-
-
-*/
-
-
     //##################################################################################
     //########################## STUFF FOR CUTS OPTIMIZATION  ##########################
     //##################################################################################
@@ -525,7 +516,7 @@ int main(int argc, char* argv[])
     }
 
     size_t nOptims = optim_Cuts1_MET.size();
-/*
+
 
     //make it as a TProfile so hadd does not change the value
     TProfile* Hoptim_cuts1_MET      = (TProfile*) mon.addHistogram( new TProfile ("optim_cut1_MET",";cut index;met",nOptims,0,nOptims) );
@@ -560,7 +551,7 @@ int main(int argc, char* argv[])
         //
         //
     }
-*/
+
     //##################################################################################
     //#############         GET READY FOR THE EVENT LOOP           #####################
     //##################################################################################
@@ -762,7 +753,7 @@ int main(int argc, char* argv[])
         bool hasEtrigger  = (ev.triggerType >> 3 ) & 0x1;
         bool hasEMtrigger = (ev.triggerType >> 4 ) & 0x1;
 
-/*
+
 
         //#########################################################################
         //####################  Generator Level Reweighting  ######################
@@ -880,7 +871,7 @@ int main(int argc, char* argv[])
             }
 
         }
-*/
+
 
         double weight_ewkup(1.0);
         double weight_ewkdown(1.0);
@@ -1247,17 +1238,12 @@ int main(int argc, char* argv[])
 
 
                 if(abs(corrJets[ijet].flavid)==5) {
-                    //BTagWeights *= myBtagUtils.getBTagWeight(isCSVtagged,corrJets[ijet].pt(),corrJets[ijet].eta(),abs(corrJets[ijet].flavid),"CSVL","CSVL/b_eff").first;
                     double btag_sf = btag_reader.eval( BTagEntry::FLAV_B, corrJets[ijet].eta(), (corrJets[ijet].pt()<670. ? corrJets[ijet].pt() : 670.) );
                     BTagWeights *= myBtagUtils.getNewBTagWeight(isCSVtagged, corrJets[ijet].pt(), btag_sf, "CSVM","CSVM/b_eff");
                 } else if(abs(corrJets[ijet].flavid)==4) {
-                    //BTagWeights *= myBtagUtils.getBTagWeight(isCSVtagged,corrJets[ijet].pt(),corrJets[ijet].eta(),abs(corrJets[ijet].flavid),"CSVL","CSVL/c_eff").first;
                     double btag_sf = btag_reader.eval( BTagEntry::FLAV_C, corrJets[ijet].eta(), (corrJets[ijet].pt()<670. ? corrJets[ijet].pt() : 670.) );
                     BTagWeights *= myBtagUtils.getNewBTagWeight(isCSVtagged, corrJets[ijet].pt(), btag_sf, "CSVM","CSVM/c_eff");
                 } else {
-                    //BTagWeights *= myBtagUtils.getBTagWeight(isCSVtagged,corrJets[ijet].pt(),corrJets[ijet].eta(),abs(corrJets[ijet].flavid),"CSVL","CSVL/udsg_eff").first;
-                    //no SF available yet for light flavor jet (CSVv2.csv)
-                    //BTagWeights *= btag_reader.eval( BTagEntry::FLAV_UDSG, corrJets[ijet].eta(), (corrJets[ijet].pt()<670. ? corrJets[ijet].pt() : 670.) );
                 }
 
 
@@ -1347,12 +1333,12 @@ int main(int argc, char* argv[])
             if(tag_subcat=="eq0jets" || tag_subcat=="eq1jets") tags.push_back("lllesq1jets");
         }
 
-/*
+
         //apply weights
         if(isMC) weight *= BTagWeights;
-*/
+
     // Blinding
-    if( !isMC && metP4.pt() > 100 ) continue;
+    if( !isMC && metP4.pt() and ( tag_cat != "emu" ) > 100 ) continue;
 
     //// Cut Flow synchronization
     int ncut=0;
@@ -1426,7 +1412,7 @@ int main(int argc, char* argv[])
         mon.fillHisto("zmass_wwctrl_raw"                    ,tags, zll.mass(), weight);
         mon.fillHisto("pfmet_wwctrl_raw"                    ,tags, metP4.pt(), weight);
         mon.fillHisto("mt_wwctrl_raw"              	    ,tags, MT_massless, weight);
-/*
+
         //
         // WZ control region
         //
@@ -1473,7 +1459,6 @@ int main(int argc, char* argv[])
 
 
         }
-        */
 /*
         //##############################################
         //########  Main Event Selection        ########
@@ -1590,7 +1575,7 @@ int main(int argc, char* argv[])
 
 
 
-/*
+
         //##############################################################################
         //### HISTOS FOR STATISTICAL ANALYSIS (include systematic variations)
         //##############################################################################
@@ -1686,10 +1671,10 @@ int main(int argc, char* argv[])
                 if(varNames[ivar]=="_qqZZewkup")        iweight *= weight_ewkup;
                 if(varNames[ivar]=="_qqZZewkdown")      iweight *= weight_ewkdown;
             }
-*/
 
 
-/*
+
+
             //##############################################
             // recompute MET/MT if JES/JER was varied
             //##############################################
@@ -1728,35 +1713,26 @@ int main(int argc, char* argv[])
                 if(minDR < 0.4) continue;
 
 
-                if(vJets[ijet].pt()>30 && fabs(vJets[ijet].eta())<2.4) {
+                if(vJets[ijet].pt()>20 && fabs(vJets[ijet].eta())<2.4) {
 
                     passLocalBveto &= (vJets[ijet].btag0<CSVMediumWP);
                     bool isLocalCSVtagged(vJets[ijet].btag0>CSVMediumWP);
 
-                    //double val=1., valerr=0.;
-                    double BTagWeights_Up=1., BTagWeights_Down=1.;f
+                    double BTagWeights_Up=1., BTagWeights_Down=1.;
                     if(abs(vJets[ijet].flavid)==5) {
-                        //val = myBtagUtils.getBTagWeight(isLocalCSVtagged,vJets[ijet].pt(),vJets[ijet].eta(),abs(vJets[ijet].flavid),"CSVL","CSVL/b_eff").first;
-                        //valerr = myBtagUtils.getBTagWeight(isLocalCSVtagged,vJets[ijet].pt(),vJets[ijet].eta(),abs(vJets[ijet].flavid),"CSVL","CSVL/b_eff").second;
                         double BTagSF_Up   = btag_reader_up.eval( BTagEntry::FLAV_B, vJets[ijet].eta(), (vJets[ijet].pt()<670. ? vJets[ijet].pt() : 670.) );
                         double BTagSF_Down = btag_reader_down.eval( BTagEntry::FLAV_B, vJets[ijet].eta(), (vJets[ijet].pt()<670. ? vJets[ijet].pt() : 670.) );
                         BTagWeights_Up   *= myBtagUtils.getNewBTagWeight(isLocalCSVtagged,vJets[ijet].pt(),BTagSF_Up, "CSVM","CSVM/b_eff");
                         BTagWeights_Down *= myBtagUtils.getNewBTagWeight(isLocalCSVtagged,vJets[ijet].pt(),BTagSF_Down,"CSVM","CSVM/b_eff");
 
                     } else if(abs(vJets[ijet].flavid)==4) {
-                        //val = myBtagUtils.getBTagWeight(isLocalCSVtagged,vJets[ijet].pt(),vJets[ijet].eta(),abs(vJets[ijet].flavid),"CSVL","CSVL/c_eff").first;
-                        //valerr = myBtagUtils.getBTagWeight(isLocalCSVtagged,vJets[ijet].pt(),vJets[ijet].eta(),abs(vJets[ijet].flavid),"CSVL","CSVL/c_eff").second;
                         double BTagSF_Up   = btag_reader_up.eval( BTagEntry::FLAV_C, vJets[ijet].eta(), (vJets[ijet].pt()<670. ? vJets[ijet].pt() : 670.) );
                         double BTagSF_Down = btag_reader_down.eval( BTagEntry::FLAV_C, vJets[ijet].eta(), (vJets[ijet].pt()<670. ? vJets[ijet].pt() : 670.) );
                         BTagWeights_Up 	   *= myBtagUtils.getNewBTagWeight( isLocalCSVtagged,vJets[ijet].pt(),BTagSF_Up,"CSVM","CSVM/c_eff" );
                         BTagWeights_Down   *= myBtagUtils.getNewBTagWeight( isLocalCSVtagged,vJets[ijet].pt(),BTagSF_Down,"CSVM","CSVM/c_eff" );
 
                     } else {
-                        //val = myBtagUtils.getBTagWeight(isLocalCSVtagged,vJets[ijet].pt(),vJets[ijet].eta(),abs(vJets[ijet].flavid),"CSVL","CSVL/udsg_eff").first;
-                        //valerr= myBtagUtils.getBTagWeight(isLocalCSVtagged,vJets[ijet].pt(),vJets[ijet].eta(),abs(vJets[ijet].flavid),"CSVL","CSVL/udsg_eff").second;
                     }
-                    //double BTagWeights_Up = (val+valerr)/val;
-                    //double BTagWeights_Down = (val-valerr)/val;
                     if(varNames[ivar]=="_btagup") 	iweight *= BTagWeights_Up;
                     if(varNames[ivar]=="_btagdown")	iweight *= BTagWeights_Down;
                 }
@@ -1776,8 +1752,6 @@ int main(int argc, char* argv[])
             //optimization
             //############
             for(unsigned int index=0; index<nOptims; index++) {
-
-
                 double minMET = optim_Cuts1_MET[index];
                 double minBalance = optim_Cuts1_Balance[index];
                 double minDphi = optim_Cuts1_DphiZMET[index];
@@ -1806,30 +1780,7 @@ int main(int argc, char* argv[])
 
 
             }//all optimization END
-
-
-
-
-
-
         }//Systematic variation END
-   */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     } // loop on all events END
 
 
