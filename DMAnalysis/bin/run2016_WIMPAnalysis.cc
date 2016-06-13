@@ -297,14 +297,14 @@ int main(int argc, char* argv[])
     h->GetXaxis()->SetBinLabel(nbin++,"#Delta#it{#phi}(jet,E_{T}^{miss})<0.5");
     h->GetXaxis()->SetBinLabel(nbin++,"|u_{ll}/p_{T}^{ll}|<1");
 
-/*
+
     h=(TH1F*) mon.addHistogram( new TH1F ("DMAcceptance", ";;Events", 3,0,3) );
     h->GetXaxis()->SetBinLabel(1,"Trigger && 2 Tight Leptons");
     h->GetXaxis()->SetBinLabel(2,"Trigger && 2 Tight Leptons && #geq 1 Leptons in MEX/1");
     h->GetXaxis()->SetBinLabel(3,"Trigger && 2 Tight Leptons && =2 Leptons in MEX/1");
-*/
+
     //for MC normalization (to 1/pb)
-    //~ TH1F* Hcutflow  = (TH1F*) mon.addHistogram(  new TH1F ("cutflow"    , "cutflow"    ,6,0,6) ) ;
+    TH1F* Hcutflow  = (TH1F*) mon.addHistogram(  new TH1F ("cutflow"    , "cutflow"    ,6,0,6) ) ;
 
     mon.addHistogram( new TH1F( "nvtx_raw",	";Vertices;Events",50,0,50) );
     mon.addHistogram( new TH1F( "nvtxwgt_raw",	";Vertices;Events",50,0,50) );
@@ -498,7 +498,7 @@ int main(int argc, char* argv[])
     mon.addHistogram( new TH1F( "dphiZMET_DYctrlN_3",   ";#Delta#it{#phi}(#it{l^{+}l^{-}},E_{T}^{miss});Events", 100,0,TMath::Pi()) );
 
 
-
+*/
 
 
     //##################################################################################
@@ -525,7 +525,7 @@ int main(int argc, char* argv[])
     }
 
     size_t nOptims = optim_Cuts1_MET.size();
-
+/*
 
     //make it as a TProfile so hadd does not change the value
     TProfile* Hoptim_cuts1_MET      = (TProfile*) mon.addHistogram( new TProfile ("optim_cut1_MET",";cut index;met",nOptims,0,nOptims) );
@@ -610,7 +610,7 @@ int main(int argc, char* argv[])
         if(rescaleFactor>0) cnorm /= rescaleFactor;
         printf("cnorm = %f\n",cnorm);
     }
-    //~ Hcutflow->SetBinContent(1,cnorm);
+    Hcutflow->SetBinContent(1,cnorm);
 
 
 
@@ -739,12 +739,12 @@ int main(int argc, char* argv[])
             TotalWeight_minus 	*= getSFfrom1DHist(ev.ngenTruepu, weight_pileup_Down);
         }
 */
-/*
+
         Hcutflow->Fill(1,genWeight);
         Hcutflow->Fill(2,weight);
         Hcutflow->Fill(3,weight*TotalWeight_minus);
         Hcutflow->Fill(4,weight*TotalWeight_plus);
-*/
+
 
         // add PhysicsEvent_t class, get all tree to physics objects
         PhysicsEvent_t phys=getPhysicsEventFrom(ev);
@@ -884,7 +884,7 @@ int main(int argc, char* argv[])
 
         double weight_ewkup(1.0);
         double weight_ewkdown(1.0);
-/*
+
         if(isMC_ZZ2L2Nu) {
             if(phys.genleptons.size()!=2) continue;
             if(phys.genneutrinos.size()!=2) continue;
@@ -913,7 +913,7 @@ int main(int argc, char* argv[])
             weight_ewkup   = (0.1 + newEwk_up * qqZZ_NNLO)  /(0.1 + qqZZ_EWKNLO * qqZZ_NNLO);
             weight_ewkdown = (0.1 + newEwk_down * qqZZ_NNLO)/(0.1 + qqZZ_EWKNLO * qqZZ_NNLO);
         }
-*/
+
 
 
         //#########################################################################
@@ -1351,16 +1351,18 @@ int main(int argc, char* argv[])
         //apply weights
         if(isMC) weight *= BTagWeights;
 */
+    // Blinding
+    if( !isMC && metP4.pt() > 100 ) continue;
 
     //// Cut Flow synchronization
     int ncut=0;
     mon.fillHisto( "sync_nlep_minus", tags, n3rdLeptons, weight );
     mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
     if( pass3dLeptonVeto ) {
-        mon.fillHisto( "sync_njet_minus", tags, nJetsGood30, weight );
         mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
         if ( passBveto ) {
             mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
+            mon.fillHisto( "sync_njet_minus", tags, nJetsGood30, weight );
             if( passTauVeto ) {
                 mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
                 if( nJetsGood30 < 2 ) {
@@ -1386,6 +1388,7 @@ int main(int argc, char* argv[])
                                             mon.fillHisto( "sync_response_minus",   tags, response, weight );
                                             if(passResponseCut) {
                                                 mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
+                                                mon.fillHisto( "pfmet2_final",tags, metP4.pt(), weight, true);
                                             } // passResponseCut
                                         } // passDphiJetMET
                                     } // passBalanceCut
