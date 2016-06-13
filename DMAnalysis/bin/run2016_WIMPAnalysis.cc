@@ -366,6 +366,11 @@ int main(int argc, char* argv[])
     mon.addHistogram( new TH1F( "sync_dPhiJetMET_minus", ";#Delta#it{#phi}(#it{l^{+}l^{-}},E_{T}^{miss});Events", 10,0,TMath::Pi()) );
     mon.addHistogram( new TH1F( "sync_response_minus",   ";Response(#it{l^{+}l^{-}},E_{T}^{miss});Events", 20,-1,1 ) );
 
+    double MET2Bins[]= {0,80,160,240,320,400,480,560,640,800,1200};
+    const int nBinsMET2 = sizeof(MET2Bins)/sizeof(double) - 1;
+
+    double MT2Bins[]= {0,100,200,300,400,500,600,700,800,1000,1200};
+    const int nBinsMT2 = sizeof(MT2Bins)/sizeof(double) - 1;
  /*
     // preselection plots
     double METBins[]= {0,10,20,30,40,50,60,70,80,90,100,120,140,160,180,200,250,300,350,400,500};
@@ -542,10 +547,10 @@ int main(int argc, char* argv[])
 
         //1D shapes for limit setting
         mon.addHistogram( new TH2F (TString("mt_shapes")+varNames[ivar],";cut index; #it{m}_{T} [GeV];#Events (/100GeV)",nOptims,0,nOptims,  12,0,1200) );
-        mon.addHistogram( new TH2F (TString("mt2_shapes")+varNames[ivar],";cut index; #it{m}_{T} [GeV];#Events",nOptims,0,nOptims, xnBinsMT2,MT2Bins) );
+        mon.addHistogram( new TH2F (TString("mt2_shapes")+varNames[ivar],";cut index; #it{m}_{T} [GeV];#Events",nOptims,0,nOptims, nBinsMT2,MT2Bins) );
 
         mon.addHistogram( new TH2F (TString("met_shapes")+varNames[ivar],";cut index; E_{T}^{miss} [GeV];#Events (/80GeV)",nOptims,0,nOptims, 15,0,1200) );
-        mon.addHistogram( new TH2F (TString("met2_shapes")+varNames[ivar],";cut index; E_{T}^{miss} [GeV];#Events",nOptims,0,nOptims, xnBinsMET2,MET2Bins) );
+        mon.addHistogram( new TH2F (TString("met2_shapes")+varNames[ivar],";cut index; E_{T}^{miss} [GeV];#Events",nOptims,0,nOptims, nBinsMET2,MET2Bins) );
 
         //2D shapes for limit setting
         //
@@ -1338,7 +1343,7 @@ int main(int argc, char* argv[])
         if(isMC) weight *= BTagWeights;
 
     // Blinding
-    if( !isMC && metP4.pt() and ( tag_cat != "emu" ) > 100 ) continue;
+    if( !isMC && metP4.pt() > 100 and ( tag_cat != "emu" )  ) continue;
 
     //// Cut Flow synchronization
     int ncut=0;
