@@ -1743,10 +1743,19 @@ int main(int argc, char* argv[])
             double responseVal = METUtils::response(zll,vMET);
             bool passResponseValCut = (fabs(responseVal)<1);
 
-            bool passBaseSelection( passZmass && passZpt && pass3dLeptonVeto && passLocalBveto && passResponseValCut);
+            double LocalDphiJetMET(999.);
+            for( const auto & jet:vJets ) {
+                if( jet.isPFLoose and ( jet.pt() > 30 ) ) {
+                    LocalDphiJetMET = fabs(deltaPhi(jet.phi(),metP4.phi()));
+                }
+            }
+            bool passLocalDphiJetMETCut = LocalDphiJetMET > 0.5;
+
+            bool passBaseSelection( passZmass && passZpt && pass3dLeptonVeto && passTauVeto && passLocalBveto && passResponseValCut && passLocalDphiJetMETCut );
 
             double mt_massless = METUtils::transverseMass(zll,vMET,false); //massless mt
             double LocalDphiZMET=fabs(deltaPhi(zll.phi(),vMET.phi()));
+
 
             //############
             //optimization
