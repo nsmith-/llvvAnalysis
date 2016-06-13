@@ -524,23 +524,23 @@
       "data": [
         {
           "dtag":"Data13TeV_DoubleEG2016B_PromptReco_v2",
-          "split": 1
+          "split": 10
         },
         {
           "dtag":"Data13TeV_SingleElectron2016B_PromptReco_v2",
-          "split": 1
+          "split": 10
         },
         {
           "dtag":"Data13TeV_DoubleMuon2016B_PromptReco_v2",
-          "split": 1
+          "split": 10
         },
         {
           "dtag":"Data13TeV_SingleMuon2016B_PromptReco_v2",
-          "split": 1
+          "split": 10
         },
         {
           "dtag":"Data13TeV_MuonEG2016B_PromptReco_v2",
-          "split": 1
+          "split": 10
         }
       ],
       "fill": 0
