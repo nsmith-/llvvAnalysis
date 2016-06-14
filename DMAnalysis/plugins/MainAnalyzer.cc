@@ -93,6 +93,7 @@ public:
 
     static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
     const reco::Candidate* findFirstMotherWithDifferentID(const reco::Candidate *particle);
+    reco::MET computeTrkMet(const size_t &pv, edm::Handle<pat::PackedCandidateCollection> packedCandidates );
 
     enum ElectronMatchType {UNMATCHED = 0,
                             TRUE_PROMPT_ELECTRON,
@@ -119,6 +120,7 @@ private:
     edm::EDGetTokenT<pat::METCollection> metTag_;
     edm::EDGetTokenT<pat::METCollection> metNoHFTag_;
     edm::EDGetTokenT<pat::METCollection> metPuppiTag_;
+    edm::EDGetTokenT<pat::PackedCandidateCollection> packedCandidatesTag_;
 
     edm::EDGetTokenT<edm::TriggerResults> metFilterBitsTag_;
 
@@ -240,6 +242,7 @@ MainAnalyzer::MainAnalyzer(const edm::ParameterSet& iConfig):
     metTag_(                    consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metsTag"))            ),
     metNoHFTag_(                consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metsNoHFTag"))                ),
     metPuppiTag_(               consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("metsPuppiTag"))               ),
+    packedCandidatesTag_(       consumes<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("packedCandidatesTag"))               ),
     metFilterBitsTag_(          consumes<edm::TriggerResults>(iConfig.getParameter<edm::InputTag>("metFilterBitsTag"))      ),
 
     //// GEN
@@ -769,6 +772,13 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
         ev.metPuppi_sumMET = metPuppi.sumEt();
     }
 
+    // Trk MET
+    edm::Handle<pat::PackedCandidateCollection> packedCandidates;
+    event.getByToken(packedCandidatesTag_, packedCandidates);
+    const reco::MET trkMET = computeTrkMet(chosenVtx,packedCandidates);
+    ev.trkMET_pt = trkMET.pt();
+    ev.trkMET_phi = trkMET.phi();
+
     summaryHandler_.fillTree();
 }
 
@@ -1142,7 +1152,21 @@ void MainAnalyzer::findFirstNonElectronMother(const reco::Candidate *particle,
 }
 
 
-
+reco::MET MainAnalyzer::computeTrkMet(const size_t & pv,
+                                      edm::Handle<pat::PackedCandidateCollection> packedCandidates)
+{
+    using namespace std;
+    reco::Candidate::LorentzVector totalP4;
+    for(pat::PackedCandidateCollection::const_iterator it= packedCandidates->begin(), ed =packedCandidates->end(); it != ed; ++it){
+    if( it->charge() == 0 ) continue;
+    if( fabs(it->dz(pv)) <0.1){
+    totalP4 += it->p4();
+    }
+    }
+    reco::Candidate::LorentzVector invertedP4(-totalP4);
+    reco::MET met(invertedP4,reco::Candidate::Point(0,0,0));
+    return met;
+}
 
 
 

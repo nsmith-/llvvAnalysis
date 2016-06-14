@@ -84,6 +84,7 @@ process.mainAnalyzer = cms.EDAnalyzer('MainAnalyzer',
     metsTag = cms.InputTag("slimmedMETs"),
     metsNoHFTag = cms.InputTag("slimmedMETsNoHF"),
     metsPuppiTag = cms.InputTag("slimmedMETsPuppi"),
+    packedCandidatesTag = cms.InputTag("packedPFCandidates"),
 
     metFilterBitsTag = cms.InputTag("TriggerResults"),
     packedTag = cms.InputTag("packedGenParticles"),
