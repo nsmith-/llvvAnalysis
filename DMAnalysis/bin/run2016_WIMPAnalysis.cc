@@ -113,7 +113,8 @@ int main(int argc, char* argv[])
     FWLiteEnabler::enable();
 
     // configure the process
-    const edm::ParameterSet &runProcess = edm::readPSetsFrom(argv[1])->getParameter<edm::ParameterSet>("runProcess");
+    std::shared_ptr<edm::ParameterSet> config = edm::readConfig(argv[1], argc, argv);
+    const edm::ParameterSet &runProcess = config->getParameter<edm::ParameterSet>("config");
 
     bool isMC       = runProcess.getParameter<bool>("isMC");
     int mctruthmode = runProcess.getParameter<int>("mctruthmode");
