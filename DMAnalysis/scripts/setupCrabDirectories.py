@@ -56,7 +56,7 @@ def parseCommandline():
         options.outtag_mc       = 'RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1'
         options.splitting_mc    = 'FileBased'
         options.json_mc         = ''
-        options.splitting_data  = 'LumiBased'
+        options.splitting_data  = 'FileBased'
         options.json_data       = os.path.expandvars( '$CMSSW_BASE/src/llvvAnalysis/DMAnalysis/data/Cert_271036-274421_13TeV_PromptReco_Collisions16_JSON.txt')
         options.outpath         = os.path.join( options.outpath, 'llvv_80', options.skimtag )
         options.workarea        = os.path.join( options.workarea, 'llvv_80', options.skimtag )
