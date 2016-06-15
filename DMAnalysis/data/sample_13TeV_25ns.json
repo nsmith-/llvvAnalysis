@@ -243,7 +243,7 @@
         {
           "dtag": "MC13TeV_ST_t-channel_4f",
           "xsec": 70.69,
-          "split": 20
+          "split": 1
         }
       ]
     },
