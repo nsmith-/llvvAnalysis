@@ -105,22 +105,36 @@ process.mainAnalyzer = cms.EDAnalyzer('MainAnalyzer',
                ),
 
     DoubleEleTrigs = cms.vstring(
-            "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v",
+            "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v",
                 ),
 
     SingleMuTrigs = cms.vstring(
-            "HLT_IsoMu18_v",
-            "HLT_IsoTkMu18_v"
+            "HLT_IsoMu20_v",
+            "HLT_IsoTkMu20_v"
                 ),
 
     SingleEleTrigs = cms.vstring(
             "HLT_Ele35_WPLoose_Gsf_v",
-            "HLT_Ele25_eta2p1_WPLoose_Gsf_v",
                 ),
 
     MuEGTrigs = cms.vstring(
             "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v",
             "HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"
+                ),
+
+    backupTrigs = cms.vstring(
+            "HLT_Ele23_CaloIdL_TrackIdL_IsoVL_v",
+            "HLT_Mu17_TrkIsoVVL_v",
+            "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v",
+            "HLT_Ele25_eta2p1_WPLoose_Gsf_v",
+            "HLT_Ele27_WPTight_Gsf_v",
+            "HLT_Ele27_eta2p1_WPLoose_Gsf_v",
+            "HLT_Ele45_WPLoose_Gsf_v",
+            "HLT_IsoMu18_v",
+            "HLT_IsoTkMu18_v",
+            "HLT_IsoMu22_v",
+            "HLT_IsoTkMu22_v",
+            "HLT_IsoTkMu22_eta2p1_v",
                 ),
 )
 

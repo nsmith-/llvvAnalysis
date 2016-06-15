@@ -22,6 +22,7 @@ bool DataEvtSummaryHandler::initTree(TTree *t)
 
     t_->Branch("hasTrigger",   	&evSummary_.hasTrigger,     "hasTrigger/O");
     t_->Branch("triggerType",	&evSummary_.triggerType,    "triggerType/I");
+    t_->Branch("backupTriggerDecisions",	&evSummary_.backupTriggerDecisions,    "backupTriggerDecisions/I");
 
     //primary vertex
     t_->Branch("nvtx",      	&evSummary_.nvtx,           "nvtx/I");
@@ -298,6 +299,7 @@ bool DataEvtSummaryHandler::attachToTree(TTree *t)
 
     t_->SetBranchAddress("hasTrigger",   	&evSummary_.hasTrigger);
     t_->SetBranchAddress("triggerType",     &evSummary_.triggerType);
+    t_->SetBranchAddress("backupTriggerDecisions",     &evSummary_.backupTriggerDecisions);
 
     //primary vertex
     t_->SetBranchAddress("nvtx",            &evSummary_.nvtx);

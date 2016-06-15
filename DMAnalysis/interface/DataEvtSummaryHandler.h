@@ -31,6 +31,7 @@ struct DataEvtSummary_t {
     Float_t curAvgInstLumi,curIntegLumi;
     Bool_t hasTrigger;
     Int_t triggerType;
+    Int_t backupTriggerDecisions;
 
     //primary vertex
     Int_t nvtx;
