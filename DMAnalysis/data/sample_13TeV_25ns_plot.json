@@ -2,6 +2,40 @@
   "proc": [
     {
       "isdata": false,
+      "color": "856",
+      "lcolor": "1",
+      "tag": "WZ#rightarrow 3l#nu",
+      "marker": 856,
+      "data": [
+        {
+          "dtag": "MC13TeV_WZpowheg",
+          "xsec": 4.102,
+          "split": 1,
+          "br": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "isdata": false,
+      "color": "798",
+      "lcolor": "1",
+      "tag": "WW#rightarrow l#nul#nu",
+      "marker": 798,
+      "data": [
+        {
+          "dtag": "MC13TeV_WW",
+          "xsec": 10.481,
+          "split": 1,
+          "br": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "isdata": false,
       "color": "842",
       "lcolor": "1",
       "tag": "ZZ#rightarrow 2l2#nu",
@@ -19,14 +53,22 @@
     },
     {
       "isdata": false,
-      "color": "856",
+      "color": "845",
       "lcolor": "1",
-      "tag": "WZ#rightarrow 3l#nu",
-      "marker": 856,
+      "tag": "ggToZZ#rightarrow 2l2#nu",
+      "marker": 842,
       "data": [
         {
-          "dtag": "MC13TeV_WZpowheg",
-          "xsec": 4.102,
+          "dtag": "MC13TeV_GluGluToZZTo2e2nu",
+          "xsec": 0.00172,
+          "split": 1,
+          "br": [
+            1
+          ]
+        },
+        {
+          "dtag": "MC13TeV_GluGluToZZTo2mu2nu",
+          "xsec": 0.00172,
           "split": 1,
           "br": [
             1
@@ -80,6 +122,54 @@
           "br": [
             1
           ]
+        },
+        {
+          "dtag": "MC13TeV_GluGluToZZTo2e2mu",
+          "xsec": 0.00319,
+          "split": 1,
+          "br": [
+            1
+          ]
+        },
+        {
+          "dtag": "MC13TeV_GluGluToZZTo2mu2tau",
+          "xsec": 0.00319,
+          "split": 1,
+          "br": [
+            1
+          ]
+        },
+        {
+          "dtag": "MC13TeV_GluGluToZZTo2e2tau",
+          "xsec": 0.00319,
+          "split": 1,
+          "br": [
+            1
+          ]
+        },
+        {
+          "dtag": "MC13TeV_GluGluToZZTo4e",
+          "xsec": 0.001586,
+          "split": 1,
+          "br": [
+            1
+          ]
+        },
+        {
+          "dtag": "MC13TeV_GluGluToZZTo4mu",
+          "xsec": 0.001586,
+          "split": 1,
+          "br": [
+            1
+          ]
+        },
+        {
+          "dtag": "MC13TeV_GluGluToZZTo4tau",
+          "xsec": 0.001586,
+          "split": 1,
+          "br": [
+            1
+          ]
         }
       ]
     },
@@ -91,53 +181,12 @@
       "marker": 400,
       "data": [
         {
-          "dtag": "MC13TeV_WJetsamcatnlo",
+          "dtag": "MC13TeV_WJetsmadgraphMLM",
           "xsec": 61526.7,
           "split": 1,
           "br": [
             1
           ]
-        }
-      ]
-    },
-    {
-      "isdata": false,
-      "color": "798",
-      "lcolor": "1",
-      "tag": "WW#rightarrow l#nul#nu",
-      "marker": 798,
-      "data": [
-        {
-          "dtag": "MC13TeV_WW",
-          "xsec": 10.481,
-          "split": 1,
-          "br": [
-            1
-          ]
-        }
-      ]
-    },
-    {
-      "isdata": false,
-      "color": "876",
-      "lcolor": "1",
-      "tag": "Single top",
-      "marker": 876,
-      "data": [
-        {
-          "dtag": "MC13TeV_ST_tW_top_5f",
-          "xsec": 35.6,
-          "split": 1
-        },
-        {
-          "dtag": "MC13TeV_ST_tW_antitop_5f",
-          "xsec": 35.6,
-          "split": 1
-        },
-        {
-          "dtag": "MC13TeV_ST_t-channel_4f",
-          "xsec": 70.69,
-          "split": 1
         }
       ]
     },
@@ -173,6 +222,82 @@
           ]
         }
       ]
+    },
+    {
+      "isdata": false,
+      "color": "876",
+      "lcolor": "1",
+      "tag": "Single top",
+      "marker": 876,
+      "data": [
+        {
+          "dtag": "MC13TeV_ST_tW_top_5f",
+          "xsec": 35.6,
+          "split": 1
+        },
+        {
+          "dtag": "MC13TeV_ST_tW_antitop_5f",
+          "xsec": 35.6,
+          "split": 1
+        },
+        {
+          "dtag": "MC13TeV_ST_t-channel_4f",
+          "xsec": 70.69,
+          "split": 1
+        }
+      ]
+    },
+    {
+      "isdata": false,
+      "color": "901",
+      "lcolor": "1",
+      "tag": "Z+jets",
+      "marker": 901,
+      "data": [
+        {
+          "dtag": "MC13TeV_DYJetsToLL_10to50",
+          "xsec": 18610,
+          "split": 1,
+          "br": [
+            1
+          ]
+        },
+        {
+          "dtag": "MC13TeV_DYJetsToLL_50toInf",
+          "xsec": 6025,
+          "split": 1,
+          "br": [
+            1
+          ]
+        }
+      ],
+      "mctruthmode": 1
+    },
+    {
+      "isdata": false,
+      "color": "66",
+      "lcolor": "1",
+      "tag": "Z#rightarrow #tau#tau",
+      "marker": 66,
+      "data": [
+        {
+          "dtag": "MC13TeV_DYJetsToLL_10to50",
+          "xsec": 18610,
+          "split": 1,
+          "br": [
+            1
+          ]
+        },
+        {
+          "dtag": "MC13TeV_DYJetsToLL_50toInf",
+          "xsec": 6025,
+          "split": 1,
+          "br": [
+            1
+          ]
+        }
+      ],
+      "mctruthmode": 2
     },
     {
       "isdata": false,
@@ -392,54 +517,29 @@
       ]
     },
     {
-      "isdata": false,
-      "color": "901",
-      "lcolor": "1",
-      "tag": "Z+jets",
-      "marker": 901,
-      "data": [
-        {
-          "dtag": "MC13TeV_DYJetsToLL_10to50",
-          "xsec": 18610,
-          "split": 1,
-          "br": [
-            1
-          ]
-        },
-        {
-          "dtag": "MC13TeV_DYJetsToLL_50toInf",
-          "xsec": 6025,
-          "split": 1,
-          "br": [
-            1
-          ]
-        }
-      ],
-    },
-    {
       "isdata": true,
       "color": 1,
       "tag": "Data",
       "marker": 20,
       "data": [
         {
-          "dtag": "Data13TeV_DoubleEG2016B_PromptReco_v2",
+          "dtag":"Data13TeV_DoubleEG2016B_PromptReco_v2",
           "split": 1
         },
         {
-          "dtag": "Data13TeV_SingleElectron2016B_PromptReco_v2",
+          "dtag":"Data13TeV_SingleElectron2016B_PromptReco_v2",
           "split": 1
         },
         {
-          "dtag": "Data13TeV_DoubleMuon2016B_PromptReco_v2",
+          "dtag":"Data13TeV_DoubleMuon2016B_PromptReco_v2",
           "split": 1
         },
         {
-          "dtag": "Data13TeV_SingleMuon2016B_PromptReco_v2",
+          "dtag":"Data13TeV_SingleMuon2016B_PromptReco_v2",
           "split": 1
         },
         {
-          "dtag": "Data13TeV_MuonEG2016B_PromptReco_v2",
+          "dtag":"Data13TeV_MuonEG2016B_PromptReco_v2",
           "split": 1
         }
       ],
@@ -469,28 +569,6 @@
     },
     {
       "isdata": false,
-      "color": "2",
-      "issignal": true,
-      "tag": "Unpart(1.5)",
-      "lwidth": 2,
-      "marker": 2,
-      "data": [
-        {
-          "dtag": "MC13TeV_Unpart_1p50",
-          "xsec": 0.2928,
-          "split": 1,
-          "br": [
-            1.0
-          ]
-        }
-      ],
-      "fill": 0,
-      "spimpose": true,
-      "lcolor": "2",
-      "lstyle": 1
-    },
-    {
-      "isdata": false,
       "color": "5",
       "issignal": true,
       "tag": "ADD(3)",
@@ -509,28 +587,6 @@
       "fill": 0,
       "spimpose": true,
       "lcolor": "5",
-      "lstyle": 7
-    },
-    {
-      "isdata": false,
-      "color": "6",
-      "issignal": true,
-      "tag": "EWK_DM(1)",
-      "lwidth": 2,
-      "marker": 6,
-      "data": [
-        {
-          "dtag": "MC13TeV_EWKDM_S_Mx_1_K1_1_K2_1",
-          "xsec": 1.121410811E-7,
-          "split": 1,
-          "br": [
-            1000000
-          ]
-        }
-      ],
-      "fill": 0,
-      "spimpose": true,
-      "lcolor": "6",
       "lstyle": 7
     }
   ]

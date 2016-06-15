@@ -295,7 +295,7 @@ int main(int argc, char* argv[])
     h->GetXaxis()->SetBinLabel(nbin++,"MET>100");
     h->GetXaxis()->SetBinLabel(nbin++,"#Delta#it{#phi}(#it{l^{+}l^{-}},E_{T}^{miss})>2.8");
     h->GetXaxis()->SetBinLabel(nbin++,"|E_{T}^{miss}-#it{q}_{T}|/#it{q}_{T}<0.4");
-    h->GetXaxis()->SetBinLabel(nbin++,"#Delta#it{#phi}(jet,E_{T}^{miss})<0.5");
+    h->GetXaxis()->SetBinLabel(nbin++,"#Delta#it{#phi}(jet,E_{T}^{miss})>0.5");
     h->GetXaxis()->SetBinLabel(nbin++,"|u_{ll}/p_{T}^{ll}|<1");
 
 
@@ -372,6 +372,11 @@ int main(int argc, char* argv[])
 
     double MT2Bins[]= {0,100,200,300,400,500,600,700,800,1000,1200};
     const int nBinsMT2 = sizeof(MT2Bins)/sizeof(double) - 1;
+
+    //// Track MET
+    mon.addHistogram( new TH1F( "dPhiTrackMET",";#Delta#it{#phi}(E_{T}^{miss}(trk),E_{T}^{miss});Events", 10,0,TMath::Pi()) );
+    mon.addHistogram( new TH2F( "dPhiTrackMET_v_pfmet",";E_{T}^{miss} [GeV];#Delta#it{#phi}(E_{T}^{miss}(trk),E_{T}^{miss});Events",50,0,500, 10,0,TMath::Pi()) );
+
  /*
     // preselection plots
     double METBins[]= {0,10,20,30,40,50,60,70,80,90,100,120,140,160,180,200,250,300,350,400,500};
@@ -459,16 +464,10 @@ int main(int argc, char* argv[])
         mon.addHistogram( new TH1F( TString("ceff_Num_")+CSVkey[csvtag],        "; Jet #it{p}_{T} [GeV];Events", nJetPTBins,JetPTBins) );
         mon.addHistogram( new TH1F( TString("udsgeff_Num_")+CSVkey[csvtag],     "; Jet #it{p}_{T} [GeV];Events", nJetPTBins,JetPTBins) );
     }
-
-
-    mon.addHistogram( new TH1F( "mt_final",             ";#it{m}_{T} [GeV];Events", 12,0,1200) );
-    mon.addHistogram( new TH1F( "mt_final120",             ";#it{m}_{T} [GeV];Events", 12,0,1200) );
-    mon.addHistogram( new TH1F( "pfmet_final",      ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET, METBins));
-    mon.addHistogram( new TH1F( "pfmet2_final",     ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET2, METBins2));
-
-
-
 */
+
+    mon.addHistogram( new TH1F( "pfmet2_final",     ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET2, MET2Bins));
+
     //#################################################
     //############# CONTROL PLOTS #####################
     //#################################################
@@ -485,15 +484,15 @@ int main(int argc, char* argv[])
     mon.addHistogram( new TH1F( "DphiZMET_WZctrl",      ";#Delta#it{#phi}(#it{l^{+}l^{-}},E_{T}^{miss});Events", 20,0,TMath::Pi()) );
     mon.addHistogram( new TH1F( "zpt_WZctrl",           ";#it{p}_{T}^{ll} [GeV];Events", 20,0,300) );
 
-    mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET40",    ";E_{T}^{miss} [GeV];Events", 20,0,400));
+    mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET40",    ";Fake E_{T}^{miss} [GeV];Events", 20,0,400));
     mon.addHistogram( new TH1F( "mt_WZctrl_ZZlike_MET40",       ";#it{m}_{T} [GeV];Events", 20,0,800) );
-    mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET50",    ";E_{T}^{miss} [GeV];Events", 20,0,400));
+    mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET50",    ";Fake E_{T}^{miss} [GeV];Events", 20,0,400));
     mon.addHistogram( new TH1F( "mt_WZctrl_ZZlike_MET50",       ";#it{m}_{T} [GeV];Events", 20,0,800) );
-    mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET60",    ";E_{T}^{miss} [GeV];Events", 20,0,400));
+    mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET60",    ";Fake E_{T}^{miss} [GeV];Events", 20,0,400));
     mon.addHistogram( new TH1F( "mt_WZctrl_ZZlike_MET60",       ";#it{m}_{T} [GeV];Events", 20,0,800) );
-    mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET70",    ";E_{T}^{miss} [GeV];Events", 20,0,400));
+    mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET70",    ";Fake E_{T}^{miss} [GeV];Events", 20,0,400));
     mon.addHistogram( new TH1F( "mt_WZctrl_ZZlike_MET70",       ";#it{m}_{T} [GeV];Events", 20,0,800) );
-    mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET80",    ";E_{T}^{miss} [GeV];Events", 20,0,400));
+    mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET80",    ";Fake E_{T}^{miss} [GeV];Events", 20,0,400));
     mon.addHistogram( new TH1F( "mt_WZctrl_ZZlike_MET80",       ";#it{m}_{T} [GeV];Events", 20,0,800) );
 
 
@@ -923,10 +922,12 @@ int main(int argc, char* argv[])
         //apply Jet Energy Resolution corrections to jets (and compute associated variations on the MET variable)
         std::vector<PhysicsObjectJetCollection> variedJets;
         LorentzVectorCollection variedMET;
-
         METUtils::computeVariation(phys.jets, phys.leptons, (usemetNoHF ? phys.metNoHF : phys.met), variedJets, variedMET, &jecUnc);
 
         LorentzVector metP4=variedMET[0];
+        LorentzVector trkMETP4 = phys.trkMET;
+        double dPhiTrkMET = fabs(deltaPhi(trkMETP4.phi(), metP4.phi()));
+
         PhysicsObjectJetCollection &corrJets = variedJets[0];
 
         //
@@ -1171,7 +1172,11 @@ int main(int argc, char* argv[])
             if(abs(lepid)==13) { //muon
                 hasLooseIdandIso &= ( phys.leptons[ilep].isLooseMu && phys.leptons[ilep].m_pfRelIsoDbeta()<0.25 && phys.leptons[ilep].pt()>10 );
                 //
-                hasTightIdandIso |= ( phys.leptons[ilep].isMediumMu && phys.leptons[ilep].m_pfRelIsoDbeta()<0.15 && phys.leptons[ilep].pt()>10 );
+                hasTightIdandIso &= phys.leptons[ilep].pt()>10;
+                hasTightIdandIso &= phys.leptons[ilep].isMediumMu;
+                hasTightIdandIso &= fabs(phys.leptons[ilep].mn_dZ) < 0.1;
+                hasTightIdandIso &= fabs(phys.leptons[ilep].mn_d0) < 0.02;
+                hasTightIdandIso &= phys.leptons[ilep].m_pfRelIsoDbeta() < 0.15;
             } else if(abs(lepid)==11) { //electron
                 hasLooseIdandIso &= ( phys.leptons[ilep].isElpassVeto && phys.leptons[ilep].pt()>10 );
                 hasLooseIdandIso |= ( phys.leptons[ilep].isElpassMedium && phys.leptons[ilep].pt()>10 );
@@ -1344,7 +1349,7 @@ int main(int argc, char* argv[])
         if(isMC) weight *= BTagWeights;
 
     // Blinding
-    if( !isMC && metP4.pt() > 100 and ( tag_cat != "emu" )  ) continue;
+    if(  !isMC and ( metP4.pt() > 100 ) and ( tag_cat != "emu" )  ) continue;
 
     //// Cut Flow synchronization
     int ncut=0;
@@ -1354,15 +1359,17 @@ int main(int argc, char* argv[])
         mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
         if ( passBveto ) {
             mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-            mon.fillHisto( "sync_njet_minus", tags, nJetsGood30, weight );
             if( passTauVeto ) {
                 mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
+                mon.fillHisto( "sync_njet_minus", tags, nJetsGood30, weight );
                 if( nJetsGood30 < 2 ) {
                     mon.fillHisto( "sync_zmass_minus", tags, zll.mass(), weight );
                     mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
                     if( passZmass ) {
                         mon.fillHisto( "sync_ptz_minus", tags, zll.pt(), weight );
                         mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
+                        mon.fillHisto( "dPhiTrackMET", tags,  dPhiTrkMET, weight );
+                        mon.fillHisto( "dPhiTrackMET_v_pfmet", tags, metP4.pt(),  dPhiTrkMET, weight );
                         if( passZpt ) {
                             mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
                             mon.fillHisto( "sync_met_minus",        tags, metP4.pt(), weight );
