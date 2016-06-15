@@ -1171,7 +1171,11 @@ int main(int argc, char* argv[])
             if(abs(lepid)==13) { //muon
                 hasLooseIdandIso &= ( phys.leptons[ilep].isLooseMu && phys.leptons[ilep].m_pfRelIsoDbeta()<0.25 && phys.leptons[ilep].pt()>10 );
                 //
-                hasTightIdandIso |= ( phys.leptons[ilep].isMediumMu && phys.leptons[ilep].m_pfRelIsoDbeta()<0.15 && phys.leptons[ilep].pt()>10 );
+                hasTightIdandIso &= phys.leptons[ilep].pt()>10;
+                hasTightIdandIso &= phys.leptons[ilep].isMediumMu;
+                hasTightIdandIso &= fabs(phys.leptons[ilep].mn_dZ) < 0.1;
+                hasTightIdandIso &= fabs(phys.leptons[ilep].mn_d0) < 0.02;
+                hasTightIdandIso &= phys.leptons[ilep].m_pfRelIsoDbeta() < 0.15;
             } else if(abs(lepid)==11) { //electron
                 hasLooseIdandIso &= ( phys.leptons[ilep].isElpassVeto && phys.leptons[ilep].pt()>10 );
                 hasLooseIdandIso |= ( phys.leptons[ilep].isElpassMedium && phys.leptons[ilep].pt()>10 );
