@@ -138,7 +138,7 @@ private:
     edm::EDGetTokenT<pat::PackedTriggerPrescales> triggerPrescales_;
 
 
-    std::vector<std::string> DoubleMuTrigs_, DoubleEleTrigs_, SingleMuTrigs_, SingleEleTrigs_, MuEGTrigs_;// DoubleTauTrigs_;
+    std::vector<std::string> DoubleMuTrigs_, DoubleEleTrigs_, SingleMuTrigs_, SingleEleTrigs_, MuEGTrigs_, backupTrigs_;
     DataEvtSummaryHandler summaryHandler_;
     TSelectionMonitor controlHistos_;
     bool isPythia8_;
@@ -263,6 +263,7 @@ MainAnalyzer::MainAnalyzer(const edm::ParameterSet& iConfig):
     SingleMuTrigs_(             iConfig.getParameter<std::vector<std::string> >("SingleMuTrigs")                ),
     SingleEleTrigs_(            iConfig.getParameter<std::vector<std::string> >("SingleEleTrigs")               ),
     MuEGTrigs_(                 iConfig.getParameter<std::vector<std::string> >("MuEGTrigs")                    ),
+    backupTrigs_(               iConfig.getParameter<std::vector<std::string> >("backupTrigs")                    ),
     controlHistos_(             iConfig.getParameter<std::string>("dtag")                           ),
     isPythia8_(                 iConfig.getParameter<bool>("isPythia8")                             ),
     isMC_(                      iConfig.getParameter<bool>("isMC")                              ),
@@ -374,6 +375,7 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
         }
     }
 
+    int backupTriggerDecisions{0};
     // Pre-ICHEP 2016 there is no proper HLT info in MC
     // So we just pass all events through.
     if( isMC_ ) {
@@ -398,15 +400,21 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
         for(size_t it=0; it<MuEGTrigs_.size(); it++) {
             hasMuEGTrigs |= checkIfTriggerFired(triggerBits, names, MuEGTrigs_[it]);
         }
+        for(size_t it=0; it<backupTrigs_.size(); it++) {
+            if (checkIfTriggerFired(triggerBits, names, backupTrigs_[it]) ) {
+              backupTriggerDecisions |= 1<<(it);
+            }
+        }
     }
 
-    ev.hasTrigger = (hasDoubleMuTrigs || hasDoubleEleTrigs || hasSingleMuTrigs || hasSingleEleTrigs || hasMuEGTrigs);
+    ev.hasTrigger = (hasDoubleMuTrigs || hasDoubleEleTrigs || hasSingleMuTrigs || hasSingleEleTrigs || hasMuEGTrigs || backupTriggerDecisions);
 
     ev.triggerType = ( hasDoubleMuTrigs  << 0 )
                      | ( hasSingleMuTrigs  << 1 )
                      | ( hasDoubleEleTrigs << 2 )
                      | ( hasSingleEleTrigs << 3 )
                      | ( hasMuEGTrigs    << 4 );
+    ev.backupTriggerDecisions = backupTriggerDecisions;
 
     controlHistos_.fillHisto("passTrigger","all",ev.hasTrigger);
     if(!ev.hasTrigger) return; // skip the event if no trigger, for both Data and MC

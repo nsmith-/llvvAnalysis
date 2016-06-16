@@ -512,7 +512,7 @@ void Draw2DHistogramSplitCanvas(JSONWrapper::Object& Root, std::string RootDir, 
 
 
       savePath(c1,outDir,SaveName+"_"+(Process[i])["tag"].toString(),plotExt);
-      savePath(c1,outDir,SaveName+"_"+(Process[i])["tag"].toString(),".pdf");
+      savePath(c1,outDir,SaveName+"_"+(Process[i])["tag"].toString(),".root");
       delete c1;
    }
 
@@ -619,7 +619,7 @@ void Draw2DHistogram(JSONWrapper::Object& Root, std::string RootDir, NameAndType
    c1->cd(0);
 
    savePath(c1,outDir,SaveName,plotExt);
-   savePath(c1,outDir,SaveName,".pdf");
+   savePath(c1,outDir,SaveName,".root");
 
    for(unsigned int d=0;d<ObjectToDelete.size();d++){delete ObjectToDelete[d];}ObjectToDelete.clear();
    delete c1;
@@ -668,6 +668,7 @@ void Draw1DHistogram(JSONWrapper::Object& Root, std::string RootDir, NameAndType
    THStack* stack = new THStack("MC","MC");
    TH1 *     mc   = NULL;
    TH1 *     mcPlusRelUnc = NULL;
+   TGraphErrors * mcgr=NULL;
    TH1 *     mctotalUnc = NULL;
    std::vector<TH1 *> spimpose;
    std::vector<TString> spimposeOpts;
@@ -872,7 +873,8 @@ void Draw1DHistogram(JSONWrapper::Object& Root, std::string RootDir, NameAndType
 	 if(tSaveName.Contains("Eta_raw")) maximumFound*= 40;
 	 if(tSaveName.Contains("wmt_raw")) maximumFound*= 20;
 	 if(tSaveName.Contains("pfmet_raw")) maximumFound*= 100;
-	 if(tSaveName.Contains("DPhiZMET_dataDY")) maximumFound*= 20;
+	 if(tSaveName.Contains("dphiZMET")) maximumFound*= 100;
+	 if(tSaveName.Contains("balance")) maximumFound*= 100;
 	 if(tSaveName.Contains("eleLooseFakePt")) maximumFound*= 20;
 	 if(tSaveName.Contains("eleTightFakePt")) maximumFound*= 20;
 	 if(tSaveName.Contains("FakeEta")) maximumFound*= 40;
@@ -881,16 +883,10 @@ void Draw1DHistogram(JSONWrapper::Object& Root, std::string RootDir, NameAndType
 
 	 stack->SetMaximum(maximumFound);
 
-/*
          if(tSaveName.Contains("pfmet")){
-                stack->SetMinimum(5e-5);
+                stack->SetMinimum(5e-3);
                 //if(tSaveName.Contains("eq0jets")) stack->SetMaximum(1e3);
                 //if(tSaveName.Contains("eq1jets")) stack->SetMaximum(2e4);
-         }
-
-*/
-         if(tSaveName.Contains("mt_final")){
-                stack->SetMaximum(100);
          }
 
 
@@ -901,7 +897,6 @@ void Draw1DHistogram(JSONWrapper::Object& Root, std::string RootDir, NameAndType
        }
      ObjectToDelete.push_back(stack);
      canvasIsFilled=true;
-
 
      if(showUnc && mc)
        {
@@ -937,17 +932,19 @@ void Draw1DHistogram(JSONWrapper::Object& Root, std::string RootDir, NameAndType
           }
         mctotalUnc->SetDirectory(0);
 
-        TGraphErrors *mcgr=new TGraphErrors;
+        mcgr=new TGraphErrors();
+        mcgr->SetName("mcStatErrGraph");
         for(int ibin=1; ibin<=mctotalUnc->GetXaxis()->GetNbins(); ibin++)
           {
         	mcgr->SetPoint(ibin-1,mctotalUnc->GetXaxis()->GetBinCenter(ibin),mctotalUnc->GetBinContent(ibin));
                 mcgr->SetPointError(ibin-1,mctotalUnc->GetXaxis()->GetBinWidth(ibin)/2,mctotalUnc->GetBinError(ibin));
           }
-       	mcgr->SetFillStyle(3254);
+       	mcgr->SetFillStyle(3004);
        	mcgr->SetFillColor(1);
         mcgr->SetMarkerStyle(1);
        	mcgr->Draw("2 same");
 	legA->AddEntry(mcgr,"Stat. Unc.", "F");
+        delete mctotalUnc;
    }
 
    //compare data and MC
@@ -1103,9 +1100,8 @@ void Draw1DHistogram(JSONWrapper::Object& Root, std::string RootDir, NameAndType
           	icutgRJ++;
        } //RJ
 
-
        denRelUnc->SetLineColor(1);
-       denRelUnc->SetFillStyle(3254);
+       denRelUnc->SetFillStyle(3004);
        denRelUnc->SetFillColor(kRed);
        denRelUnc->SetMarkerColor(1);
        denRelUnc->SetMarkerStyle(1);
@@ -1142,7 +1138,6 @@ void Draw1DHistogram(JSONWrapper::Object& Root, std::string RootDir, NameAndType
        denRelUncH->GetYaxis()->SetLabelSize(0.03*yscale);
        denRelUncH->GetYaxis()->SetTitleSize(0.03*yscale);
 
-
        //add comparisons
        for(size_t icd=0; icd<compDists.size(); icd++)
 	 {
@@ -1171,9 +1166,10 @@ void Draw1DHistogram(JSONWrapper::Object& Root, std::string RootDir, NameAndType
    c1->Update();
    c1->cd();
    savePath(c1,outDir,SaveName,plotExt);
-   savePath(c1,outDir,SaveName,".pdf");
+   savePath(c1,outDir,SaveName,".root");
 
    delete c1;
+   delete mcgr;
    for(unsigned int d=0;d<ObjectToDelete.size();d++){delete ObjectToDelete[d];}ObjectToDelete.clear();
    delete legA;
    delete T;
@@ -1660,3 +1656,4 @@ int main(int argc, char* argv[]){
    printf("\033[31mYou can browse the results using: firefox %sindex.html\033[0m\n",outDir.c_str());
 }
 
+/* vim: set ts=8 sw=2 tw=0 et :*/
