@@ -367,7 +367,7 @@ int main(int argc, char* argv[])
     mon.addHistogram( new TH1F( "sync_dPhiJetMET_minus", ";#Delta#it{#phi}(#it{l^{+}l^{-}},E_{T}^{miss});Events", 10,0,TMath::Pi()) );
     mon.addHistogram( new TH1F( "sync_response_minus",   ";Response(#it{l^{+}l^{-}},E_{T}^{miss});Events", 20,-1,1 ) );
 
-    double MET2Bins[]= {0,80,160,240,320,400,480,560,640,800,1200};
+    double MET2Bins[]= {0,100,180,260,340,420,500,580,800,1200};
     const int nBinsMET2 = sizeof(MET2Bins)/sizeof(double) - 1;
 
     double MT2Bins[]= {0,100,200,300,400,500,600,700,800,1000,1200};
@@ -509,9 +509,9 @@ int main(int argc, char* argv[])
     if(runOptimization) {
         // for optimization
         cout << "Optimization will be performed for this analysis" << endl;
-        for(double met=80; met<=200; met+=10) {
-            for(double balance=0.2; balance<=0.2; balance+=0.05) {
-                for(double dphi=2.7; dphi<2.8; dphi+=0.1) {
+        for(double met=100; met<=200; met+=10) {
+            for(double balance=0.4; balance<=0.4; balance+=0.05) {
+                for(double dphi=2.8; dphi<=2.8; dphi+=0.1) {
                     optim_Cuts1_MET     .push_back(met);
                     optim_Cuts1_Balance .push_back(balance);
                     optim_Cuts1_DphiZMET.push_back(dphi);
