@@ -1349,56 +1349,55 @@ int main(int argc, char* argv[])
         if(isMC) weight *= BTagWeights;
 
     // Blinding
-    if(  !isMC and ( metP4.pt() > 100 ) and ( tag_cat != "emu" )  ) continue;
-
-    //// Cut Flow synchronization
-    int ncut=0;
-    mon.fillHisto( "sync_nlep_minus", tags, n3rdLeptons, weight );
-    mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-    if( pass3dLeptonVeto ) {
+    if( isMC or ( metP4.pt() < 100 ) or ( tag_cat == "emu" )  ) {
+        //// Cut Flow synchronization
+        int ncut=0;
+        mon.fillHisto( "sync_nlep_minus", tags, n3rdLeptons, weight );
         mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-        if ( passBveto ) {
+        if( pass3dLeptonVeto ) {
             mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-            if( passTauVeto ) {
+            if ( passBveto ) {
                 mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                mon.fillHisto( "sync_njet_minus", tags, nJetsGood30, weight );
-                if( nJetsGood30 < 2 ) {
-                    mon.fillHisto( "sync_zmass_minus", tags, zll.mass(), weight );
+                if( passTauVeto ) {
                     mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                    if( passZmass ) {
-                        mon.fillHisto( "sync_ptz_minus", tags, zll.pt(), weight );
+                    mon.fillHisto( "sync_njet_minus", tags, nJetsGood30, weight );
+                    if( nJetsGood30 < 2 ) {
+                        mon.fillHisto( "sync_zmass_minus", tags, zll.mass(), weight );
                         mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                        mon.fillHisto( "dPhiTrackMET", tags,  dPhiTrkMET, weight );
-                        mon.fillHisto( "dPhiTrackMET_v_pfmet", tags, metP4.pt(),  dPhiTrkMET, weight );
-                        if( passZpt ) {
+                        if( passZmass ) {
+                            mon.fillHisto( "sync_ptz_minus", tags, zll.pt(), weight );
                             mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                            mon.fillHisto( "sync_met_minus",        tags, metP4.pt(), weight );
-                            if( passMETcut ) {
+                            mon.fillHisto( "dPhiTrackMET", tags,  dPhiTrkMET, weight );
+                            mon.fillHisto( "dPhiTrackMET_v_pfmet", tags, metP4.pt(),  dPhiTrkMET, weight );
+                            if( passZpt ) {
                                 mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                                mon.fillHisto( "sync_dPhiZMET_minus",   tags, dphiZMET, weight );
-                                if( passDphiZMETcut ) {
+                                mon.fillHisto( "sync_met_minus",        tags, metP4.pt(), weight );
+                                if( passMETcut ) {
                                     mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                                    mon.fillHisto( "sync_balance_minus",    tags, balanceDif, weight );
-                                    if(passBalanceCut) {
+                                    mon.fillHisto( "sync_dPhiZMET_minus",   tags, dphiZMET, weight );
+                                    if( passDphiZMETcut ) {
                                         mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                                        mon.fillHisto( "sync_dPhiJetMET_minus", tags, dphiJetMET, weight );
-                                        if(passDphiJetMETCut) {
+                                        mon.fillHisto( "sync_balance_minus",    tags, balanceDif, weight );
+                                        if(passBalanceCut) {
                                             mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                                            mon.fillHisto( "sync_response_minus",   tags, response, weight );
-                                            if(passResponseCut) {
+                                            mon.fillHisto( "sync_dPhiJetMET_minus", tags, dphiJetMET, weight );
+                                            if(passDphiJetMETCut) {
                                                 mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
-                                                mon.fillHisto( "pfmet2_final",tags, metP4.pt(), weight, true);
-                                            } // passResponseCut
-                                        } // passDphiJetMET
-                                    } // passBalanceCut
-                                } // passDphiZMET
-                            } // passMET
-                        } //passZpt
-                    } // passZmass
-                } // nJetsGood30
-            }// passTauVeto
-        }// passBveto
-    } // pass3dLeptonVeto
+                                                mon.fillHisto( "sync_response_minus",   tags, response, weight );
+                                                if(passResponseCut) {
+                                                    mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
+                                                    mon.fillHisto( "pfmet2_final",tags, metP4.pt(), weight, true);
+                                                } // passResponseCut
+                                            } // passDphiJetMET
+                                        } // passBalanceCut
+                                    } // passDphiZMET
+                                } // passMET
+                            } //passZpt
+                        } // passZmass
+                    } // nJetsGood30
+                }// passTauVeto
+            }// passBveto
+        } // pass3dLeptonVeto
 
 
         mon.fillHisto("zpt_raw"                         ,tags, zll.pt(),   weight);
@@ -1472,6 +1471,7 @@ int main(int argc, char* argv[])
 
 
         }
+    }
 /*
         //##############################################
         //########  Main Event Selection        ########
