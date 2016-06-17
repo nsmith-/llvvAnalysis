@@ -554,7 +554,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx1Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-1_Mv-10",
           "xsec": 22.926,
           "split": 1,
           "br": [
@@ -576,7 +576,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx1Mv20",
+          "dtag": "MC13TeV_DM_V_Mx-1_Mv-20",
           "xsec": 9.1442,
           "split": 1,
           "br": [
@@ -598,7 +598,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx1Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-1_Mv-50",
           "xsec": 2.4785,
           "split": 1,
           "br": [
@@ -620,7 +620,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx1Mv100",
+          "dtag": "MC13TeV_DM_V_Mx-1_Mv-100",
           "xsec": 0.81966,
           "split": 1,
           "br": [
@@ -642,7 +642,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx1Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-1_Mv-200",
           "xsec": 0.24152,
           "split": 1,
           "br": [
@@ -664,7 +664,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx1Mv300",
+          "dtag": "MC13TeV_DM_V_Mx-1_Mv-300",
           "xsec": 0.107078,
           "split": 1,
           "br": [
@@ -686,7 +686,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx1Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-1_Mv-500",
           "xsec": 0.027291,
           "split": 1,
           "br": [
@@ -708,7 +708,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx1Mv1000",
+          "dtag": "MC13TeV_DM_V_Mx-1_Mv-1000",
           "xsec": 0.0037816,
           "split": 1,
           "br": [
@@ -730,7 +730,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx1Mv2000",
+          "dtag": "MC13TeV_DM_V_Mx-1_Mv-2000",
           "xsec": 0.00030459,
           "split": 1,
           "br": [
@@ -752,7 +752,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx1Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-1_Mv-5000",
           "xsec": 0.0000049242,
           "split": 1,
           "br": [
@@ -774,7 +774,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx10Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-10_Mv-10",
           "xsec": 1.94108,
           "split": 1,
           "br": [
@@ -796,7 +796,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx10Mv20",
+          "dtag": "MC13TeV_DM_V_Mx-10_Mv-20",
           "xsec": 4.6803,
           "split": 1,
           "br": [
@@ -818,7 +818,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx10Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-10_Mv-50",
           "xsec": 2.4185,
           "split": 1,
           "br": [
@@ -840,7 +840,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx10Mv100",
+          "dtag": "MC13TeV_DM_V_Mx-10_Mv-100",
           "xsec": 0.81682,
           "split": 1,
           "br": [
@@ -862,7 +862,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx10Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-10_Mv-5000",
           "xsec": 0.0000049257,
           "split": 1,
           "br": [
@@ -884,7 +884,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx50Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-50_Mv-10",
           "xsec": 0.114921,
           "split": 1,
           "br": [
@@ -906,7 +906,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx50Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-50_Mv-50",
           "xsec": 0.144129,
           "split": 1,
           "br": [
@@ -928,7 +928,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx50Mv95",
+          "dtag": "MC13TeV_DM_V_Mx-50_Mv-95",
           "xsec": 0.341923,
           "split": 1,
           "br": [
@@ -950,7 +950,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx50Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-50_Mv-200",
           "xsec": 0.22546,
           "split": 1,
           "br": [
@@ -972,7 +972,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx50Mv300",
+          "dtag": "MC13TeV_DM_V_Mx-50_Mv-300",
           "xsec": 0.104327,
           "split": 1,
           "br": [
@@ -994,7 +994,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx50Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-50_Mv-5000",
           "xsec": 0.0000049063,
           "split": 1,
           "br": [
@@ -1016,7 +1016,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx150Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-150_Mv-10",
           "xsec": 0.0112056,
           "split": 1,
           "br": [
@@ -1038,7 +1038,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx150Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-150_Mv-200",
           "xsec": 0.0189941,
           "split": 1,
           "br": [
@@ -1060,7 +1060,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx150Mv295",
+          "dtag": "MC13TeV_DM_V_Mx-150_Mv-295",
           "xsec": 0.04168,
           "split": 1,
           "br": [
@@ -1082,7 +1082,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx150Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-150_Mv-500",
           "xsec": 0.022839,
           "split": 1,
           "br": [
@@ -1104,7 +1104,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx150Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-150_Mv-5000",
           "xsec": 0.0000046839,
           "split": 1,
           "br": [
@@ -1126,7 +1126,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx500Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-500_Mv-10",
           "xsec": 0.00027615,
           "split": 1,
           "br": [
@@ -1148,7 +1148,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx500Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-500_Mv-500",
           "xsec": 0.000383387,
           "split": 1,
           "br": [
@@ -1170,7 +1170,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx500Mv995",
+          "dtag": "MC13TeV_DM_V_Mx-500_Mv-995",
           "xsec": 0.0010751174,
           "split": 1,
           "br": [
@@ -1192,7 +1192,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx500Mv2000",
+          "dtag": "MC13TeV_DM_V_Mx-500_Mv-2000",
           "xsec": 0.0002141,
           "split": 1,
           "br": [
@@ -1214,7 +1214,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx500Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-500_Mv-5000",
           "xsec": 0.0000031352,
           "split": 1,
           "br": [
@@ -1236,7 +1236,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx1000Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-1000_Mv-10",
           "xsec": 0.0000109818,
           "split": 1,
           "br": [
@@ -1258,7 +1258,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx1000Mv1000",
+          "dtag": "MC13TeV_DM_V_Mx-1000_Mv-1000",
           "xsec": 0.00001590609,
           "split": 1,
           "br": [
@@ -1280,7 +1280,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx1000Mv1995",
+          "dtag": "MC13TeV_DM_V_Mx-1000_Mv-1995",
           "xsec": 0.00004794683192,
           "split": 1,
           "br": [
@@ -1302,7 +1302,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx1000Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-1000_Mv-5000",
           "xsec": 0.00000143883,
           "split": 1,
           "br": [
@@ -2776,7 +2776,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx100Mv1000",
+          "dtag": "MC13TeV_DM_V_Mx-100_Mv-1000",
           "xsec": 0.0037117,
           "split": 1,
           "br": [
@@ -2800,7 +2800,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx100Mv100",
+          "dtag": "MC13TeV_DM_V_Mx-100_Mv-100",
           "xsec": 0.0370075,
           "split": 1,
           "br": [
@@ -2824,7 +2824,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx100Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-100_Mv-10",
           "xsec": 0.028675,
           "split": 1,
           "br": [
@@ -2848,7 +2848,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx100Mv2000",
+          "dtag": "MC13TeV_DM_V_Mx-100_Mv-2000",
           "xsec": 0.00030071,
           "split": 1,
           "br": [
@@ -2872,7 +2872,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx100Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-100_Mv-200",
           "xsec": 0.103621,
           "split": 1,
           "br": [
@@ -2896,7 +2896,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx100Mv20",
+          "dtag": "MC13TeV_DM_V_Mx-100_Mv-20",
           "xsec": 0.028878,
           "split": 1,
           "br": [
@@ -2920,7 +2920,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx100Mv300",
+          "dtag": "MC13TeV_DM_V_Mx-100_Mv-300",
           "xsec": 0.087788,
           "split": 1,
           "br": [
@@ -2944,7 +2944,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx100Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-100_Mv-5000",
           "xsec": 0.0000048163,
           "split": 1,
           "br": [
@@ -2968,7 +2968,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx100Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-100_Mv-500",
           "xsec": 0.025766,
           "split": 1,
           "br": [
@@ -2992,7 +2992,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx100Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-100_Mv-50",
           "xsec": 0.030351,
           "split": 1,
           "br": [
@@ -3016,7 +3016,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx20Mv1000",
+          "dtag": "MC13TeV_DM_V_Mx-20_Mv-1000",
           "xsec": 0.0037791,
           "split": 1,
           "br": [
@@ -3040,7 +3040,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx20Mv100",
+          "dtag": "MC13TeV_DM_V_Mx-20_Mv-100",
           "xsec": 0.79503,
           "split": 1,
           "br": [
@@ -3064,7 +3064,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx20Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-20_Mv-10",
           "xsec": 0.57401,
           "split": 1,
           "br": [
@@ -3088,7 +3088,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx20Mv2000",
+          "dtag": "MC13TeV_DM_V_Mx-20_Mv-2000",
           "xsec": 0.00030474,
           "split": 1,
           "br": [
@@ -3112,7 +3112,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx20Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-20_Mv-200",
           "xsec": 0.24024,
           "split": 1,
           "br": [
@@ -3136,7 +3136,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx20Mv20",
+          "dtag": "MC13TeV_DM_V_Mx-20_Mv-20",
           "xsec": 0.67805,
           "split": 1,
           "br": [
@@ -3160,7 +3160,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx20Mv300",
+          "dtag": "MC13TeV_DM_V_Mx-20_Mv-300",
           "xsec": 0.106773,
           "split": 1,
           "br": [
@@ -3184,7 +3184,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx20Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-20_Mv-5000",
           "xsec": 0.0000049303,
           "split": 1,
           "br": [
@@ -3208,7 +3208,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx20Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-20_Mv-500",
           "xsec": 0.027274,
           "split": 1,
           "br": [
@@ -3232,7 +3232,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx20Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-20_Mv-50",
           "xsec": 1.84157,
           "split": 1,
           "br": [
@@ -3256,7 +3256,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx30Mv1000",
+          "dtag": "MC13TeV_DM_V_Mx-30_Mv-1000",
           "xsec": 0.0037813,
           "split": 1,
           "br": [
@@ -3280,7 +3280,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx30Mv100",
+          "dtag": "MC13TeV_DM_V_Mx-30_Mv-100",
           "xsec": 0.73157,
           "split": 1,
           "br": [
@@ -3304,7 +3304,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx30Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-30_Mv-10",
           "xsec": 0.28592,
           "split": 1,
           "br": [
@@ -3328,7 +3328,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx30Mv2000",
+          "dtag": "MC13TeV_DM_V_Mx-30_Mv-2000",
           "xsec": 0.00030475,
           "split": 1,
           "br": [
@@ -3352,7 +3352,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx30Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-30_Mv-200",
           "xsec": 0.23757,
           "split": 1,
           "br": [
@@ -3376,7 +3376,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx30Mv20",
+          "dtag": "MC13TeV_DM_V_Mx-30_Mv-20",
           "xsec": 0.30687,
           "split": 1,
           "br": [
@@ -3400,7 +3400,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx30Mv300",
+          "dtag": "MC13TeV_DM_V_Mx-30_Mv-300",
           "xsec": 0.106237,
           "split": 1,
           "br": [
@@ -3424,7 +3424,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx30Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-30_Mv-5000",
           "xsec": 0.0000049206,
           "split": 1,
           "br": [
@@ -3448,7 +3448,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx30Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-30_Mv-500",
           "xsec": 0.027226,
           "split": 1,
           "br": [
@@ -3472,7 +3472,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx30Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-30_Mv-50",
           "xsec": 0.604713,
           "split": 1,
           "br": [
@@ -3496,7 +3496,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx40Mv1000",
+          "dtag": "MC13TeV_DM_V_Mx-40_Mv-1000",
           "xsec": 0.0037753,
           "split": 1,
           "br": [
@@ -3520,7 +3520,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx40Mv100",
+          "dtag": "MC13TeV_DM_V_Mx-40_Mv-100",
           "xsec": 0.598,
           "split": 1,
           "br": [
@@ -3544,7 +3544,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx40Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-40_Mv-10",
           "xsec": 0.172337,
           "split": 1,
           "br": [
@@ -3568,7 +3568,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx40Mv2000",
+          "dtag": "MC13TeV_DM_V_Mx-40_Mv-2000",
           "xsec": 0.00030401,
           "split": 1,
           "br": [
@@ -3592,7 +3592,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx40Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-40_Mv-200",
           "xsec": 0.23291,
           "split": 1,
           "br": [
@@ -3616,7 +3616,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx40Mv20",
+          "dtag": "MC13TeV_DM_V_Mx-40_Mv-20",
           "xsec": 0.179283,
           "split": 1,
           "br": [
@@ -3640,7 +3640,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx40Mv300",
+          "dtag": "MC13TeV_DM_V_Mx-40_Mv-300",
           "xsec": 0.105583,
           "split": 1,
           "br": [
@@ -3664,7 +3664,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx40Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-40_Mv-5000",
           "xsec": 0.0000049232,
           "split": 1,
           "br": [
@@ -3688,7 +3688,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx40Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-40_Mv-500",
           "xsec": 0.027157,
           "split": 1,
           "br": [
@@ -3712,7 +3712,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx40Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-40_Mv-50",
           "xsec": 0.249615,
           "split": 1,
           "br": [
@@ -3736,7 +3736,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx5Mv1000",
+          "dtag": "MC13TeV_DM_V_Mx-5_Mv-1000",
           "xsec": 0.0037877,
           "split": 1,
           "br": [
@@ -3760,7 +3760,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx5Mv100",
+          "dtag": "MC13TeV_DM_V_Mx-5_Mv-100",
           "xsec": 0.81991,
           "split": 1,
           "br": [
@@ -3784,7 +3784,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx5Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-5_Mv-10",
           "xsec": 12.0157,
           "split": 1,
           "br": [
@@ -3808,7 +3808,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx5Mv2000",
+          "dtag": "MC13TeV_DM_V_Mx-5_Mv-2000",
           "xsec": 0.00030474,
           "split": 1,
           "br": [
@@ -3832,7 +3832,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx5Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-5_Mv-200",
           "xsec": 0.24143,
           "split": 1,
           "br": [
@@ -3856,7 +3856,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx5Mv20",
+          "dtag": "MC13TeV_DM_V_Mx-5_Mv-20",
           "xsec": 8.7428,
           "split": 1,
           "br": [
@@ -3880,7 +3880,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx5Mv300",
+          "dtag": "MC13TeV_DM_V_Mx-5_Mv-300",
           "xsec": 0.106917,
           "split": 1,
           "br": [
@@ -3904,7 +3904,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx5Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-5_Mv-5000",
           "xsec": 0.0000049323,
           "split": 1,
           "br": [
@@ -3928,7 +3928,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx5Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-5_Mv-500",
           "xsec": 0.027286,
           "split": 1,
           "br": [
@@ -3952,7 +3952,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx5Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-5_Mv-50",
           "xsec": 2.4724,
           "split": 1,
           "br": [
@@ -3976,7 +3976,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx60Mv1000",
+          "dtag": "MC13TeV_DM_V_Mx-60_Mv-1000",
           "xsec": 0.0037623,
           "split": 1,
           "br": [
@@ -4000,7 +4000,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx60Mv100",
+          "dtag": "MC13TeV_DM_V_Mx-60_Mv-100",
           "xsec": 0.1845453,
           "split": 1,
           "br": [
@@ -4024,7 +4024,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx60Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-60_Mv-10",
           "xsec": 0.081374,
           "split": 1,
           "br": [
@@ -4048,7 +4048,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx60Mv2000",
+          "dtag": "MC13TeV_DM_V_Mx-60_Mv-2000",
           "xsec": 0.00030351,
           "split": 1,
           "br": [
@@ -4072,7 +4072,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx60Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-60_Mv-200",
           "xsec": 0.21332,
           "split": 1,
           "br": [
@@ -4096,7 +4096,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx60Mv20",
+          "dtag": "MC13TeV_DM_V_Mx-60_Mv-20",
           "xsec": 0.08289,
           "split": 1,
           "br": [
@@ -4120,7 +4120,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx60Mv300",
+          "dtag": "MC13TeV_DM_V_Mx-60_Mv-300",
           "xsec": 0.102694,
           "split": 1,
           "br": [
@@ -4144,7 +4144,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx60Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-60_Mv-5000",
           "xsec": 0.0000048993,
           "split": 1,
           "br": [
@@ -4168,7 +4168,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx60Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-60_Mv-500",
           "xsec": 0.026883,
           "split": 1,
           "br": [
@@ -4192,7 +4192,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx60Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-60_Mv-50",
           "xsec": 0.095023,
           "split": 1,
           "br": [
@@ -4216,7 +4216,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx70Mv1000",
+          "dtag": "MC13TeV_DM_V_Mx-70_Mv-1000",
           "xsec": 0.003748,
           "split": 1,
           "br": [
@@ -4240,7 +4240,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx70Mv100",
+          "dtag": "MC13TeV_DM_V_Mx-70_Mv-100",
           "xsec": 0.1057684,
           "split": 1,
           "br": [
@@ -4264,7 +4264,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx70Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-70_Mv-10",
           "xsec": 0.060318,
           "split": 1,
           "br": [
@@ -4288,7 +4288,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx70Mv2000",
+          "dtag": "MC13TeV_DM_V_Mx-70_Mv-2000",
           "xsec": 0.00030313,
           "split": 1,
           "br": [
@@ -4312,7 +4312,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx70Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-70_Mv-200",
           "xsec": 0.195406,
           "split": 1,
           "br": [
@@ -4336,7 +4336,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx70Mv20",
+          "dtag": "MC13TeV_DM_V_Mx-70_Mv-20",
           "xsec": 0.061106,
           "split": 1,
           "br": [
@@ -4360,7 +4360,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx70Mv300",
+          "dtag": "MC13TeV_DM_V_Mx-70_Mv-300",
           "xsec": 0.100394,
           "split": 1,
           "br": [
@@ -4384,7 +4384,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx70Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-70_Mv-5000",
           "xsec": 0.0000048819,
           "split": 1,
           "br": [
@@ -4408,7 +4408,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx70Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-70_Mv-500",
           "xsec": 0.026676,
           "split": 1,
           "br": [
@@ -4432,7 +4432,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx70Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-70_Mv-50",
           "xsec": 0.0675222,
           "split": 1,
           "br": [
@@ -4456,7 +4456,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx80Mv1000",
+          "dtag": "MC13TeV_DM_V_Mx-80_Mv-1000",
           "xsec": 0.0037375,
           "split": 1,
           "br": [
@@ -4480,7 +4480,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx80Mv100",
+          "dtag": "MC13TeV_DM_V_Mx-80_Mv-100",
           "xsec": 0.0695064,
           "split": 1,
           "br": [
@@ -4504,7 +4504,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx80Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-80_Mv-10",
           "xsec": 0.045982,
           "split": 1,
           "br": [
@@ -4528,7 +4528,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx80Mv2000",
+          "dtag": "MC13TeV_DM_V_Mx-80_Mv-2000",
           "xsec": 0.00030238,
           "split": 1,
           "br": [
@@ -4552,7 +4552,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx80Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-80_Mv-200",
           "xsec": 0.170646,
           "split": 1,
           "br": [
@@ -4576,7 +4576,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx80Mv20",
+          "dtag": "MC13TeV_DM_V_Mx-80_Mv-20",
           "xsec": 0.046451,
           "split": 1,
           "br": [
@@ -4600,7 +4600,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx80Mv300",
+          "dtag": "MC13TeV_DM_V_Mx-80_Mv-300",
           "xsec": 0.097225,
           "split": 1,
           "br": [
@@ -4624,7 +4624,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx80Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-80_Mv-5000",
           "xsec": 0.0000048635,
           "split": 1,
           "br": [
@@ -4648,7 +4648,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx80Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-80_Mv-500",
           "xsec": 0.026442,
           "split": 1,
           "br": [
@@ -4672,7 +4672,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx80Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-80_Mv-50",
           "xsec": 0.05016,
           "split": 1,
           "br": [
@@ -4696,7 +4696,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx90Mv1000",
+          "dtag": "MC13TeV_DM_V_Mx-90_Mv-1000",
           "xsec": 0.0037216,
           "split": 1,
           "br": [
@@ -4720,7 +4720,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx90Mv100",
+          "dtag": "MC13TeV_DM_V_Mx-90_Mv-100",
           "xsec": 0.049453,
           "split": 1,
           "br": [
@@ -4744,7 +4744,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx90Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-90_Mv-10",
           "xsec": 0.035976,
           "split": 1,
           "br": [
@@ -4768,7 +4768,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx90Mv2000",
+          "dtag": "MC13TeV_DM_V_Mx-90_Mv-2000",
           "xsec": 0.00030176,
           "split": 1,
           "br": [
@@ -4792,7 +4792,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx90Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-90_Mv-200",
           "xsec": 0.138543,
           "split": 1,
           "br": [
@@ -4816,7 +4816,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx90Mv20",
+          "dtag": "MC13TeV_DM_V_Mx-90_Mv-20",
           "xsec": 0.036279,
           "split": 1,
           "br": [
@@ -4840,7 +4840,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx90Mv300",
+          "dtag": "MC13TeV_DM_V_Mx-90_Mv-300",
           "xsec": 0.093172,
           "split": 1,
           "br": [
@@ -4864,7 +4864,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx90Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-90_Mv-5000",
           "xsec": 0.0000048482,
           "split": 1,
           "br": [
@@ -4888,7 +4888,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx90Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-90_Mv-500",
           "xsec": 0.026141,
           "split": 1,
           "br": [
@@ -4912,7 +4912,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx90Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-90_Mv-50",
           "xsec": 0.038562,
           "split": 1,
           "br": [
@@ -7096,7 +7096,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx200Mv1000",
+          "dtag": "MC13TeV_DM_V_Mx-200_Mv-1000",
           "xsec": 0.0034298,
           "split": 1,
           "br": [
@@ -7120,7 +7120,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx200Mv100",
+          "dtag": "MC13TeV_DM_V_Mx-200_Mv-100",
           "xsec": 0.0056843,
           "split": 1,
           "br": [
@@ -7144,7 +7144,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx200Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-200_Mv-10",
           "xsec": 0.0053225,
           "split": 1,
           "br": [
@@ -7168,7 +7168,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx200Mv2000",
+          "dtag": "MC13TeV_DM_V_Mx-200_Mv-2000",
           "xsec": 0.00028688,
           "split": 1,
           "br": [
@@ -7192,7 +7192,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx200Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-200_Mv-200",
           "xsec": 0.0070847,
           "split": 1,
           "br": [
@@ -7216,7 +7216,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx200Mv20",
+          "dtag": "MC13TeV_DM_V_Mx-200_Mv-20",
           "xsec": 0.0053352,
           "split": 1,
           "br": [
@@ -7240,7 +7240,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx200Mv300",
+          "dtag": "MC13TeV_DM_V_Mx-200_Mv-300",
           "xsec": 0.01114328,
           "split": 1,
           "br": [
@@ -7264,7 +7264,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx200Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-200_Mv-5000",
           "xsec": 0.0000044984,
           "split": 1,
           "br": [
@@ -7288,7 +7288,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx200Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-200_Mv-500",
           "xsec": 0.0174517,
           "split": 1,
           "br": [
@@ -7312,7 +7312,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx200Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-200_Mv-50",
           "xsec": 0.0054077,
           "split": 1,
           "br": [
@@ -7336,7 +7336,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx300Mv1000",
+          "dtag": "MC13TeV_DM_V_Mx-300_Mv-1000",
           "xsec": 0.0028937,
           "split": 1,
           "br": [
@@ -7360,7 +7360,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx300Mv100",
+          "dtag": "MC13TeV_DM_V_Mx-300_Mv-100",
           "xsec": 0.00168644,
           "split": 1,
           "br": [
@@ -7384,7 +7384,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx300Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-300_Mv-10",
           "xsec": 0.00163431,
           "split": 1,
           "br": [
@@ -7408,7 +7408,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx300Mv2000",
+          "dtag": "MC13TeV_DM_V_Mx-300_Mv-2000",
           "xsec": 0.00026645,
           "split": 1,
           "br": [
@@ -7432,7 +7432,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx300Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-300_Mv-200",
           "xsec": 0.00185855,
           "split": 1,
           "br": [
@@ -7456,7 +7456,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx300Mv20",
+          "dtag": "MC13TeV_DM_V_Mx-300_Mv-20",
           "xsec": 0.00163635,
           "split": 1,
           "br": [
@@ -7480,7 +7480,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx300Mv300",
+          "dtag": "MC13TeV_DM_V_Mx-300_Mv-300",
           "xsec": 0.00221602,
           "split": 1,
           "br": [
@@ -7504,7 +7504,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx300Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-300_Mv-5000",
           "xsec": 0.0000040644,
           "split": 1,
           "br": [
@@ -7528,7 +7528,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx300Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-300_Mv-500",
           "xsec": 0.004292535,
           "split": 1,
           "br": [
@@ -7552,7 +7552,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx300Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-300_Mv-50",
           "xsec": 0.00164723,
           "split": 1,
           "br": [
@@ -7576,7 +7576,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx800Mv1000",
+          "dtag": "MC13TeV_DM_V_Mx-800_Mv-1000",
           "xsec": 0.00006370265,
           "split": 1,
           "br": [
@@ -7600,7 +7600,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx800Mv100",
+          "dtag": "MC13TeV_DM_V_Mx-800_Mv-100",
           "xsec": 0.000035696,
           "split": 1,
           "br": [
@@ -7624,7 +7624,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx800Mv10",
+          "dtag": "MC13TeV_DM_V_Mx-800_Mv-10",
           "xsec": 0.000035537,
           "split": 1,
           "br": [
@@ -7648,7 +7648,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx800Mv2000",
+          "dtag": "MC13TeV_DM_V_Mx-800_Mv-2000",
           "xsec": 0.000113734,
           "split": 1,
           "br": [
@@ -7672,7 +7672,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx800Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-800_Mv-200",
           "xsec": 0.000036271,
           "split": 1,
           "br": [
@@ -7696,7 +7696,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx800Mv20",
+          "dtag": "MC13TeV_DM_V_Mx-800_Mv-20",
           "xsec": 0.000035526,
           "split": 1,
           "br": [
@@ -7720,7 +7720,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx800Mv300",
+          "dtag": "MC13TeV_DM_V_Mx-800_Mv-300",
           "xsec": 0.000037224,
           "split": 1,
           "br": [
@@ -7744,7 +7744,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx800Mv5000",
+          "dtag": "MC13TeV_DM_V_Mx-800_Mv-5000",
           "xsec": 0.00000199166,
           "split": 1,
           "br": [
@@ -7768,7 +7768,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx800Mv500",
+          "dtag": "MC13TeV_DM_V_Mx-800_Mv-500",
           "xsec": 0.0000405358,
           "split": 1,
           "br": [
@@ -7792,7 +7792,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx800Mv50",
+          "dtag": "MC13TeV_DM_V_Mx-800_Mv-50",
           "xsec": 0.000035566,
           "split": 1,
           "br": [
