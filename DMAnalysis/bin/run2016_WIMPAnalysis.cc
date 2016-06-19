@@ -1211,6 +1211,7 @@ int main(int argc, char* argv[])
         int nJetsGood30(0);
         int nCSVLtags(0),nCSVMtags(0),nCSVTtags(0);
         double BTagWeights(1.0);
+        double dphiJetMET(999);
         for(size_t ijet=0; ijet<corrJets.size(); ijet++) {
 
             if(corrJets[ijet].pt()<20) continue;
@@ -1232,6 +1233,10 @@ int main(int argc, char* argv[])
             GoodIdJets.push_back(corrJets[ijet]);
             if(corrJets[ijet].pt()>30) nJetsGood30++;
 
+
+            if(corrJets[ijet].pt()>30) {
+               dphiJetMET = std::min(fabs(deltaPhi(corrJets[ijet].phi(),metP4.phi())), dphiJetMET );
+            }
             //https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation74X
             if(corrJets[ijet].pt()>20 && fabs(corrJets[ijet].eta())<2.4)  {
 
@@ -1301,7 +1306,7 @@ int main(int argc, char* argv[])
         bool passMETcut120=(metP4.pt()>120);
 
 
-
+        bool passDphiJetMETCut = dphiJetMET > 0.5;
 
         //missing ET balance
         double balanceDif = fabs(1-metP4.pt()/zll.pt());
@@ -1309,16 +1314,6 @@ int main(int argc, char* argv[])
 
         //transverse mass
         double MT_massless = METUtils::transverseMass(zll,metP4,false);
-
-        double dphiJetMET(999.);
-        if( nJetsGood30 > 0 ) {
-            for( const auto & jet:GoodIdJets ) {
-                if( jet.pt() > 30 ) {
-                    dphiJetMET = fabs(deltaPhi(jet.phi(),metP4.phi()));
-                }
-            }
-        }
-        bool passDphiJetMETCut = dphiJetMET > 0.5;
 
         double response = METUtils::response(zll,metP4);
         bool passResponseCut = (response>-1 && response<1);
@@ -1701,6 +1696,7 @@ int main(int argc, char* argv[])
                 vJets = variedJets[ivar];
             }
 
+            double LocalDphiJetMET(999.);
             bool passLocalBveto(true);
             for(size_t ijet=0; ijet<vJets.size(); ijet++) {
 
@@ -1720,6 +1716,10 @@ int main(int argc, char* argv[])
                 }
                 if(minDR < 0.4) continue;
 
+                // Separation between jet and MET
+                if(vJets[ijet].pt() > 30 ) {
+                    LocalDphiJetMET = std::min( LocalDphiJetMET, fabs(deltaPhi(vJets[ijet].phi(),vMET.phi())));
+                }
 
                 if(vJets[ijet].pt()>20 && fabs(vJets[ijet].eta())<2.4) {
 
@@ -1751,14 +1751,7 @@ int main(int argc, char* argv[])
             double responseVal = METUtils::response(zll,vMET);
             bool passResponseValCut = (fabs(responseVal)<1);
 
-            double LocalDphiJetMET(999.);
-            for( const auto & jet:vJets ) {
-                if( jet.isPFLoose and ( jet.pt() > 30 ) ) {
-                    LocalDphiJetMET = fabs(deltaPhi(jet.phi(),metP4.phi()));
-                }
-            }
             bool passLocalDphiJetMETCut = LocalDphiJetMET > 0.5;
-
             bool passBaseSelection( passZmass && passZpt && pass3dLeptonVeto && passTauVeto && passLocalBveto && passResponseValCut && passLocalDphiJetMETCut );
 
             double mt_massless = METUtils::transverseMass(zll,vMET,false); //massless mt
@@ -1784,7 +1777,6 @@ int main(int argc, char* argv[])
                 if(ivar==0 && passBaseSelection && passLocalBalanceCut && passLocalDphiZMETcut ) {
                     mon.fillHisto("pfmet_minus_shapes",tags,index, vMET.pt(), iweight);
                 }
-
 
                 // fill shapes for limit setting
                 if( passOptimSelection ) {
