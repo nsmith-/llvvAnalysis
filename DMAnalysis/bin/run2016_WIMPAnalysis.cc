@@ -509,7 +509,7 @@ int main(int argc, char* argv[])
     if(runOptimization) {
         // for optimization
         cout << "Optimization will be performed for this analysis" << endl;
-        for(double met=100; met<=200; met+=10) {
+        for(double met=100; met<=150; met+=10) {
             for(double balance=0.4; balance<=0.4; balance+=0.05) {
                 for(double dphi=2.8; dphi<=2.8; dphi+=0.1) {
                     optim_Cuts1_MET     .push_back(met);
