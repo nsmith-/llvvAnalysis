@@ -728,13 +728,13 @@ int main(int argc, char* argv[])
         double TotalWeight_minus = 1.0;
 
         if(isMC) mon.fillHisto("pileup", "all", ev.ngenTruepu, 1.0);
-/*
+
         if(isMC) {
             weight 		*= getSFfrom1DHist(ev.ngenTruepu, weight_pileup_Central);
             TotalWeight_plus 	*= getSFfrom1DHist(ev.ngenTruepu, weight_pileup_Up);
             TotalWeight_minus 	*= getSFfrom1DHist(ev.ngenTruepu, weight_pileup_Down);
         }
-*/
+
 
         Hcutflow->Fill(1,genWeight);
         Hcutflow->Fill(2,weight);
