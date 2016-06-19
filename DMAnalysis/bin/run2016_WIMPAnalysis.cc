@@ -1006,8 +1006,6 @@ int main(int argc, char* argv[])
         }
 */
 
-
-
         if(id1*id2==0) continue;
         LorentzVector zll(lep1+lep2);
         bool passZmass( ( 76.1876 < zll.mass() ) && ( zll.mass() < 101.1876 ) );
@@ -1039,6 +1037,18 @@ int main(int argc, char* argv[])
         if(isMC && mctruthmode==2) {
             if(phys.genleptons.size()!=2) continue;
             if(!isDYToTauTau(phys.genleptons[0].id, phys.genleptons[1].id) ) continue;
+        }
+
+
+        // Minimum unprescaled double-electron trigger will likely be Ele23_Ele12
+        // So offline leading electron >25 to stay out of the strong inefficiency region
+        double minLeadingElectronPt = 25;
+        if ( evcat==EE && (
+              (lep1.pt() > lep2.pt() && lep1.pt() < minLeadingElectronPt)
+              || (lep1.pt() < lep2.pt() && lep2.pt() < minLeadingElectronPt)
+            ) )
+        {
+          continue;
         }
 
 
