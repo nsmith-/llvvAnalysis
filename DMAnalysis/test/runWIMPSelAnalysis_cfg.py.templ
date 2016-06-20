@@ -35,11 +35,11 @@ process.config = cms.PSet(
     BtagSF = cms.string("${CMSSW_BASE}/src/llvvAnalysis/DMAnalysis/data/CSVv2_76x.csv"),
 
     ### Muon Scale Factors
-    MuonTrigEffSF = cms.string("${CMSSW_BASE}/src/llvvAnalysis/DMAnalysis/data/weights/muon_trigeff_sf_eta_eta.root"),
+    MuonTrigEffSF = cms.string("${CMSSW_BASE}/src/llvvAnalysis/DMAnalysis/data/weights/dilepton_trigger_efficiencies.root"),
     MuonTightWPSF = cms.string("${CMSSW_BASE}/src/llvvAnalysis/DMAnalysis/data/weights/scalefactors_mu_80x.root"),
 
     ### Electron Scale Factors
-    ElectronTrigEffSF = cms.string("${CMSSW_BASE}/src/llvvAnalysis/DMAnalysis/data/weights/electron_trigeff_sf_abseta_abseta.root"),
+    ElectronTrigEffSF = cms.string("${CMSSW_BASE}/src/llvvAnalysis/DMAnalysis/data/weights/dilepton_trigger_efficiencies.root"),
     ElectronMediumWPSF = cms.string("${CMSSW_BASE}/src/llvvAnalysis/DMAnalysis/data/weights/scalefactors_ele_80x.root"),
     ElectronVetoWPSF   = cms.string("${CMSSW_BASE}/src/llvvAnalysis/DMAnalysis/data/weights/scalefactors_ele_80x.root"),
     ElectronRECOSF     = cms.string("${CMSSW_BASE}/src/llvvAnalysis/DMAnalysis/data/weights/eleRECO.txt.egamma_SF2D.root"),

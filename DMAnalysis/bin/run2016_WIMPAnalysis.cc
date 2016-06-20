@@ -636,16 +636,14 @@ int main(int argc, char* argv[])
     gSystem->ExpandPathName(MuonTrigEffSF_);
     cout << "Loading Muon Trigger Eff SF: " << MuonTrigEffSF_ << endl;
     TFile *MuonTrigEffSF_File = TFile::Open(MuonTrigEffSF_);
-    TH2F* h_MuonTrigEffSF = (TH2F *) MuonTrigEffSF_File->Get("muon_trigeff_sf_eta_eta");
+    TH2F* h_MuonTrigEffSF = (TH2F *) MuonTrigEffSF_File->Get("h_dimuon_eff_0");
 
     // electron trigger efficiency SF
-    //TString ElectronTrigEffSF_ = runProcess.getParameter<std::string>("ElectronTrigEffSF");
-    //gSystem->ExpandPathName(ElectronTrigEffSF_);
-    //cout << "Loading Electron Trigger Eff SF: " << ElectronTrigEffSF_ << endl;
-    //TFile *ElectronTrigEffSF_File = TFile::Open(ElectronTrigEffSF_);
-    //TH2F* h_ElectronTrigEffSF = (TH2F *) ElectronTrigEffSF_File->Get("electron_trigeff_sf_abseta_abseta");
-
-
+    TString ElectronTrigEffSF_ = runProcess.getParameter<std::string>("ElectronTrigEffSF");
+    gSystem->ExpandPathName(ElectronTrigEffSF_);
+    cout << "Loading Electron Trigger Eff SF: " << ElectronTrigEffSF_ << endl;
+    TFile *ElectronTrigEffSF_File = TFile::Open(ElectronTrigEffSF_);
+    TH2F* h_ElectronTrigEffSF = (TH2F *) ElectronTrigEffSF_File->Get("h_dielectron_eff_0");
 
     //Electron ID RECO SF
     TString ElectronMediumWPSF_ = runProcess.getParameter<std::string>("ElectronMediumWPSF");
@@ -994,22 +992,7 @@ int main(int argc, char* argv[])
 
 
 
-        // ID + ISO scale factors
-        // Need to implement variations for errors (unused for now)
-        if(isMC) {
-            // Muon ID SF
-            if(abs(id1)==13) weight *= getSFfrom2DHist( fabs(lep1.eta()), lep1.pt(), h_MuonTightWPSF );
-            if(abs(id2)==13) weight *= getSFfrom2DHist( fabs(lep2.eta()), lep2.pt(), h_MuonTightWPSF );
 
-            //electron ID SF
-            if(abs(id1)==11) weight *= getSFfrom2DHist( fabs(lep1.eta()), lep1.pt(), h_ElectronMediumWPSF );
-            if(abs(id2)==11) weight *= getSFfrom2DHist( fabs(lep2.eta()), lep2.pt(), h_ElectronMediumWPSF );
-/*
-            //electron RECO SF
-            if(abs(id1)==11) weight *= getSFfrom2DHist( lep1.eta(), lep1.pt(), h_ElectronRECOSF );
-            if(abs(id2)==11) weight *= getSFfrom2DHist( lep2.eta(), lep2.pt(), h_ElectronRECOSF );
-*/
-        }
 
 
 
@@ -1034,6 +1017,37 @@ int main(int argc, char* argv[])
             break;
         default   :
             continue;
+        }
+        // ID + ISO scale factors
+        // Need to implement variations for errors (unused for now)
+        if(isMC) {
+            // Muon ID SF
+            if(abs(id1)==13) weight *= getSFfrom2DHist( fabs(lep1.eta()), lep1.pt(), h_MuonTightWPSF );
+            if(abs(id2)==13) weight *= getSFfrom2DHist( fabs(lep2.eta()), lep2.pt(), h_MuonTightWPSF );
+
+            //electron ID SF
+            if(abs(id1)==11) weight *= getSFfrom2DHist( fabs(lep1.eta()), lep1.pt(), h_ElectronMediumWPSF );
+            if(abs(id2)==11) weight *= getSFfrom2DHist( fabs(lep2.eta()), lep2.pt(), h_ElectronMediumWPSF );
+/*
+            //electron RECO SF
+            if(abs(id1)==11) weight *= getSFfrom2DHist( lep1.eta(), lep1.pt(), h_ElectronRECOSF );
+            if(abs(id2)==11) weight *= getSFfrom2DHist( lep2.eta(), lep2.pt(), h_ElectronRECOSF );
+*/
+        }
+
+        // Trigger Efficiency Scale Factors
+        // Pre-ICHEP 2016, the efficiency in MC is 1
+        // Thus, the weight is simply the efficiency in data
+        // The efficiency is binned in |eta| of tag and probe,
+        // for now we just take the leading lepton as tag
+        if(isMC) {
+            double eta_tag   = lep1.pt() > lep2.pt() ? lep1.eta() : lep2.eta();
+            double eta_probe = lep1.pt() > lep2.pt() ? lep2.eta() : lep1.eta();
+            if(evcat==MUMU) {
+                weight *= getSFfrom2DHist( fabs(eta_probe), fabs(eta_tag), h_MuonTrigEffSF );
+            } else if(evcat==EE) {
+                weight *= getSFfrom2DHist( fabs(eta_probe), fabs(eta_tag), h_ElectronTrigEffSF );
+            }
         }
 
         //split inclusive DY sample into DYToLL and DYToTauTau
@@ -1096,22 +1110,9 @@ int main(int argc, char* argv[])
         mon.fillHisto("nvtxwgt_raw",tags, phys.nvtx,      weight);
 
 
+
+
 /*
-        //
-        //apply muon trigger efficiency scale factors
-        //
-        if(isMC) {
-            double trigger_sf(1.0);
-            if(evcat==MUMU) {
-                trigger_sf *= getSFfrom2DHist( lep1.eta(), lep2.eta(), h_MuonTrigEffSF );
-            } else if(evcat==EE) {
-                //trigger_sf *= getSFfrom2DHist( fabs(lep1.eta()), fabs(lep2.eta()), h_ElectronTrigEffSF );
-            }
-
-            if(trigger_sf < 0.01) trigger_sf = 1.;
-            weight *= trigger_sf;
-        }
-
         if(isMC_WIMP) {
             mon.fillHisto("DMAcceptance",tags,0,1);
             if( (fabs(lep1.eta())>1.6 && fabs(lep1.eta())<2.4) || (fabs(lep2.eta())>1.6 && fabs(lep2.eta())<2.4) ) mon.fillHisto("DMAcceptance",tags,1,1);
