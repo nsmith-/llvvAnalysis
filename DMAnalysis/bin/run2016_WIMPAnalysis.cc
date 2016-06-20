@@ -652,7 +652,7 @@ int main(int argc, char* argv[])
     gSystem->ExpandPathName(ElectronMediumWPSF_);
     cout << "Loading Electron MediumWP SF: " << ElectronMediumWPSF_ << endl;
     TFile *ElectronMediumWPSF_File = TFile::Open(ElectronMediumWPSF_);
-    TH2F* h_ElectronMediumWPSF = (TH2F *) ElectronMediumWPSF_File->Get("EGamma_SF2D");
+    TH2F* h_ElectronMediumWPSF = (TH2F *) ElectronMediumWPSF_File->Get("scalefactors_Medium_Electron");
 
     TString ElectronRECOSF_ = runProcess.getParameter<std::string>("ElectronRECOSF");
     gSystem->ExpandPathName(ElectronRECOSF_);
@@ -660,7 +660,12 @@ int main(int argc, char* argv[])
     TFile *ElectronRECOSF_File = TFile::Open(ElectronRECOSF_);
     TH2F* h_ElectronRECOSF = (TH2F *) ElectronRECOSF_File->Get("EGamma_SF2D");
 
-
+    // Muon ID SF
+    TString MuonTightWPSF_ = runProcess.getParameter<std::string>("MuonTightWPSF");
+    gSystem->ExpandPathName(MuonTightWPSF_);
+    cout << "Loading Muon TightWP SF: " << MuonTightWPSF_ << endl;
+    TFile *MuonTightWPSF_File = TFile::Open(MuonTightWPSF_);
+    TH2F* h_MuonTightWPSF = (TH2F *) MuonTightWPSF_File->Get("scalefactors_Tight_Muon");
 
 
     //
@@ -678,10 +683,6 @@ int main(int argc, char* argv[])
 
     // event categorizer
     EventCategory eventCategoryInst(1);   //jet(0,1,>=2) binning
-
-
-    // Lepton scale factors
-    LeptonEfficiencySF lsf(2015);
 
     //####################################################################################################################
     //###########################################           EVENT LOOP         ###########################################
@@ -992,24 +993,24 @@ int main(int argc, char* argv[])
         }
 
 
-/*
-        // ID + ISO scale factors (only muons for the time being)
+
+        // ID + ISO scale factors
         // Need to implement variations for errors (unused for now)
         if(isMC) {
-            float llScaleFactor = 1.0;
-            if(abs(id1)==13) llScaleFactor *= lsf.getLeptonEfficiency( lep1.pt(), lep1.eta(), abs(id1) ).first;
-            if(abs(id2)==13) llScaleFactor *= lsf.getLeptonEfficiency( lep2.pt(), lep2.eta(), abs(id2) ).first;
-            if(llScaleFactor>0) weight *= llScaleFactor;
+            // Muon ID SF
+            if(abs(id1)==13) weight *= getSFfrom2DHist( fabs(lep1.eta()), lep1.pt(), h_MuonTightWPSF );
+            if(abs(id2)==13) weight *= getSFfrom2DHist( fabs(lep2.eta()), lep2.pt(), h_MuonTightWPSF );
 
             //electron ID SF
             if(abs(id1)==11) weight *= getSFfrom2DHist( fabs(lep1.eta()), lep1.pt(), h_ElectronMediumWPSF );
             if(abs(id2)==11) weight *= getSFfrom2DHist( fabs(lep2.eta()), lep2.pt(), h_ElectronMediumWPSF );
-
+/*
             //electron RECO SF
             if(abs(id1)==11) weight *= getSFfrom2DHist( lep1.eta(), lep1.pt(), h_ElectronRECOSF );
             if(abs(id2)==11) weight *= getSFfrom2DHist( lep2.eta(), lep2.pt(), h_ElectronRECOSF );
-        }
 */
+        }
+
 
 
 
