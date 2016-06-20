@@ -59,5 +59,5 @@ process.config = cms.PSet(
     evStart = cms.int32(0),
     evEnd = cms.int32(-1),
     dirName = cms.string("mainAnalyzer/data"),
-    jesUncFileName = cms.string("${CMSSW_BASE}/src/llvvAnalysis/DMAnalysis/data/weights/Fall15_25nsV2_MC_Uncertainty_AK4PFchs.txt"),
+    jesUncFileName = cms.string("${CMSSW_BASE}/src/llvvAnalysis/DMAnalysis/data/weights/Spring16_25nsV3_MC_Uncertainty_AK4PFchs.txt"),
 )
