@@ -456,7 +456,6 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
 
 
     //met filters
-    /*
     edm::Handle<edm::TriggerResults> metFilterBits;
     event.getByToken(metFilterBitsTag_, metFilterBits);
     const edm::TriggerNames &metNames = event.triggerNames(*metFilterBits);
@@ -478,7 +477,6 @@ MainAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& iSetup)
     }
     controlHistos_.fillHisto("passMETFilter","all",passMETFilters);
     if(!passMETFilters) return;
-    */
 
 
 
