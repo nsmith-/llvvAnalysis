@@ -509,7 +509,7 @@ int main(int argc, char* argv[])
     if(runOptimization) {
         // for optimization
         cout << "Optimization will be performed for this analysis" << endl;
-        for(double met=100; met<=200; met+=10) {
+        for(double met=100; met<=150; met+=10) {
             for(double balance=0.4; balance<=0.4; balance+=0.05) {
                 for(double dphi=2.8; dphi<=2.8; dphi+=0.1) {
                     optim_Cuts1_MET     .push_back(met);
@@ -898,15 +898,10 @@ int main(int argc, char* argv[])
             double qqZZ_NNLO = kfactor_qqZZ_qcd_dPhi(dPhiZZ);
 
             //double qqZZwgt = (weight * qqZZ_EWKNLO * qqZZ_NNLO); //qqZZ
-            //double ggZZwgt = (weight * 0.1); // ggZZ: an extra 10% to account for gg->ZZ contribution
-            //weight = qqZZwgt+ggZZwgt;
-            weight *= (0.1 + qqZZ_EWKNLO * qqZZ_NNLO);
+            weight *= qqZZ_EWKNLO * qqZZ_NNLO;
 
-            float newEwk_up   = qqZZ_EWKNLO / (rhoZZ<0.3 ? (1. - (1.6 - 1.)*(1. - qqZZ_EWKNLO)) : qqZZ_EWKNLO);
-            float newEwk_down = qqZZ_EWKNLO * (rhoZZ<0.3 ? (1. - (1.6 - 1.)*(1. - qqZZ_EWKNLO)) : qqZZ_EWKNLO);
-
-            weight_ewkup   = (0.1 + newEwk_up * qqZZ_NNLO)  /(0.1 + qqZZ_EWKNLO * qqZZ_NNLO);
-            weight_ewkdown = (0.1 + newEwk_down * qqZZ_NNLO)/(0.1 + qqZZ_EWKNLO * qqZZ_NNLO);
+            weight_ewkup   = 1 /  (rhoZZ<0.3 ? (1. - (1.6 - 1.)*(1. - qqZZ_EWKNLO)) : qqZZ_EWKNLO);
+            weight_ewkdown = 1 *  (rhoZZ<0.3 ? (1. - (1.6 - 1.)*(1. - qqZZ_EWKNLO)) : qqZZ_EWKNLO);
         }
 
 
@@ -995,8 +990,6 @@ int main(int argc, char* argv[])
 
 
 
-
-
         if(id1*id2==0) continue;
         LorentzVector zll(lep1+lep2);
         bool passZmass( ( 76.1876 < zll.mass() ) && ( zll.mass() < 101.1876 ) );
@@ -1059,6 +1052,18 @@ int main(int argc, char* argv[])
         if(isMC && mctruthmode==2) {
             if(phys.genleptons.size()!=2) continue;
             if(!isDYToTauTau(phys.genleptons[0].id, phys.genleptons[1].id) ) continue;
+        }
+
+
+        // Minimum unprescaled double-electron trigger will likely be Ele23_Ele12
+        // So offline leading electron >25 to stay out of the strong inefficiency region
+        double minLeadingElectronPt = 25;
+        if ( evcat==EE && (
+              (lep1.pt() > lep2.pt() && lep1.pt() < minLeadingElectronPt)
+              || (lep1.pt() < lep2.pt() && lep2.pt() < minLeadingElectronPt)
+            ) )
+        {
+          continue;
         }
 
 

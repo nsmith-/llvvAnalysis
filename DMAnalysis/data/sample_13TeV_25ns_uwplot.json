@@ -511,7 +511,7 @@
       "marker": 809,
       "data": [
         {
-          "dtag": "MC13TeV_DM_V_Mx50Mv200",
+          "dtag": "MC13TeV_DM_V_Mx-50_Mv-200",
           "xsec": 0.22546,
           "split": 1,
           "br": [
