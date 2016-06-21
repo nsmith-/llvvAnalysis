@@ -48,16 +48,7 @@
           "br": [
             1
           ]
-        }
-      ]
-    },
-    {
-      "isdata": false,
-      "color": "845",
-      "lcolor": "1",
-      "tag": "ggToZZ#rightarrow 2l2#nu",
-      "marker": 842,
-      "data": [
+        },
         {
           "dtag": "MC13TeV_GluGluToZZTo2e2nu",
           "xsec": 0.00172,
@@ -181,7 +172,7 @@
       "marker": 400,
       "data": [
         {
-          "dtag": "MC13TeV_WJetsmadgraphMLM",
+          "dtag": "MC13TeV_WJetsamcatnlo",
           "xsec": 61526.7,
           "split": 20,
           "br": [
