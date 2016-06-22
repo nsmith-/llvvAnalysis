@@ -391,7 +391,7 @@
         }
       ]
     },
-    {
+   {
       "isdata": false,
       "color": "901",
       "lcolor": "1",
@@ -399,17 +399,9 @@
       "marker": 901,
       "data": [
         {
-          "dtag": "MC13TeV_DYJetsToLL_10to50",
-          "xsec": 18610,
-          "split": 30,
-          "br": [
-            1
-          ]
-        },
-        {
           "dtag": "MC13TeV_DYJetsToLL_50toInf",
           "xsec": 6025,
-          "split": 40,
+          "split": 10,
           "br": [
             1
           ]
@@ -425,17 +417,9 @@
       "marker": 66,
       "data": [
         {
-          "dtag": "MC13TeV_DYJetsToLL_10to50",
-          "xsec": 18610,
-          "split": 30,
-          "br": [
-            1
-          ]
-        },
-        {
           "dtag": "MC13TeV_DYJetsToLL_50toInf",
           "xsec": 6025,
-          "split": 40,
+          "split": 10,
           "br": [
             1
           ]

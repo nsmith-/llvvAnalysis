@@ -255,14 +255,6 @@
       "marker": 901,
       "data": [
         {
-          "dtag": "MC13TeV_DYJetsToLL_10to50",
-          "xsec": 18610,
-          "split": 1,
-          "br": [
-            1
-          ]
-        },
-        {
           "dtag": "MC13TeV_DYJetsToLL_50toInf",
           "xsec": 6025,
           "split": 1,
@@ -280,14 +272,6 @@
       "tag": "Z#rightarrow #tau#tau",
       "marker": 66,
       "data": [
-        {
-          "dtag": "MC13TeV_DYJetsToLL_10to50",
-          "xsec": 18610,
-          "split": 1,
-          "br": [
-            1
-          ]
-        },
         {
           "dtag": "MC13TeV_DYJetsToLL_50toInf",
           "xsec": 6025,
