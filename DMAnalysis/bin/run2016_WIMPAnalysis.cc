@@ -361,6 +361,11 @@ int main(int argc, char* argv[])
     mon.addHistogram( new TH1F( "sync_zmass_minus",    ";#it{m}_{ll} [GeV];Events", 100,40,250) );
     mon.addHistogram( new TH1F( "sync_ptz_minus",      ";#it{p}_{T}^{ll} [GeV];Events", 50,0,500) );
 
+    mon.addHistogram( new TH1F( "leadlep_pt_met_minus", ";Leading lepton #it{p}_{T}^{l};Events", 50,0,500) );
+    mon.addHistogram( new TH1F( "leadlep_eta_met_minus",";Leading lepton #eta^{l};Events", 52,-2.6,2.6) );
+    mon.addHistogram( new TH1F( "trailep_pt_met_minus", ";Leading lepton #it{p}_{T}^{l};Events", 50,0,500) );
+    mon.addHistogram( new TH1F( "trailep_eta_met_minus",";Leading lepton #eta^{l};Events", 52,-2.6,2.6) );
+
     mon.addHistogram( new TH1F( "sync_met_minus",        ";E_{T}^{miss} [GeV];Events", 50,0,500 ) );
     mon.addHistogram( new TH1F( "sync_dPhiZMET_minus",   ";#Delta#it{#phi}(#it{l^{+}l^{-}},E_{T}^{miss});Events", 10,0,TMath::Pi()) );
     mon.addHistogram( new TH1F( "sync_balance_minus",    ";|E_{T}^{miss}-#it{q}_{T}|/#it{q}_{T};Events",10,0,2.0) );
@@ -1374,6 +1379,17 @@ int main(int argc, char* argv[])
                             if( passZpt ) {
                                 mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
                                 mon.fillHisto( "sync_met_minus",        tags, metP4.pt(), weight );
+                                if(lep1.pt()>lep2.pt()) {
+                                    mon.fillHisto("leadlep_pt_met_minus",   tags, lep1.pt(), weight);
+                                    mon.fillHisto("leadlep_eta_met_minus",  tags, lep1.eta(), weight);
+                                    mon.fillHisto("trailep_pt_met_minus",   tags, lep2.pt(), weight);
+                                    mon.fillHisto("trailep_eta_met_minus",  tags, lep2.eta(), weight);
+                                } else {
+                                    mon.fillHisto("leadlep_pt_met_minus",   tags, lep2.pt(), weight);
+                                    mon.fillHisto("leadlep_eta_met_minus",  tags, lep2.eta(), weight);
+                                    mon.fillHisto("trailep_pt_met_minus",   tags, lep1.pt(), weight);
+                                    mon.fillHisto("trailep_eta_met_minus",  tags, lep1.eta(), weight);
+                                }
                                 if( passMETcut ) {
                                     mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
                                     mon.fillHisto( "sync_dPhiZMET_minus",   tags, dphiZMET, weight );
