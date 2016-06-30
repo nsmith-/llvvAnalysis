@@ -210,9 +210,9 @@ void computeVariation(PhysicsObjectJetCollection& jets,
                         iScaleLepton *= (1.0+varSign*0.01);
                     } else if(fabs(lep.id)==11) {
                         if(fabs(lep.eta())<1.442) {
-                            iScaleLepton *= (1.0+varSign*0.02);
+                            iScaleLepton *= (1.0+varSign*0.01);
                         } else {
-                            iScaleLepton *= (1.0+varSign*0.05);
+                            iScaleLepton *= (1.0+varSign*0.01);
                         }
                     }
                     lepDiff += (iScaleLepton-lep);
