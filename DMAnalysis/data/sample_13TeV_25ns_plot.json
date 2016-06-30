@@ -9,7 +9,7 @@
       "data": [
         {
           "dtag": "MC13TeV_WZpowheg",
-          "xsec": 4.102,
+          "xsec": 47.13,
           "split": 1,
           "br": [
             1
@@ -48,16 +48,7 @@
           "br": [
             1
           ]
-        }
-      ]
-    },
-    {
-      "isdata": false,
-      "color": "845",
-      "lcolor": "1",
-      "tag": "ggToZZ#rightarrow 2l2#nu",
-      "marker": 842,
-      "data": [
+        },
         {
           "dtag": "MC13TeV_GluGluToZZTo2e2nu",
           "xsec": 0.00172,
@@ -255,9 +246,18 @@
       "marker": 901,
       "data": [
         {
-          "dtag": "MC13TeV_DYJetsToLL_50toInf",
-          "xsec": 6025,
+          "dtag": "MC13TeV_DYJetsToLL_10to50",
+          "xsec": 18610,
           "split": 1,
+          "br": [
+            1
+          ]
+        },
+        {
+        {
+          "dtag": "MC13TeV_DYJetsToLL_50toInf_madgraphMLM",
+          "xsec": 6025,
+          "split": 10,
           "br": [
             1
           ]
@@ -273,9 +273,17 @@
       "marker": 66,
       "data": [
         {
-          "dtag": "MC13TeV_DYJetsToLL_50toInf",
-          "xsec": 6025,
+          "dtag": "MC13TeV_DYJetsToLL_10to50",
+          "xsec": 18610,
           "split": 1,
+          "br": [
+            1
+          ]
+        },
+        {
+          "dtag": "MC13TeV_DYJetsToLL_50toInf_madgraphMLM",
+          "xsec": 6025,
+          "split": 10,
           "br": [
             1
           ]
