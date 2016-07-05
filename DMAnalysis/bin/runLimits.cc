@@ -56,6 +56,7 @@ struct YIELDS_T {
     double Zjets;
     double WWtop;
     double Wjets;
+    double VVV;
     double Data;
     double Sig;
     double totBkg;
@@ -65,13 +66,14 @@ struct YIELDS_T {
     double Zjets_StatErr;
     double WWtop_StatErr;
     double Wjets_StatErr;
+    double VVV_StatErr;
     double Data_StatErr;
     double Sig_StatErr;
     double totBkg_StatErr;
 
-    YIELDS_T():WZ(0.),ZZ(0.),Zjets(0.),WWtop(0.),Wjets(0.),Data(0.),Sig(0.),totBkg(0.),
+    YIELDS_T():WZ(0.),ZZ(0.),Zjets(0.),WWtop(0.),Wjets(0.),VVV(0.),Data(0.),Sig(0.),totBkg(0.),
         WZ_StatErr(0.),ZZ_StatErr(0.),Zjets_StatErr(0.),WWtop_StatErr(0.),
-        Wjets_StatErr(0.),Data_StatErr(0.),Sig_StatErr(0.),totBkg_StatErr(0.) { }
+        Wjets_StatErr(0.),VVV_StatErr(0.),Data_StatErr(0.),Sig_StatErr(0.),totBkg_StatErr(0.) { }
 };
 
 
@@ -782,9 +784,9 @@ void getYieldsFromShape(std::vector<TString> ch, const map<TString, Shape_t> &al
                     fortableYields.WWtop_StatErr = valerr;
                     sum_allbkgs += val;
                     err_allbkgs += valerr*valerr;
-                } else if(procTitle.Contains("Wjets (data)")) {
-                    fortableYields.Wjets = val;
-                    fortableYields.Wjets_StatErr = valerr;
+                } else if(procTitle.Contains("VVV")) {
+                    fortableYields.VVV = val;
+                    fortableYields.VVV_StatErr = valerr;
                     sum_allbkgs += val;
                     err_allbkgs += valerr*valerr;
                 }
@@ -921,7 +923,7 @@ void getYieldsFromShape(std::vector<TString> ch, const map<TString, Shape_t> &al
             ,mm1jet_Yields.ZZ, mm1jet_Yields.ZZ_StatErr
            );
     fprintf(pFile,"%40s & %.2f $\\pm$ %.2f & %.2f $\\pm$ %.2f & %.2f $\\pm$ %.2f & %.2f $\\pm$ %.2f \\\\\n"
-            ,"Top/WW/$Z\\to\\tau^+\\tau^-$"
+            ,"Top/W/WW/$Z\\to\\tau^+\\tau^-$"
             ,ee0jet_Yields.WWtop, ee0jet_Yields.WWtop_StatErr
             ,mm0jet_Yields.WWtop, mm0jet_Yields.WWtop_StatErr
             ,ee1jet_Yields.WWtop, ee1jet_Yields.WWtop_StatErr
@@ -930,11 +932,11 @@ void getYieldsFromShape(std::vector<TString> ch, const map<TString, Shape_t> &al
 
 
     fprintf(pFile,"%40s & %.2f $\\pm$ %.2f & %.2f $\\pm$ %.2f & %.2f $\\pm$ %.2f & %.2f $\\pm$ %.2f \\\\\n"
-            ,"W+jets"
-            ,ee0jet_Yields.Wjets, ee0jet_Yields.Wjets_StatErr
-            ,mm0jet_Yields.Wjets, mm0jet_Yields.Wjets_StatErr
-            ,ee1jet_Yields.Wjets, ee1jet_Yields.Wjets_StatErr
-            ,mm1jet_Yields.Wjets, mm1jet_Yields.Wjets_StatErr
+            ,"VV/VVV"
+            ,ee0jet_Yields.VVV, ee0jet_Yields.VVV_StatErr
+            ,mm0jet_Yields.VVV, mm0jet_Yields.VVV_StatErr
+            ,ee1jet_Yields.VVV, ee1jet_Yields.VVV_StatErr
+            ,mm1jet_Yields.VVV, mm1jet_Yields.VVV_StatErr
            );
     fprintf(pFile,"\\hline\n");
     fprintf(pFile,"%40s & %.2f $\\pm$ %.2f & %.2f $\\pm$ %.2f & %.2f $\\pm$ %.2f & %.2f $\\pm$ %.2f \\\\\n"
@@ -995,16 +997,16 @@ void getYieldsFromShape(std::vector<TString> ch, const map<TString, Shape_t> &al
             ,mmlesq1jet_Yields.ZZ, mmlesq1jet_Yields.ZZ_StatErr
            );
     fprintf(pFile,"%40s & %.2f $\\pm$ %.2f & %.2f $\\pm$ %.2f \\\\\n"
-            ,"Top/WW/$Z\\to\\tau^+\\tau^-$"
+            ,"Top/W/WW/$Z\\to\\tau^+\\tau^-$"
             ,eelesq1jet_Yields.WWtop, eelesq1jet_Yields.WWtop_StatErr
             ,mmlesq1jet_Yields.WWtop, mmlesq1jet_Yields.WWtop_StatErr
            );
 
 
     fprintf(pFile,"%40s & %.2f $\\pm$ %.2f & %.2f $\\pm$ %.2f \\\\\n"
-            ,"W+jets"
-            ,eelesq1jet_Yields.Wjets, eelesq1jet_Yields.Wjets_StatErr
-            ,mmlesq1jet_Yields.Wjets, mmlesq1jet_Yields.Wjets_StatErr
+            ,"VV/VVV"
+            ,eelesq1jet_Yields.VVV, eelesq1jet_Yields.VVV_StatErr
+            ,mmlesq1jet_Yields.VVV, mmlesq1jet_Yields.VVV_StatErr
            );
     fprintf(pFile,"\\hline\n");
     fprintf(pFile,"%40s & %.2f $\\pm$ %.2f & %.2f $\\pm$ %.2f \\\\\n"

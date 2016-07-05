@@ -141,9 +141,9 @@ void GetListOfObject(JSONWrapper::Object& Root, std::string RootDir, std::list<N
 	  if(Process[ip].isTag("mctruthmode") ) { char buf[255]; sprintf(buf,"_filt%d",(int)Process[ip]["mctruthmode"].toInt()); filtExt += buf; }
 
           //just to make it faster, only consider the first 3 sample of a same kind
-          if(isData){if(dataProcessed>=1){continue;}else{dataProcessed++;}}
-          if(isSign){if(signProcessed>=2){continue;}else{signProcessed++;}}
-          if(isMC  ){if(bckgProcessed>8) {continue;}else{bckgProcessed++;}}
+          //if(isData){if(dataProcessed>=1){continue;}else{dataProcessed++;}}
+          //if(isSign){if(signProcessed>=2){continue;}else{signProcessed++;}}
+          //if(isMC  ){if(bckgProcessed>8) {continue;}else{bckgProcessed++;}}
 
 	  std::vector<JSONWrapper::Object> Samples = (Process[ip])["data"].daughters();
           //to make it faster only consider the first samples
@@ -513,6 +513,7 @@ void Draw2DHistogramSplitCanvas(JSONWrapper::Object& Root, std::string RootDir, 
 
       savePath(c1,outDir,SaveName+"_"+(Process[i])["tag"].toString(),plotExt);
       savePath(c1,outDir,SaveName+"_"+(Process[i])["tag"].toString(),".pdf");
+      savePath(c1,outDir,SaveName+"_"+(Process[i])["tag"].toString(),".root");
       delete c1;
    }
 
@@ -620,6 +621,7 @@ void Draw2DHistogram(JSONWrapper::Object& Root, std::string RootDir, NameAndType
 
    savePath(c1,outDir,SaveName,plotExt);
    savePath(c1,outDir,SaveName,".pdf");
+   savePath(c1,outDir,SaveName,".root");
 
    for(unsigned int d=0;d<ObjectToDelete.size();d++){delete ObjectToDelete[d];}ObjectToDelete.clear();
    delete c1;
@@ -1172,6 +1174,7 @@ void Draw1DHistogram(JSONWrapper::Object& Root, std::string RootDir, NameAndType
    c1->cd();
    savePath(c1,outDir,SaveName,plotExt);
    savePath(c1,outDir,SaveName,".pdf");
+   savePath(c1,outDir,SaveName,".root");
 
    delete c1;
    for(unsigned int d=0;d<ObjectToDelete.size();d++){delete ObjectToDelete[d];}ObjectToDelete.clear();

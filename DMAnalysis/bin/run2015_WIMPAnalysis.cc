@@ -86,6 +86,39 @@ const float CSVLooseWP = 0.460;
 const float CSVMediumWP = 0.800;
 const float CSVTightWP = 0.935;
 
+struct PreselTree {
+  int run;
+  int lumi;
+  int evt;
+  float weight;
+  int evcat;
+  int mctype;
+  int nJets;
+  float lep1_pt;
+  float lep1_eta;
+  float lep1_phi;
+  float lep2_pt;
+  float lep2_eta;
+  float lep2_phi;
+  float z_pt;
+  float z_eta;
+  float z_phi;
+  float z_m;
+  float met_pt;
+  float met_phi;
+  float trkmet_pt;
+  float trkmet_phi;
+  float calomet_pt;
+  float calomet_phi;
+  float cut_balance;
+  float cut_dphi_zmet;
+  float cut_response;
+  float mt_zmet;
+  float met_perZ_norm;
+  float met_perZ_rootnorm;
+  float met_parZ_norm;
+  float dphi_jetmet;
+};
 
 int main(int argc, char* argv[])
 {
@@ -130,6 +163,51 @@ int main(int argc, char* argv[])
     printf("TextFile URL = %s\n",outTxtUrl_final.Data());
     fprintf(outTxtFile_final,"run lumi event\n");
 
+    //save control plots to file
+    outUrl += "/";
+    outUrl += outFileUrl + ".root";
+    printf("Results saved in %s\n", outUrl.Data());
+    //save all to the file
+    TFile *ofile=TFile::Open(outUrl, "recreate");
+
+    // Save preselection tree with cut variables
+    TTree * preselectionTree{nullptr};
+    PreselTree presel;
+    if (runProcess.getUntrackedParameter<bool>("savePreselectionTree", false)) {
+      preselectionTree = new TTree("preselection", "preselection");
+      preselectionTree->Branch("run", &presel.run);
+      preselectionTree->Branch("lumi", &presel.lumi);
+      preselectionTree->Branch("evt", &presel.evt);
+      preselectionTree->Branch("weight", &presel.weight);
+      preselectionTree->Branch("evcat", &presel.evcat);
+      preselectionTree->Branch("mctype", &presel.mctype);
+      preselectionTree->Branch("nJets", &presel.nJets);
+      preselectionTree->Branch("lep1_pt", &presel.lep1_pt);
+      preselectionTree->Branch("lep1_eta", &presel.lep1_eta);
+      preselectionTree->Branch("lep1_phi", &presel.lep1_phi);
+      preselectionTree->Branch("lep2_pt", &presel.lep2_pt);
+      preselectionTree->Branch("lep2_eta", &presel.lep2_eta);
+      preselectionTree->Branch("lep2_phi", &presel.lep2_phi);
+      preselectionTree->Branch("z_pt", &presel.z_pt);
+      preselectionTree->Branch("z_eta", &presel.z_eta);
+      preselectionTree->Branch("z_phi", &presel.z_phi);
+      preselectionTree->Branch("z_m", &presel.z_m);
+      preselectionTree->Branch("met_pt", &presel.met_pt);
+      preselectionTree->Branch("met_phi", &presel.met_phi);
+      preselectionTree->Branch("trkmet_pt", &presel.trkmet_pt);
+      preselectionTree->Branch("trkmet_phi", &presel.trkmet_phi);
+      preselectionTree->Branch("calomet_pt", &presel.calomet_pt);
+      preselectionTree->Branch("calomet_phi", &presel.calomet_phi);
+      preselectionTree->Branch("cut_balance", &presel.cut_balance);
+      preselectionTree->Branch("cut_dphi_zmet", &presel.cut_dphi_zmet);
+      preselectionTree->Branch("cut_response", &presel.cut_response);
+      preselectionTree->Branch("mt_zmet", &presel.mt_zmet);
+      preselectionTree->Branch("met_perZ_norm", &presel.met_perZ_norm);
+      preselectionTree->Branch("met_perZ_rootnorm", &presel.met_perZ_rootnorm);
+      preselectionTree->Branch("met_parZ_norm", &presel.met_parZ_norm);
+      preselectionTree->Branch("dphi_jetmet", &presel.dphi_jetmet);
+    }
+
     int fType(0);
     if(url.Contains("DoubleEG")) fType=EE;
     if(url.Contains("DoubleMuon"))  fType=MUMU;
@@ -155,6 +233,7 @@ int main(int argc, char* argv[])
     bool isMCBkg_runPDFQCDscale = (isMC_ZZ2L2Nu || isMC_ZZTo4L || isMC_ZZTo2L2Q ||
                                    isMC_WZ || isMC_VVV);
 
+    bool isMC_DY    = isMC && (string(url.Data()).find("TeV_DYJets")  != string::npos);
     bool isMC_ttbar = isMC && (string(url.Data()).find("TeV_TT")  != string::npos);
     bool isMC_stop  = isMC && (string(url.Data()).find("TeV_SingleT")  != string::npos);
     bool isMC_WIMP  = isMC && (string(url.Data()).find("TeV_DM_V_Mx") != string::npos
@@ -267,7 +346,7 @@ int main(int argc, char* argv[])
 
     TH1F *h=(TH1F*) mon.addHistogram( new TH1F ("eventflow", ";;Events", 10,0,10) );
     h->GetXaxis()->SetBinLabel(1,"Trigger && 2 leptons");
-    h->GetXaxis()->SetBinLabel(2,"|#it{m}_{ll}-#it{m}_{Z}|<15");
+    h->GetXaxis()->SetBinLabel(2,"|#it{m}_{ll}-#it{m}_{Z}|<10");
     h->GetXaxis()->SetBinLabel(3,"#it{p}_{T}^{ll}>50");
     h->GetXaxis()->SetBinLabel(4,"3^{rd}-lepton veto");
     h->GetXaxis()->SetBinLabel(5,"b-veto");
@@ -344,6 +423,9 @@ int main(int argc, char* argv[])
     mon.addHistogram( new TH1F( "mt_presel",         ";#it{m}_{T} [GeV];Events", 12,0,1200) );
     mon.addHistogram( new TH1F( "mt2_presel",         ";#it{m}_{T} [GeV];Events", nBinsMT2,MT2Bins) );
     mon.addHistogram( new TH1F( "axialpfmet_presel", ";Axial E_{T}^{miss} [GeV];Events", 50,-150,150) );
+    mon.addHistogram( new TH1F( "pfmet_perz_norm_presel",     ";#slash{E}_{T} #times #hat{p}_{T}^{ll} / |p_{T}^{ll}|;Events", 50,-2,2) );
+    mon.addHistogram( new TH1F( "pfmet_perz_rootnorm_presel", ";#slash{E}_{T} #times #hat{p}_{T}^{ll} / #sqrt{p_{T}^{ll}};Events", 50,-10,10) );
+    mon.addHistogram( new TH1F( "pfmet_parz_norm_presel",            ";#slash{E}_{T} * #hat{p}_{T}^{ll} / |p_{T}^{ll}|;Events", 50,-2,2) );
 
     //adding N-1 plots
     mon.addHistogram( new TH1F( "pfmet_nm1",       ";E_{T}^{miss} [GeV];Events / 80 GeV", 15,0,1200));
@@ -439,14 +521,23 @@ int main(int argc, char* argv[])
     mon.addHistogram( new TH1F( "zpt_WZctrl",           ";#it{p}_{T}^{ll} [GeV];Events", 20,0,300) );
 
     mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET40",    ";E_{T}^{miss} [GeV];Events", 20,0,400));
+    mon.addHistogram( new TH1F( "pfmet2_WZctrl_ZZlike_MET40",   ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET2, MET2Bins));
     mon.addHistogram( new TH1F( "mt_WZctrl_ZZlike_MET40",       ";#it{m}_{T} [GeV];Events", 20,0,800) );
+
     mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET50",    ";E_{T}^{miss} [GeV];Events", 20,0,400));
+    mon.addHistogram( new TH1F( "pfmet2_WZctrl_ZZlike_MET50",   ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET2, MET2Bins));
     mon.addHistogram( new TH1F( "mt_WZctrl_ZZlike_MET50",       ";#it{m}_{T} [GeV];Events", 20,0,800) );
+
     mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET60",    ";E_{T}^{miss} [GeV];Events", 20,0,400));
+    mon.addHistogram( new TH1F( "pfmet2_WZctrl_ZZlike_MET60",   ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET2, MET2Bins));
     mon.addHistogram( new TH1F( "mt_WZctrl_ZZlike_MET60",       ";#it{m}_{T} [GeV];Events", 20,0,800) );
+
     mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET70",    ";E_{T}^{miss} [GeV];Events", 20,0,400));
+    mon.addHistogram( new TH1F( "pfmet2_WZctrl_ZZlike_MET70",   ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET2, MET2Bins));
     mon.addHistogram( new TH1F( "mt_WZctrl_ZZlike_MET70",       ";#it{m}_{T} [GeV];Events", 20,0,800) );
+
     mon.addHistogram( new TH1F( "pfmet_WZctrl_ZZlike_MET80",    ";E_{T}^{miss} [GeV];Events", 20,0,400));
+    mon.addHistogram( new TH1F( "pfmet2_WZctrl_ZZlike_MET80",   ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET2, MET2Bins));
     mon.addHistogram( new TH1F( "mt_WZctrl_ZZlike_MET80",       ";#it{m}_{T} [GeV];Events", 20,0,800) );
 
 
@@ -514,6 +605,7 @@ int main(int argc, char* argv[])
 
         mon.addHistogram( new TH2F (TString("met_shapes")+varNames[ivar],";cut index; E_{T}^{miss} [GeV];#Events (/80GeV)",nOptims,0,nOptims, 15,0,1200) );
         mon.addHistogram( new TH2F (TString("met2_shapes")+varNames[ivar],";cut index; E_{T}^{miss} [GeV];#Events",nOptims,0,nOptims, nBinsMET2,MET2Bins) );
+        mon.addHistogram( new TH2F (TString("met2_shapes_wSoftMu")+varNames[ivar],";cut index; E_{T}^{miss} [GeV];#Events",nOptims,0,nOptims, nBinsMET2,MET2Bins) );
 
         //2D shapes for limit setting
         //
@@ -1068,7 +1160,6 @@ int main(int argc, char* argv[])
             if( (fabs(lep1.eta())>1.6 && fabs(lep1.eta())<2.4) && (fabs(lep2.eta())>1.6 && fabs(lep2.eta())<2.4) ) mon.fillHisto("DMAcceptance",tags,2,1);
         }
 
-        mon.fillHisto("eventflow",tags,0,weight);
         mon.fillHisto("nleptons_raw",tags, nGoodLeptons, weight);
 
 
@@ -1093,6 +1184,7 @@ int main(int argc, char* argv[])
         bool pass3dLeptonVeto(true);
         bool hasTight3dLepton(false);
         int n3rdLeptons(0), nTight3rdLeptons(0);
+        int nSoftMuons(0);
         vector<LorentzVector> allLeptons;
         allLeptons.push_back(lep1);
         allLeptons.push_back(lep2);
@@ -1122,7 +1214,7 @@ int main(int argc, char* argv[])
             bool hasTightIdandIso(true);
             if(abs(lepid)==13) { //muon
                 hasLooseIdandIso &= ( phys.leptons[ilep].isLooseMu && phys.leptons[ilep].m_pfRelIsoDbeta()<0.25 && phys.leptons[ilep].pt()>10 );
-                hasLooseIdandIso |= ( phys.leptons[ilep].isSoftMu  && phys.leptons[ilep].pt()>3 );
+                if ( phys.leptons[ilep].isSoftMu  && phys.leptons[ilep].pt()>3 ) nSoftMuons++;
                 //
                 hasTightIdandIso &= phys.leptons[ilep].pt()>10;
                 hasTightIdandIso &= phys.leptons[ilep].isMediumMu;
@@ -1154,7 +1246,7 @@ int main(int argc, char* argv[])
         }
 
         pass3dLeptonVeto=(n3rdLeptons==0);
-        hasTight3dLepton=(nTight3rdLeptons==1);
+        hasTight3dLepton=(nTight3rdLeptons==1 && n3rdLeptons==1);
 
 
 
@@ -1276,6 +1368,11 @@ int main(int argc, char* argv[])
         //transverse mass
         double MT_massless = METUtils::transverseMass(zll,metP4,false);
 
+        //new
+        double pfmet_perZ_norm = (dil2.X()*met2.Y()-dil2.Y()*met2.X())/zll.pt()/zll.pt();
+        double pfmet_perZ_rootnorm = (dil2.X()*met2.Y()-dil2.Y()*met2.X())/zll.pt()/sqrt(zll.pt());
+        double pfmet_parZ_norm = dil2*met2/zll.pt()/zll.pt();
+
         //#########################################################
         //####  RUN PRESELECTION AND CONTROL REGION PLOTS  ########
         //#########################################################
@@ -1322,7 +1419,7 @@ int main(int argc, char* argv[])
         //
         // WZ control region
         //
-        if(hasTight3dLepton && passZmass && passBveto) {
+        if(hasTight3dLepton && passZmass && passZpt && passBveto) {
             mon.fillHisto("pfmet_WZctrl"                ,tags, metP4.pt(), weight);
             mon.fillHisto("balancedif_WZctrl"           ,tags, balanceDif, weight);
             mon.fillHisto("DphiZMET_WZctrl"             ,tags, dphiZMET, weight);
@@ -1332,6 +1429,7 @@ int main(int argc, char* argv[])
                 LorentzVector fakeMET = extraTight10Leptons[0]+metP4;
                 double fakeMT=METUtils::transverseMass(zll,fakeMET,false);
                 mon.fillHisto("pfmet_WZctrl_ZZlike_MET40"     ,tags, fakeMET.pt(), weight);
+                mon.fillHisto("pfmet2_WZctrl_ZZlike_MET40"     ,tags, fakeMET.pt(), weight);
                 mon.fillHisto("mt_WZctrl_ZZlike_MET40"     ,tags, fakeMT, weight);
             }
 
@@ -1339,6 +1437,7 @@ int main(int argc, char* argv[])
                 LorentzVector fakeMET = extraTight10Leptons[0]+metP4;
                 double fakeMT=METUtils::transverseMass(zll,fakeMET,false);
                 mon.fillHisto("pfmet_WZctrl_ZZlike_MET50"     ,tags, fakeMET.pt(), weight);
+                mon.fillHisto("pfmet2_WZctrl_ZZlike_MET50"     ,tags, fakeMET.pt(), weight);
                 mon.fillHisto("mt_WZctrl_ZZlike_MET50"     ,tags, fakeMT, weight);
             }
 
@@ -1346,6 +1445,7 @@ int main(int argc, char* argv[])
                 LorentzVector fakeMET = extraTight10Leptons[0]+metP4;
                 double fakeMT=METUtils::transverseMass(zll,fakeMET,false);
                 mon.fillHisto("pfmet_WZctrl_ZZlike_MET60"     ,tags, fakeMET.pt(), weight);
+                mon.fillHisto("pfmet2_WZctrl_ZZlike_MET60"     ,tags, fakeMET.pt(), weight);
                 mon.fillHisto("mt_WZctrl_ZZlike_MET60"     ,tags, fakeMT, weight);
             }
 
@@ -1353,6 +1453,7 @@ int main(int argc, char* argv[])
                 LorentzVector fakeMET = extraTight10Leptons[0]+metP4;
                 double fakeMT=METUtils::transverseMass(zll,fakeMET,false);
                 mon.fillHisto("pfmet_WZctrl_ZZlike_MET70"     ,tags, fakeMET.pt(), weight);
+                mon.fillHisto("pfmet2_WZctrl_ZZlike_MET70"     ,tags, fakeMET.pt(), weight);
                 mon.fillHisto("mt_WZctrl_ZZlike_MET70"     ,tags, fakeMT, weight);
             }
 
@@ -1360,6 +1461,7 @@ int main(int argc, char* argv[])
                 LorentzVector fakeMET = extraTight10Leptons[0]+metP4;
                 double fakeMT=METUtils::transverseMass(zll,fakeMET,false);
                 mon.fillHisto("pfmet_WZctrl_ZZlike_MET80"     ,tags, fakeMET.pt(), weight);
+                mon.fillHisto("pfmet2_WZctrl_ZZlike_MET80"     ,tags, fakeMET.pt(), weight);
                 mon.fillHisto("mt_WZctrl_ZZlike_MET80"     ,tags, fakeMT, weight);
             }
 
@@ -1381,6 +1483,7 @@ int main(int argc, char* argv[])
         mon.fillHisto("pfmet2_wicorr",tags, metP4_XYCorr.pt(), weight, true);
 
 
+        mon.fillHisto("eventflow",tags,0,weight);
         if(passZmass) {
             mon.fillHisto("eventflow",  tags, 1, weight);
 
@@ -1401,6 +1504,9 @@ int main(int argc, char* argv[])
                         mon.fillHisto("dphiZMET_presel",    tags, dphiZMET,    weight);
                         mon.fillHisto("balancedif_presel",  tags, balanceDif,  weight);
                         mon.fillHisto("axialpfmet_presel",  tags, axialmet,    weight);
+                        mon.fillHisto("pfmet_perz_norm_presel",  tags, pfmet_perZ_norm,    weight);
+                        mon.fillHisto("pfmet_perz_rootnorm_presel",  tags, pfmet_perZ_rootnorm,    weight);
+                        mon.fillHisto("pfmet_parz_norm_presel",  tags, pfmet_parZ_norm,    weight);
 
                         //forDY ctrl
                         if(passResponseCut) {
@@ -1487,6 +1593,46 @@ int main(int argc, char* argv[])
 
 
 
+        // Preselection ntuple
+        int mctype = -1;
+        if ( isMC_ZZ2L2Nu ) mctype = 0;
+        if ( isMC_WZ )      mctype = 1;
+        if ( isMC_DY )      mctype = 2;
+        if ( isMC_ttbar )   mctype = 3;
+        if(preselectionTree != nullptr && passZmass && passZpt && pass3dLeptonVeto && passBveto && metP4.pt() > 40) {
+          presel.run = ev.run;
+          presel.lumi = ev.lumi;
+          presel.evt = ev.event;
+          presel.weight = weight;
+          presel.evcat = evcat;
+          presel.mctype = mctype;
+          presel.nJets = GoodIdJets.size();
+          presel.lep1_pt = lep1.pt();
+          presel.lep1_eta = lep1.eta();
+          presel.lep1_phi = lep1.phi();
+          presel.lep2_pt = lep2.pt();
+          presel.lep2_eta = lep2.eta();
+          presel.lep2_phi = lep2.phi();
+          presel.z_pt = zll.pt();
+          presel.z_eta = zll.eta();
+          presel.z_phi = zll.phi();
+          presel.z_m = zll.mass();
+          presel.met_pt = metP4.pt();
+          presel.met_phi = metP4.phi();
+          presel.trkmet_pt = ev.trkMET_pt;
+          presel.trkmet_phi = ev.trkMET_phi;
+          presel.calomet_pt = ev.rawcalomet_pt;
+          presel.calomet_phi = ev.rawcalomet_phi;
+          presel.cut_balance = metP4.pt()/zll.pt();
+          presel.cut_dphi_zmet = dphiZMET;
+          presel.cut_response = response;
+          presel.mt_zmet = MT_massless;
+          presel.met_perZ_norm = pfmet_perZ_norm;
+          presel.met_perZ_rootnorm = pfmet_perZ_rootnorm;
+          presel.met_parZ_norm = pfmet_parZ_norm;
+          presel.dphi_jetmet = (presel.nJets>0) ? fabs(deltaPhi(GoodIdJets[0].phi(), metP4.phi())) : -1.;
+          preselectionTree->Fill();
+        }
 
 
 
@@ -1702,6 +1848,7 @@ int main(int argc, char* argv[])
 
                     mon.fillHisto(TString("met_shapes")+varNames[ivar],tags,index, vMET.pt(), iweight);
                     mon.fillHisto(TString("met2_shapes")+varNames[ivar],tags,index, vMET.pt(), iweight);
+                    if ( nSoftMuons == 0 ) mon.fillHisto(TString("met2_shapes_wSoftMu")+varNames[ivar],tags,index, vMET.pt(), iweight);
                 }
 
 
@@ -1741,14 +1888,10 @@ int main(int argc, char* argv[])
     //##############################################
     //########     SAVING HISTO TO FILE     ########
     //##############################################
-    //save control plots to file
-    outUrl += "/";
-    outUrl += outFileUrl + ".root";
-    printf("Results saved in %s\n", outUrl.Data());
 
-    //save all to the file
-    TFile *ofile=TFile::Open(outUrl, "recreate");
+    ofile->cd();
     mon.Write();
+    if ( preselectionTree != nullptr ) preselectionTree->Write();
     ofile->Close();
 
     PU_Central_File->Close();
