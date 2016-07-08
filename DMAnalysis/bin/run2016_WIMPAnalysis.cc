@@ -399,15 +399,12 @@ int main(int argc, char* argv[])
 
     double MT2Bins[]= {0,100,200,300,400,500,600,700,800,1000,1200};
     const int xnBinsMT2 = sizeof(MT2Bins)/sizeof(double) - 1;
-
-    mon.addHistogram( new TH1F( "pfmet_presel",      ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET, METBins));
-    mon.addHistogram( new TH1F( "pfmet2_presel",     ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET2, METBins2));
+*/
+    mon.addHistogram( new TH1F( "pfmet2_presel",     ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET2, MET2Bins));
     mon.addHistogram( new TH1F( "dphiZMET_presel",   ";#Delta#it{#phi}(#it{l^{+}l^{-}},E_{T}^{miss});Events", 10,0,TMath::Pi()) );
+    mon.addHistogram( new TH1F( "dphiJetMET_presel",   ";#Delta#it{#phi}(#it{jet},E_{T}^{miss});Events", 10,0,TMath::Pi()) );
     mon.addHistogram( new TH1F( "balancedif_presel", ";|E_{T}^{miss}-#it{q}_{T}|/#it{q}_{T};Events", 5,0,1.0) );
-    mon.addHistogram( new TH1F( "mt_presel",         ";#it{m}_{T} [GeV];Events", 12,0,1200) );
-    mon.addHistogram( new TH1F( "mt2_presel",         ";#it{m}_{T} [GeV];Events", nBinsMT,MTBins) );
-    mon.addHistogram( new TH1F( "axialpfmet_presel", ";Axial E_{T}^{miss} [GeV];Events", 50,-150,150) );
-
+/*
     //adding N-1 plots
     mon.addHistogram( new TH1F( "pfmet_nm1",       ";E_{T}^{miss} [GeV];Events / 80 GeV", 15,0,1200));
     mon.addHistogram( new TH1F( "pfmet2_nm1",      ";E_{T}^{miss} [GeV];Events / 1 GeV", xnBinsMET2,MET2Bins));
@@ -1379,6 +1376,11 @@ int main(int argc, char* argv[])
                             if( passZpt ) {
                                 mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
                                 mon.fillHisto( "sync_met_minus",        tags, metP4.pt(), weight );
+
+                                mon.fillHisto( "pfmet2_presel",     tags, metP4.pt(),weight);
+                                mon.fillHisto( "dphiZMET_presel",   tags,dphiZMET,weight);
+                                mon.fillHisto( "dphiJetMET_presel", tags,dphiJetMET,weight);
+                                mon.fillHisto( "balancedif_presel", tags,balanceDif,weight);
                                 if(lep1.pt()>lep2.pt()) {
                                     mon.fillHisto("leadlep_pt_met_minus",   tags, lep1.pt(), weight);
                                     mon.fillHisto("leadlep_eta_met_minus",  tags, lep1.eta(), weight);
