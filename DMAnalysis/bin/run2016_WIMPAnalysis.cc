@@ -945,7 +945,7 @@ int main(int argc, char* argv[])
 
             bool hasTightIdandIso(true);
             if(abs(lepid)==13) { //muon
-                hasTightIdandIso &= phys.leptons[ilep].isMediumMu;
+                hasTightIdandIso &= phys.leptons[ilep].isTightMu;
                 hasTightIdandIso &= ( fabs(phys.leptons[ilep].mn_dZ) < 0.1 );
                 hasTightIdandIso &= ( fabs(phys.leptons[ilep].mn_d0) < 0.02 );
 
@@ -1185,7 +1185,7 @@ int main(int argc, char* argv[])
                 hasLooseIdandIso &= ( phys.leptons[ilep].isLooseMu && phys.leptons[ilep].m_pfRelIsoDbeta()<0.25 && phys.leptons[ilep].pt()>10 );
                 //
                 hasTightIdandIso &= phys.leptons[ilep].pt()>10;
-                hasTightIdandIso &= phys.leptons[ilep].isMediumMu;
+                hasTightIdandIso &= phys.leptons[ilep].isTightMu;
                 hasTightIdandIso &= fabs(phys.leptons[ilep].mn_dZ) < 0.1;
                 hasTightIdandIso &= fabs(phys.leptons[ilep].mn_d0) < 0.02;
                 hasTightIdandIso &= phys.leptons[ilep].m_pfRelIsoDbeta() < 0.15;
