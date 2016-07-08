@@ -109,17 +109,19 @@ process.mainAnalyzer = cms.EDAnalyzer('MainAnalyzer',
                 ),
 
     SingleMuTrigs = cms.vstring(
-            "HLT_IsoMu20_v",
-            "HLT_IsoTkMu20_v"
+            "HLT_IsoMu24_v",
+            "HLT_IsoTkMu24_v"
                 ),
 
     SingleEleTrigs = cms.vstring(
             "HLT_Ele35_WPLoose_Gsf_v",
+            "HLT_Ele25_eta2p1_WPLoose_Gsf_v",
+            "HLT_Ele27_WPTight_Gsf_v",
                 ),
 
     MuEGTrigs = cms.vstring(
-            "HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v",
-            "HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"
+            "HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v",
+            "HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"
                 ),
 
     backupTrigs = cms.vstring(
@@ -129,6 +131,7 @@ process.mainAnalyzer = cms.EDAnalyzer('MainAnalyzer',
             "HLT_Ele25_eta2p1_WPLoose_Gsf_v",
             "HLT_Ele27_WPTight_Gsf_v",
             "HLT_Ele27_eta2p1_WPLoose_Gsf_v",
+            "HLT_Ele35_WPLoose_Gsf_v",
             "HLT_Ele45_WPLoose_Gsf_v",
             "HLT_IsoMu18_v",
             "HLT_IsoTkMu18_v",
