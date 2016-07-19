@@ -142,7 +142,7 @@ bool WIMPReweighting::Init(const edm::ParameterSet &runProcess, TString &url)
 	        if(hden->GetBinContent(i)>0.) {
 		    h->SetBinContent(i, hnum->GetBinContent(i)/hden->GetBinContent(i));
 		}
-		else {
+		else if (hnum->GetBinContent(i)>0.) {
 		    std::cerr << " *** WARNING: bin " << i << " (out of " << h->GetNbinsX()
 			      << " bins) has denominator 0. Setting the ratio to 1.0"
 			      << " (OK only if bin == 0) ***" << std::endl; 
@@ -154,6 +154,8 @@ bool WIMPReweighting::Init(const edm::ParameterSet &runProcess, TString &url)
 	}
 	else { 
 	    std::cerr << " *** WARNING: couldn't find histos with gen-distributions to compute weights! *** " << std::endl;
+      std::cerr << "Numerator label: " << hnumlabel << std::endl;
+      std::cerr << "Denominator label: " << hdenlabel << std::endl;
 	    return false; 
 	} 
     } 
@@ -195,11 +197,11 @@ bool WIMPReweighting::selectReferenceWIMPurl(TString &url) {
 
 std::pair<float, float> WIMPReweighting::extractMassesFromUrl(TString aurl) { 
     // Get the values of Mx and Mv 
-    size_t mxidx0 = 3 + aurl.Index("_Mx"); 
-    size_t mxidx1 =     aurl.Index("Mv", mxidx0); 
+    size_t mxidx0 = 4 + aurl.Index("_Mx-"); 
+    size_t mxidx1 =     aurl.Index("_Mv-", mxidx0); 
     size_t mvidx1 =     aurl.Index(".root", mxidx1); 
     TString mxstr = aurl(mxidx0,   mxidx1-mxidx0  ); 
-    TString mvstr = aurl(mxidx1+2, mvidx1-mxidx1-2); 
+    TString mvstr = aurl(mxidx1+4, mvidx1-mxidx1-4); 
 
     return std::make_pair(mxstr.Atof(), mvstr.Atof()); 
 } 
@@ -218,11 +220,11 @@ TString WIMPReweighting::exctractDistrNameFromUrl(TString aurl) {
     TString gqstr = aurl.Contains("_GQ0p25_") ? "0p25" : "1";
 
     // Get the values of Mx and Mv 
-    size_t mxidx0 = 3 + aurl.Index("_Mx"); 
-    size_t mxidx1 =     aurl.Index("Mv", mxidx0); 
+    size_t mxidx0 = 4 + aurl.Index("_Mx-"); 
+    size_t mxidx1 =     aurl.Index("_Mv-", mxidx0); 
     size_t mvidx1 =     aurl.Index(".root", mxidx1); 
     TString mxstr = aurl(mxidx0,   mxidx1-mxidx0  ); 
-    TString mvstr = aurl(mxidx1+2, mvidx1-mxidx1-2); 
+    TString mvstr = aurl(mxidx1+4, mvidx1-mxidx1-4); 
 
     return TString::Format("monoz_genmet_acc15_cV%d_cA%d_gDM1_gQ%s_Mx%s_Mmed%s", 
 			   isVect, 1-isVect, gqstr.Data(), mxstr.Data(), mvstr.Data()); 
