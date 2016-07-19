@@ -191,7 +191,7 @@ int main(int argc, char* argv[])
 
 
 
-    WIMPReweighting myWIMPweights(runProcess);
+    WIMPReweighting myWIMPweights;
 
 
     //systematics
@@ -566,8 +566,13 @@ int main(int argc, char* argv[])
     //open the file and get events tree
     DataEvtSummaryHandler summaryHandler_;
     if(doWIMPreweighting) {
-        if(url.Contains("TeV_DM_V_Mx")) url = runProcess.getParameter<std::string>("WIMPreweighting_DM_V_Mx");
-        if(url.Contains("TeV_DM_A_Mx")) url = runProcess.getParameter<std::string>("WIMPreweighting_DM_A_Mx");
+        // Only for simplified models
+        if(url.Contains("TeV_DM_")) {
+          bool isreweighted = myWIMPweights.Init(runProcess, url);
+          if(!isreweighted) {
+            cerr << " *** WARNING: WIMP re-weighting initialization failed! ***" << endl;
+          }
+        }
 
         if(url.Contains("K1_0.1_K2_1")) url.ReplaceAll("K1_0.1_K2_1","K1_1_K2_1");
         if(url.Contains("K1_0.2_K2_1")) url.ReplaceAll("K1_0.2_K2_1","K1_1_K2_1");
@@ -788,7 +793,7 @@ int main(int argc, char* argv[])
 
             //reweighting
             if(doWIMPreweighting) {
-                if(url.Contains("TeV_DM_V_Mx") || url.Contains("TeV_DM_A_Mx")) weight *= myWIMPweights.get1DWeights(genmet.pt(),"genmet");
+                if(url.Contains("TeV_DM_")) weight *= myWIMPweights.get1DWeights(genmet.pt(),"genmet_acc_simplmod");
                 if(url.Contains("TeV_EWKDM_S_Mx")) weight *= myWIMPweights.get1DWeights(genmet.pt(),"pt_chichi");
             }
             //if(doWIMPreweighting) weight *= myWIMPweights.get2DWeights(genmet.pt(),dphizmet,"dphi_vs_met");
