@@ -1452,7 +1452,7 @@ int main(int argc, char* argv[])
 
                                     if(passMETcut120) mon.fillHisto("mt_final120",   tags, MT_massless, weight);
 
-                                    if(!isMC) fprintf(outTxtFile_final,"%d | %d | %d | pfmet: %f | mt: %f | mass: %f \n",ev.run,ev.lumi,ev.event,metP4.pt(), MT_massless,zll.mass());
+                                    if(!isMC) fprintf(outTxtFile_final,"%d | %d | %lld | pfmet: %f | mt: %f | mass: %f \n",ev.run,ev.lumi,ev.event,metP4.pt(), MT_massless,zll.mass());
 
                                 } //passMETcut
 
