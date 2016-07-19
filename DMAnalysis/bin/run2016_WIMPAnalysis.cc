@@ -643,14 +643,19 @@ int main(int argc, char* argv[])
     gSystem->ExpandPathName(MuonTrigEffSF_);
     cout << "Loading Muon Trigger Eff SF: " << MuonTrigEffSF_ << endl;
     TFile *MuonTrigEffSF_File = TFile::Open(MuonTrigEffSF_);
-    TH2F* h_MuonTrigEffSF = (TH2F *) MuonTrigEffSF_File->Get("h_dimuon_eff_0");
-
+    TH2F* h_MuonTrigEffSF_0 = (TH2F *) MuonTrigEffSF_File->Get("h_dimuon_eff_0");
+    TH2F* h_MuonTrigEffSF_1 = (TH2F *) MuonTrigEffSF_File->Get("h_dimuon_eff_1");
+    TH2F* h_MuonTrigEffSF_2 = (TH2F *) MuonTrigEffSF_File->Get("h_dimuon_eff_2");
+    TH2F* h_MuonTrigEffSF_3 = (TH2F *) MuonTrigEffSF_File->Get("h_dimuon_eff_3");
     // electron trigger efficiency SF
     TString ElectronTrigEffSF_ = runProcess.getParameter<std::string>("ElectronTrigEffSF");
     gSystem->ExpandPathName(ElectronTrigEffSF_);
     cout << "Loading Electron Trigger Eff SF: " << ElectronTrigEffSF_ << endl;
     TFile *ElectronTrigEffSF_File = TFile::Open(ElectronTrigEffSF_);
-    TH2F* h_ElectronTrigEffSF = (TH2F *) ElectronTrigEffSF_File->Get("h_dielectron_eff_0");
+    TH2F* h_ElectronTrigEffSF_0 = (TH2F *) ElectronTrigEffSF_File->Get("h_dielectron_eff_0");
+    TH2F* h_ElectronTrigEffSF_1 = (TH2F *) ElectronTrigEffSF_File->Get("h_dielectron_eff_1");
+    TH2F* h_ElectronTrigEffSF_2 = (TH2F *) ElectronTrigEffSF_File->Get("h_dielectron_eff_2");
+    TH2F* h_ElectronTrigEffSF_3 = (TH2F *) ElectronTrigEffSF_File->Get("h_dielectron_eff_3");
 
     //Electron ID RECO SF
     TString ElectronMediumWPSF_ = runProcess.getParameter<std::string>("ElectronMediumWPSF");
@@ -911,7 +916,8 @@ int main(int argc, char* argv[])
             weight_ewkdown = 1 *  (rhoZZ<0.3 ? (1. - (1.6 - 1.)*(1. - qqZZ_EWKNLO)) : qqZZ_EWKNLO);
         }
 
-
+        // WZ NNLO QCD k-factor
+        if (isMC_WZ) { weight *= 1.1 ; }
 
         //#########################################################################
         //#####################      Objects Selection       ######################
@@ -1044,9 +1050,23 @@ int main(int argc, char* argv[])
             double eta_tag   = lep1.pt() > lep2.pt() ? lep1.eta() : lep2.eta();
             double eta_probe = lep1.pt() > lep2.pt() ? lep2.eta() : lep1.eta();
             if(evcat==MUMU) {
-                weight *= getSFfrom2DHist( fabs(eta_probe), fabs(eta_tag), h_MuonTrigEffSF );
+                if (lep1.pt() < 40 && lep2.pt() < 40) 
+                    weight *= getSFfrom2DHist( fabs(eta_probe), fabs(eta_tag), h_MuonTrigEffSF_0 );
+                else if (lep1.pt() < 40 && lep2.pt() >= 40) 
+                    weight *= getSFfrom2DHist( fabs(eta_probe), fabs(eta_tag), h_MuonTrigEffSF_1 );
+                else if (lep1.pt() >= 40 && lep2.pt() < 40) 
+                    weight *= getSFfrom2DHist( fabs(eta_probe), fabs(eta_tag), h_MuonTrigEffSF_2 );
+                else if (lep1.pt() >= 40 && lep2.pt() >= 40) 
+                    weight *= getSFfrom2DHist( fabs(eta_probe), fabs(eta_tag), h_MuonTrigEffSF_3 );
             } else if(evcat==EE) {
-                weight *= getSFfrom2DHist( fabs(eta_probe), fabs(eta_tag), h_ElectronTrigEffSF );
+                if (lep1.pt() < 40 && lep2.pt() < 40)
+                    weight *= getSFfrom2DHist( fabs(eta_probe), fabs(eta_tag), h_ElectronTrigEffSF_0 );
+                else if (lep1.pt() < 40 && lep2.pt() >= 40) 
+                    weight *= getSFfrom2DHist( fabs(eta_probe), fabs(eta_tag), h_ElectronTrigEffSF_1 );
+                else if (lep1.pt() >= 40 && lep2.pt() < 40) 
+                    weight *= getSFfrom2DHist( fabs(eta_probe), fabs(eta_tag), h_ElectronTrigEffSF_2 );
+                else if (lep1.pt() >= 40 && lep2.pt() >= 40)
+                    weight *= getSFfrom2DHist( fabs(eta_probe), fabs(eta_tag), h_ElectronTrigEffSF_3 );
             }
         }
 
@@ -1358,7 +1378,7 @@ int main(int argc, char* argv[])
         if(isMC) weight *= BTagWeights;
 
     // Blinding
-    if( isMC or ( metP4.pt() < 100 ) or ( tag_cat == "emu" )  ) {
+//    if( isMC or ( metP4.pt() < 100 ) or ( tag_cat == "emu" )  ) {
         //// Cut Flow synchronization
         int ncut=0;
         mon.fillHisto( "sync_nlep_minus", tags, n3rdLeptons, weight );
@@ -1496,7 +1516,7 @@ int main(int argc, char* argv[])
 
 
         }
-    }
+    
 /*
         //##############################################
         //########  Main Event Selection        ########
