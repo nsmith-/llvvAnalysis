@@ -143,6 +143,8 @@ int main(int argc, char* argv[])
     bool isSingleElePD(!isMC && url.Contains("SingleElectron"));
     bool isDoubleElePD(!isMC && url.Contains("DoubleEG"));
     bool isMuEGPD(!isMC && url.Contains("MuonEG"));
+    if (!isMC && !(isSingleMuPD||isSingleElePD||isDoubleMuPD||isDoubleElePD||isMuEGPD) )
+      cout << "WARNING: Data sample comes from an unrecognized primary dataset.  Please check filenames!" << endl;
 
     bool isMC_ZZ2L2Nu  = isMC && ( string(url.Data()).find("TeV_ZZTo2L2Nu")  != string::npos);
     bool isMC_ZZTo4L   = isMC && ( string(url.Data()).find("TeV_ZZTo4L")  != string::npos);
@@ -1084,48 +1086,39 @@ int main(int argc, char* argv[])
         bool hasTrigger(false);
 
         if(!isMC) {
-            // Trigger requirements
-            if(evcat==EE   && !(hasEEtrigger||hasEtrigger) ) continue;
-            if(evcat==MUMU && !(hasMMtrigger||hasMtrigger) ) continue;
-            if(evcat==EMU  && !(hasEMtrigger||hasEtrigger||hasMtrigger) ) continue;
-
-            // Duplicate removal (same event could come from different datasets)
-            if(isSingleMuPD) {
-                if(!hasMtrigger) continue;
-                if(hasMtrigger && hasMMtrigger) continue;
-                if(hasMtrigger && hasEMtrigger) continue;
-                if(evcat==EE) continue;
-            } else if(isDoubleMuPD) {
-                if(!hasMMtrigger) continue;
-                if(evcat==EE||evcat==EMU) continue;
-            } else if(isSingleElePD) {
-                if(!hasEtrigger) continue;
-                if(hasEtrigger && hasEEtrigger) continue;
-                if(hasEtrigger && hasEMtrigger) continue;
-                if(evcat==MUMU) continue;
-                // let SingleMu dataset have precedence for emu events without emu trigger
-                if(evcat==EMU && hasEtrigger && hasMtrigger) continue;
-            } else if(isDoubleElePD) {
-                if(!hasEEtrigger) continue;
-                if(evcat==MUMU||evcat==EMU) continue;
-            } else if(isMuEGPD) {
-                if(!hasEMtrigger) continue;
-                if(evcat==MUMU||evcat==EE) continue;
-            } else {
-                cout << "Found data event from unknown primary dataset.  This shouldn't happen unless testing from picked events!" << endl;
+            // Trigger requirements and duplicate removal (same event could come from different datasets)
+            if(evcat==EE) {
+              // Seed triggers and their datasets
+              if( hasEtrigger && isSingleElePD ) hasTrigger = true;
+              if( hasEEtrigger && isDoubleElePD ) hasTrigger = true;
+              // Deduplicate: Prefer DoubleEG for double triggers
+              if( isSingleElePD && hasEEtrigger ) hasTrigger = false;
             }
-
-            hasTrigger=true;
-
+            else if(evcat==MUMU) {
+              // Seed triggers and their datasets
+              if( hasMtrigger && isSingleMuPD ) hasTrigger = true;
+              if( hasMMtrigger && isDoubleMuPD ) hasTrigger = true;
+              // Deduplicate: Prefer DoubleMu for double triggers
+              if( isSingleMuPD && hasMMtrigger ) hasTrigger = false;
+            }
+            else if(evcat==EMU) {
+              // Seed triggers and their datasets
+              // We allow emu to be seeded by single lepton triggers as well
+              if( hasEtrigger && isSingleElePD ) hasTrigger = true;
+              if( hasMtrigger && isSingleMuPD ) hasTrigger = true;
+              if( hasEMtrigger && isMuEGPD ) hasTrigger = true;
+              // Deduplicate: Prefer MuEG for cross-triggers
+              if( (isSingleElePD||isSingleMuPD) && hasEMtrigger ) hasTrigger = false;
+              // Deduplicate: Prefer SingleMu for emu events without emu trigger
+              if(isSingleElePD && hasEtrigger && hasMtrigger) hasTrigger = false;
+            }
         } else {
-            /*
-            if(evcat==EE   && (hasEEtrigger || hasEtrigger) ) hasTrigger=true;
-            if(evcat==MUMU && (hasMMtrigger || hasMtrigger) ) hasTrigger=true;
-            if(evcat==EMU  && hasEMtrigger ) hasTrigger=true;
-            if(!hasTrigger) continue;
-            */
+            // No trigger requirements for 80X ICHEP MC
+            // When trigger is simulated, copy logic block above
+            // but without the seed dataset or preference conditions
             hasTrigger=true;
         }
+        if ( !hasTrigger ) continue;
 
         tags.push_back(tag_cat); //add ee, mumu, emu category
 
