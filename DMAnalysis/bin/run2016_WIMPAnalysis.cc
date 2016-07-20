@@ -138,16 +138,11 @@ int main(int argc, char* argv[])
     printf("TextFile URL = %s\n",outTxtUrl_final.Data());
     fprintf(outTxtFile_final,"run lumi event\n");
 
-    int fType(0);
-    if(url.Contains("DoubleEG")) fType=EE;
-    if(url.Contains("DoubleMuon"))  fType=MUMU;
-    if(url.Contains("MuonEG"))      fType=EMU;
-    if(url.Contains("SingleMuon"))  fType=MUMU;
-    if(url.Contains("SingleElectron")) fType=EE;
     bool isSingleMuPD(!isMC && url.Contains("SingleMuon"));
     bool isDoubleMuPD(!isMC && url.Contains("DoubleMuon"));
     bool isSingleElePD(!isMC && url.Contains("SingleElectron"));
     bool isDoubleElePD(!isMC && url.Contains("DoubleEG"));
+    bool isMuEGPD(!isMC && url.Contains("MuonEG"));
 
     bool isMC_ZZ2L2Nu  = isMC && ( string(url.Data()).find("TeV_ZZTo2L2Nu")  != string::npos);
     bool isMC_ZZTo4L   = isMC && ( string(url.Data()).find("TeV_ZZTo4L")  != string::npos);
@@ -702,8 +697,6 @@ int main(int argc, char* argv[])
     // loop on all the events
     int treeStep = (evEnd-evStart)/50;
     if(treeStep==0)treeStep=1;
-    DuplicatesChecker duplicatesChecker;
-    int nDuplicates(0);
     printf("Progressing Bar     :0%%       20%%       40%%       60%%       80%%       100%%\n");
     printf("Scanning the ntuple :");
 
@@ -717,12 +710,6 @@ int main(int argc, char* argv[])
         //load the event content from tree
         summaryHandler_.getEntry(iev);
         DataEvtSummary_t &ev=summaryHandler_.getEvent();
-        if(!isMC && duplicatesChecker.isDuplicate( ev.run, ev.lumi, ev.event) ) {
-            nDuplicates++;
-            cout << "nDuplicates: " << nDuplicates << endl;
-            continue;
-        }
-
 
         //prepare the tag's vectors for histo filling
         std::vector<TString> tags(1,"all");
@@ -1097,29 +1084,35 @@ int main(int argc, char* argv[])
         bool hasTrigger(false);
 
         if(!isMC) {
-            if(evcat!=fType) continue;
-
+            // Trigger requirements
             if(evcat==EE   && !(hasEEtrigger||hasEtrigger) ) continue;
             if(evcat==MUMU && !(hasMMtrigger||hasMtrigger) ) continue;
-            if(evcat==EMU  && !hasEMtrigger ) continue;
+            if(evcat==EMU  && !(hasEMtrigger||hasEtrigger||hasMtrigger) ) continue;
 
-            //this is a safety veto for the single mu PD
+            // Duplicate removal (same event could come from different datasets)
             if(isSingleMuPD) {
                 if(!hasMtrigger) continue;
                 if(hasMtrigger && hasMMtrigger) continue;
-            }
-            if(isDoubleMuPD) {
+                if(hasMtrigger && hasEMtrigger) continue;
+                if(evcat==EE) continue;
+            } else if(isDoubleMuPD) {
                 if(!hasMMtrigger) continue;
-
-            }
-
-            //this is a safety veto for the single Ele PD
-            if(isSingleElePD) {
+                if(evcat==EE||evcat==EMU) continue;
+            } else if(isSingleElePD) {
                 if(!hasEtrigger) continue;
                 if(hasEtrigger && hasEEtrigger) continue;
-            }
-            if(isDoubleElePD) {
+                if(hasEtrigger && hasEMtrigger) continue;
+                if(evcat==MUMU) continue;
+                // let SingleMu dataset have precedence for emu events without emu trigger
+                if(evcat==EMU && hasEtrigger && hasMtrigger) continue;
+            } else if(isDoubleElePD) {
                 if(!hasEEtrigger) continue;
+                if(evcat==MUMU||evcat==EMU) continue;
+            } else if(isMuEGPD) {
+                if(!hasEMtrigger) continue;
+                if(evcat==MUMU||evcat==EE) continue;
+            } else {
+                cout << "Found data event from unknown primary dataset.  This shouldn't happen unless testing from picked events!" << endl;
             }
 
             hasTrigger=true;
