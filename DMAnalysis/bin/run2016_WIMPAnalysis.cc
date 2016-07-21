@@ -1418,6 +1418,9 @@ int main(int argc, char* argv[])
                                                 if(passResponseCut) {
                                                     mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
                                                     mon.fillHisto( "pfmet2_final",tags, metP4.pt(), weight, true);
+                                                    if(!isMC) fprintf(outTxtFile_final,"%d | %d | %lld | pfmet: %f | mt: %f | mass: %f \n",ev.run,ev.lumi
+,ev.event,metP4.pt(), MT_massless,zll.mass());
+
                                                 } // passResponseCut
                                             } // passDphiJetMET
                                         } // passBalanceCut
