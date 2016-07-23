@@ -148,6 +148,10 @@ bool WIMPReweighting::Init(const edm::ParameterSet &runProcess, TString &url)
 			      << " (OK only if bin == 0) ***" << std::endl; 
 		    h->SetBinContent(i, 1.); 
 		} 
+                else {
+                    // Numerator = Denominator = 0, set weight to 1
+		    h->SetBinContent(i, 1.); 
+                }
 	    }
 	    h->SetDirectory(0);
 	    wimpWeights1DH_["genmet_acc_simplmod"] = h; 
