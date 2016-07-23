@@ -1083,7 +1083,6 @@ int main(int argc, char* argv[])
               if( hasMMtrigger && isDoubleMuPD ) hasTrigger = true;
               // Deduplicate: Prefer DoubleMu for double triggers
               if( isSingleMuPD && hasMMtrigger ) hasTrigger = false;
-<<<<<<< HEAD
             }
             else if(evcat==EMU) {
               // Seed triggers and their datasets
@@ -1096,20 +1095,6 @@ int main(int argc, char* argv[])
               // Deduplicate: Prefer SingleMu for emu events without emu trigger
               if(isSingleElePD && hasEtrigger && hasMtrigger) hasTrigger = false;
             }
-=======
-            }
-            else if(evcat==EMU) {
-              // Seed triggers and their datasets
-              // We allow emu to be seeded by single lepton triggers as well
-              if( hasEtrigger && isSingleElePD ) hasTrigger = true;
-              if( hasMtrigger && isSingleMuPD ) hasTrigger = true;
-              if( hasEMtrigger && isMuEGPD ) hasTrigger = true;
-              // Deduplicate: Prefer MuEG for cross-triggers
-              if( (isSingleElePD||isSingleMuPD) && hasEMtrigger ) hasTrigger = false;
-              // Deduplicate: Prefer SingleMu for emu events without emu trigger
-              if(isSingleElePD && hasEtrigger && hasMtrigger) hasTrigger = false;
-            }
->>>>>>> b60053ce01a2ae600d4fdb7f67b409014bb0da0c
         } else {
             // No trigger requirements for 80X ICHEP MC
             // When trigger is simulated, copy logic block above
@@ -1416,8 +1401,8 @@ int main(int argc, char* argv[])
                                                 if(passResponseCut) {
                                                     mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
                                                     mon.fillHisto( "pfmet2_final",tags, metP4.pt(), weight, true);
-                                                    if(!isMC) fprintf(outTxtFile_final,"%d | %d | %lld | pfmet: %f | mt: %f | mass: %f \n",ev.run,ev.lumi
-,ev.event,metP4.pt(), MT_massless,zll.mass());
+                                                    if(!isMC) fprintf(outTxtFile_final,"%d | %d | %d | pfmet: %f | mt: %f | mass: %f |jpt: %f | Cat: %s \n",ev.run,ev.lumi
+,ev.event,metP4.pt(), MT_massless,zll.mass(),corrJets[0].pt(),(const char*) tag_cat);
 
                                                 } // passResponseCut
                                             } // passDphiJetMET
