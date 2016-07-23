@@ -1,6 +1,77 @@
 ##
 import FWCore.ParameterSet.Config as cms
 
+refVPoints = cms.vstring(
+        "MC13TeV_DM_V_Mx-1000_Mv-10.root", 
+        "MC13TeV_DM_V_Mx-1000_Mv-1000.root", 
+        "MC13TeV_DM_V_Mx-1000_Mv-1995.root", 
+        "MC13TeV_DM_V_Mx-1000_Mv-5000.root", 
+        "MC13TeV_DM_V_Mx-10_Mv-10.root", 
+        "MC13TeV_DM_V_Mx-10_Mv-100.root", 
+        "MC13TeV_DM_V_Mx-10_Mv-20.root", 
+        "MC13TeV_DM_V_Mx-10_Mv-5000.root", 
+        "MC13TeV_DM_V_Mx-150_Mv-10.root", 
+        "MC13TeV_DM_V_Mx-150_Mv-200.root", 
+        "MC13TeV_DM_V_Mx-150_Mv-295.root", 
+        "MC13TeV_DM_V_Mx-150_Mv-500.root", 
+        "MC13TeV_DM_V_Mx-150_Mv-5000.root", 
+        "MC13TeV_DM_V_Mx-1_Mv-10.root", 
+        "MC13TeV_DM_V_Mx-1_Mv-100.root", 
+        "MC13TeV_DM_V_Mx-1_Mv-1000.root", 
+        "MC13TeV_DM_V_Mx-1_Mv-20.root", 
+        "MC13TeV_DM_V_Mx-1_Mv-200.root", 
+        "MC13TeV_DM_V_Mx-1_Mv-2000.root", 
+        "MC13TeV_DM_V_Mx-1_Mv-300.root", 
+        "MC13TeV_DM_V_Mx-1_Mv-50.root", 
+        "MC13TeV_DM_V_Mx-1_Mv-500.root", 
+        "MC13TeV_DM_V_Mx-1_Mv-5000.root", 
+        "MC13TeV_DM_V_Mx-500_Mv-10.root", 
+        "MC13TeV_DM_V_Mx-500_Mv-2000.root", 
+        "MC13TeV_DM_V_Mx-500_Mv-5000.root", 
+        "MC13TeV_DM_V_Mx-500_Mv-995.root", 
+        "MC13TeV_DM_V_Mx-50_Mv-10.root", 
+        "MC13TeV_DM_V_Mx-50_Mv-200.root", 
+        "MC13TeV_DM_V_Mx-50_Mv-300.root", 
+        "MC13TeV_DM_V_Mx-50_Mv-50.root", 
+        "MC13TeV_DM_V_Mx-50_Mv-5000.root", 
+        "MC13TeV_DM_V_Mx-50_Mv-95.root" 
+	)
+
+refAPoints = cms.vstring(
+        "MC13TeV_DM_A_Mx-1000_Mv-10.root", 
+        "MC13TeV_DM_A_Mx-1000_Mv-1000.root", 
+        "MC13TeV_DM_A_Mx-1000_Mv-1995.root", 
+        "MC13TeV_DM_A_Mx-1000_Mv-5000.root", 
+        "MC13TeV_DM_A_Mx-10_Mv-10.root", 
+        "MC13TeV_DM_A_Mx-10_Mv-100.root", 
+        "MC13TeV_DM_A_Mx-10_Mv-20.root", 
+        "MC13TeV_DM_A_Mx-10_Mv-50.root", 
+        "MC13TeV_DM_A_Mx-10_Mv-5000.root", 
+        "MC13TeV_DM_A_Mx-150_Mv-10.root", 
+        "MC13TeV_DM_A_Mx-150_Mv-200.root", 
+        "MC13TeV_DM_A_Mx-150_Mv-295.root", 
+        "MC13TeV_DM_A_Mx-150_Mv-500.root", 
+        "MC13TeV_DM_A_Mx-150_Mv-5000.root", 
+        "MC13TeV_DM_A_Mx-1_Mv-10.root", 
+        "MC13TeV_DM_A_Mx-1_Mv-20.root", 
+        "MC13TeV_DM_A_Mx-1_Mv-200.root", 
+        "MC13TeV_DM_A_Mx-1_Mv-2000.root", 
+        "MC13TeV_DM_A_Mx-1_Mv-300.root", 
+        "MC13TeV_DM_A_Mx-1_Mv-500.root", 
+        "MC13TeV_DM_A_Mx-1_Mv-5000.root", 
+        "MC13TeV_DM_A_Mx-500_Mv-10.root", 
+        "MC13TeV_DM_A_Mx-500_Mv-2000.root", 
+        "MC13TeV_DM_A_Mx-500_Mv-500.root", 
+        "MC13TeV_DM_A_Mx-500_Mv-5000.root", 
+        "MC13TeV_DM_A_Mx-500_Mv-995.root", 
+        "MC13TeV_DM_A_Mx-50_Mv-10.root", 
+        "MC13TeV_DM_A_Mx-50_Mv-200.root", 
+        "MC13TeV_DM_A_Mx-50_Mv-300.root", 
+        "MC13TeV_DM_A_Mx-50_Mv-50.root", 
+        "MC13TeV_DM_A_Mx-50_Mv-95.root" 
+	)
+
+
 process = cms.Process('magic')
 process.config = cms.PSet(
     ### General Settings
@@ -21,8 +92,11 @@ process.config = cms.PSet(
     ### WIMP Reweighting
     genwimpweights = cms.vstring("@genwimpweights"),
     doWIMPreweighting = cms.bool(@doWIMPreweighting),
-    WIMPreweighting_DM_V_Mx = cms.string("root://eoscms//eos/cms/store/group/phys_exotica/monoZ/llvvNtuple_ReReco_17Feb2016/MC13TeV_DM_V_Mx1Mv200.root"),
-    WIMPreweighting_DM_A_Mx = cms.string("root://eoscms//eos/cms/store/group/phys_exotica/monoZ/llvvNtuple_ReReco_17Feb2016/MC13TeV_DM_A_Mx1Mv200.root"),
+    WIMPreweighting_DM_V_Mx = cms.string("root://eoscms//eos/cms/store/group/phys_exotica/monoZ/llvvNtuple_ReReco_17Feb2016/MC13TeV_DM_V_Mx-1_Mv-200.root"),
+    WIMPreweighting_DM_A_Mx = cms.string("root://eoscms//eos/cms/store/group/phys_exotica/monoZ/llvvNtuple_ReReco_17Feb2016/MC13TeV_DM_A_Mx-1_Mv-200.root"),
+    ### New reweighting scheme (for simplified models)
+    ReferencePoints = @referencepoints, 
+    GenDistributionsFileName = cms.string("${CMSSW_BASE}/src/llvvAnalysis/DMAnalysis/data/weights/genmet_acc15_simplifiedModels.root"), 
     MCweights = cms.vstring("@MCweights"),
 
     ### Pile-UP

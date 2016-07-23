@@ -126,9 +126,6 @@ void GetListOfObject(JSONWrapper::Object& Root, std::string RootDir, std::list<N
 
   if(parentPath=="" && !dir)
     {
-      int dataProcessed = 0;
-      int signProcessed = 0;
-      int bckgProcessed = 0;
 
       std::vector<JSONWrapper::Object> Process = Root["proc"].daughters();
       //loop on all Proc
@@ -140,10 +137,6 @@ void GetListOfObject(JSONWrapper::Object& Root, std::string RootDir, std::list<N
 	  string filtExt("");
 	  if(Process[ip].isTag("mctruthmode") ) { char buf[255]; sprintf(buf,"_filt%d",(int)Process[ip]["mctruthmode"].toInt()); filtExt += buf; }
 
-          //just to make it faster, only consider the first 3 sample of a same kind
-          if(isData){if(dataProcessed>=1){continue;}else{dataProcessed++;}}
-          if(isSign){if(signProcessed>=2){continue;}else{signProcessed++;}}
-          if(isMC  ){if(bckgProcessed>8) {continue;}else{bckgProcessed++;}}
 
 	  std::vector<JSONWrapper::Object> Samples = (Process[ip])["data"].daughters();
           //to make it faster only consider the first samples
@@ -157,13 +150,10 @@ void GetListOfObject(JSONWrapper::Object& Root, std::string RootDir, std::list<N
 
               printf("\033[33mAdding all objects from %25s to the list of considered objects\033[0m\n",  FileName.c_str());
 	      TFile* file = new TFile(FileName.c_str());
-	      if(file->IsZombie())
+	      if(!file->IsZombie())
 		{
-		  if(isData) dataProcessed--;
-		  if(isSign) signProcessed--;
-		  if(isMC) bckgProcessed--;
-		}
 	      GetListOfObject(Root,RootDir,histlist,(TDirectory*)file,"" );
+		}
 	      file->Close();
 	    }
 	}
