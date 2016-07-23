@@ -138,17 +138,14 @@ int main(int argc, char* argv[])
     printf("TextFile URL = %s\n",outTxtUrl_final.Data());
     fprintf(outTxtFile_final,"run lumi event\n");
 
-    int fType(0);
-    if(url.Contains("DoubleEG")) fType=EE;
-    if(url.Contains("DoubleMuon"))  fType=MUMU;
-    if(url.Contains("MuonEG"))      fType=EMU;
-    if(url.Contains("SingleMuon"))  fType=MUMU;
-    if(url.Contains("SingleElectron")) fType=EE;
     bool isSingleMuPD(!isMC && url.Contains("SingleMuon"));
     bool isDoubleMuPD(!isMC && url.Contains("DoubleMuon"));
     bool isSingleElePD(!isMC && url.Contains("SingleElectron"));
     bool isDoubleElePD(!isMC && url.Contains("DoubleEG"));
-
+    bool isMuEGPD(!isMC && url.Contains("MuonEG"));
+    if (!isMC && !(isSingleMuPD||isSingleElePD||isDoubleMuPD||isDoubleElePD||isMuEGPD) )
+      cout << "WARNING: Data sample comes from an unrecognized primary dataset.  Please check filenames!" << endl;
+    
     bool isMC_ZZ2L2Nu  = isMC && ( string(url.Data()).find("TeV_ZZTo2L2Nu")  != string::npos);
     bool isMC_ZZTo4L   = isMC && ( string(url.Data()).find("TeV_ZZTo4L")  != string::npos);
     bool isMC_ZZTo2L2Q = isMC && ( string(url.Data()).find("TeV_ZZTo2L2Q")  != string::npos);
@@ -697,8 +694,7 @@ int main(int argc, char* argv[])
     // loop on all the events
     int treeStep = (evEnd-evStart)/50;
     if(treeStep==0)treeStep=1;
-    DuplicatesChecker duplicatesChecker;
-    int nDuplicates(0);
+
     printf("Progressing Bar     :0%%       20%%       40%%       60%%       80%%       100%%\n");
     printf("Scanning the ntuple :");
 
@@ -712,11 +708,7 @@ int main(int argc, char* argv[])
         //load the event content from tree
         summaryHandler_.getEntry(iev);
         DataEvtSummary_t &ev=summaryHandler_.getEvent();
-        if(!isMC && duplicatesChecker.isDuplicate( ev.run, ev.lumi, ev.event) ) {
-            nDuplicates++;
-            cout << "nDuplicates: " << nDuplicates << endl;
-            continue;
-        }
+    
 
 
         //prepare the tag's vectors for histo filling
@@ -1097,43 +1089,40 @@ if (isMC_WZ) { weight *= 1.1 ; }
         bool hasTrigger(false);
 
         if(!isMC) {
-            if(evcat!=fType) continue;
-
-            if(evcat==EE   && !(hasEEtrigger||hasEtrigger) ) continue;
-            if(evcat==MUMU && !(hasMMtrigger||hasMtrigger) ) continue;
-            if(evcat==EMU  && !hasEMtrigger ) continue;
-
-            //this is a safety veto for the single mu PD
-            if(isSingleMuPD) {
-                if(!hasMtrigger) continue;
-                if(hasMtrigger && hasMMtrigger) continue;
+            // Trigger requirements and duplicate removal (same event could come from different datasets)
+            if(evcat==EE) {
+              // Seed triggers and their datasets
+              if( hasEtrigger && isSingleElePD ) hasTrigger = true;
+              if( hasEEtrigger && isDoubleElePD ) hasTrigger = true;
+              // Deduplicate: Prefer DoubleEG for double triggers
+              if( isSingleElePD && hasEEtrigger ) hasTrigger = false;
             }
-            if(isDoubleMuPD) {
-                if(!hasMMtrigger) continue;
-
+            else if(evcat==MUMU) {
+              // Seed triggers and their datasets
+              if( hasMtrigger && isSingleMuPD ) hasTrigger = true;
+              if( hasMMtrigger && isDoubleMuPD ) hasTrigger = true;
+              // Deduplicate: Prefer DoubleMu for double triggers
+              if( isSingleMuPD && hasMMtrigger ) hasTrigger = false;
             }
-
-            //this is a safety veto for the single Ele PD
-            if(isSingleElePD) {
-                if(!hasEtrigger) continue;
-                if(hasEtrigger && hasEEtrigger) continue;
+            else if(evcat==EMU) {
+              // Seed triggers and their datasets
+              // We allow emu to be seeded by single lepton triggers as well
+              if( hasEtrigger && isSingleElePD ) hasTrigger = true;
+              if( hasMtrigger && isSingleMuPD ) hasTrigger = true;
+              if( hasEMtrigger && isMuEGPD ) hasTrigger = true;
+              // Deduplicate: Prefer MuEG for cross-triggers
+              if( (isSingleElePD||isSingleMuPD) && hasEMtrigger ) hasTrigger = false;
+              // Deduplicate: Prefer SingleMu for emu events without emu trigger
+              if(isSingleElePD && hasEtrigger && hasMtrigger) hasTrigger = false;
             }
-            if(isDoubleElePD) {
-                if(!hasEEtrigger) continue;
-            }
-
-            hasTrigger=true;
-
         } else {
-            /*
-            if(evcat==EE   && (hasEEtrigger || hasEtrigger) ) hasTrigger=true;
-            if(evcat==MUMU && (hasMMtrigger || hasMtrigger) ) hasTrigger=true;
-            if(evcat==EMU  && hasEMtrigger ) hasTrigger=true;
-            if(!hasTrigger) continue;
-            */
+            // No trigger requirements for 80X ICHEP MC
+            // When trigger is simulated, copy logic block above
+            // but without the seed dataset or preference conditions
             hasTrigger=true;
         }
-
+        if ( !hasTrigger ) continue;
+        
         tags.push_back(tag_cat); //add ee, mumu, emu category
 
         // pielup reweightiing
@@ -1432,8 +1421,8 @@ if (isMC_WZ) { weight *= 1.1 ; }
                                                 if(passResponseCut) {
                                                     mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
                                                     mon.fillHisto( "pfmet2_final",tags, metP4.pt(), weight, true);
-                                                    if(!isMC) fprintf(outTxtFile_final,"%d | %d | %lld | pfmet: %f | mt: %f | mass: %f \n",ev.run,ev.lumi
-,ev.event,metP4.pt(), MT_massless,zll.mass());
+                                                    if(!isMC) fprintf(outTxtFile_final,"%d | %d | %d | pfmet: %f | mt: %f | mass: %f |jpt: %f | Cat: %s \n",ev.run,ev.lumi
+,ev.event,metP4.pt(), MT_massless,zll.mass(),corrJets[0].pt(),(const char*) tag_cat);
 
                                                 } // passResponseCut
                                             } // passDphiJetMET

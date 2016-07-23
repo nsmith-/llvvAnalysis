@@ -205,7 +205,7 @@ void initNormalizationSysts()
 {
     normSysts["lumi_7TeV"] = 0.022;
     normSysts["lumi_8TeV"] = 0.026;
-    normSysts["lumi_13TeV"] = 0.0270; //0.046;
+    normSysts["lumi_13TeV"] = 0.062; //0.0270; //0.046;
     normSysts["accept_7TeV"] = 0.;//0.02;//0.003; //RJ
     normSysts["accept_8TeV"] = 0.;//0.02;//0.018; //RJ
     normSysts["sherpa_kin_syst"] = sysSherpa-1.0;
