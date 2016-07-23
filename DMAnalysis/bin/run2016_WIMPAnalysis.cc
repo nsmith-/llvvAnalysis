@@ -1401,8 +1401,8 @@ int main(int argc, char* argv[])
                                                 if(passResponseCut) {
                                                     mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
                                                     mon.fillHisto( "pfmet2_final",tags, metP4.pt(), weight, true);
-                                                    if(!isMC) fprintf(outTxtFile_final,"%d | %d | %d | pfmet: %f | mt: %f | mass: %f |jpt: %f | Cat: %s \n",ev.run,ev.lumi
-,ev.event,metP4.pt(), MT_massless,zll.mass(),corrJets[0].pt(),(const char*) tag_cat);
+                                                    if(!isMC) fprintf(outTxtFile_final,"%d | %d | %lld | pfmet: %f | mt: %f | mass: %f \n",ev.run,ev.lumi
+,ev.event,metP4.pt(), MT_massless,zll.mass());
 
                                                 } // passResponseCut
                                             } // passDphiJetMET
