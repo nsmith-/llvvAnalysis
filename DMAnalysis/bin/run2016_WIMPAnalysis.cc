@@ -72,6 +72,29 @@ struct stPDFval {
     int id2;
 };
 
+struct DMTree {
+  double genmet;
+  double mx;
+  double mv;
+  double pfmet;
+  double pfmet_jerup;
+  double pfmet_jerdown;
+  double pfmet_jesup;
+  double pfmet_jesdown;
+  double pfmet_umetup;
+  double pfmet_umetdown;
+  double pfmet_lesup;
+  double pfmet_lesdown;
+  double pfmet_puup;
+  double pfmet_pudown;
+  double pfmet_btagup;
+  double pfmet_btagdown;
+  double pfmet_pdfup;
+  double pfmet_pdfdown;
+  double pfmet_qcdscaleup;
+  double pfmet_qcdscaledown;
+};
+
 //https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation76X
 const float CSVLooseWP = 0.460;
 const float CSVMediumWP = 0.800;
@@ -138,6 +161,13 @@ int main(int argc, char* argv[])
     printf("TextFile URL = %s\n",outTxtUrl_final.Data());
     fprintf(outTxtFile_final,"run lumi event\n");
 
+    //save control plots to file
+    outUrl += "/";
+    outUrl += outFileUrl + ".root";
+    printf("Results saved in %s\n", outUrl.Data());
+    //save all to the file
+    TFile *ofile=TFile::Open(outUrl, "recreate");
+
     bool isSingleMuPD(!isMC && url.Contains("SingleMuon"));
     bool isDoubleMuPD(!isMC && url.Contains("DoubleMuon"));
     bool isSingleElePD(!isMC && url.Contains("SingleElectron"));
@@ -172,6 +202,33 @@ int main(int argc, char* argv[])
 
     bool isSignal = (isMC_WIMP || isMC_ADD || isMC_Unpart);
 
+    // Save DM reweight tree for faster interpolation
+    TTree * dmReweightTree{nullptr};
+    DMTree dmtree;
+    if (isSignal && !doWIMPreweighting) {
+      dmReweightTree = new TTree("dmReweight", "DM model reweighting tree");
+      dmReweightTree->Branch("genmet", &dmtree.genmet);
+      dmReweightTree->Branch("mx", &dmtree.mx);
+      dmReweightTree->Branch("mv", &dmtree.mv);
+      dmReweightTree->Branch("pfmet", &dmtree.pfmet);
+      dmReweightTree->Branch("pfmet_jerup", &dmtree.pfmet_jerup);
+      dmReweightTree->Branch("pfmet_jerdown", &dmtree.pfmet_jerdown);
+      dmReweightTree->Branch("pfmet_jesup", &dmtree.pfmet_jesup);
+      dmReweightTree->Branch("pfmet_jesdown", &dmtree.pfmet_jesdown);
+      dmReweightTree->Branch("pfmet_umetup", &dmtree.pfmet_umetup);
+      dmReweightTree->Branch("pfmet_umetdown", &dmtree.pfmet_umetdown);
+      dmReweightTree->Branch("pfmet_lesup", &dmtree.pfmet_lesup);
+      dmReweightTree->Branch("pfmet_lesdown", &dmtree.pfmet_lesdown);
+      dmReweightTree->Branch("pfmet_puup", &dmtree.pfmet_puup);
+      dmReweightTree->Branch("pfmet_pudown", &dmtree.pfmet_pudown);
+      dmReweightTree->Branch("pfmet_btagup", &dmtree.pfmet_btagup);
+      dmReweightTree->Branch("pfmet_btagdown", &dmtree.pfmet_btagdown);
+      dmReweightTree->Branch("pfmet_pdfup", &dmtree.pfmet_pdfup);
+      dmReweightTree->Branch("pfmet_pdfdown", &dmtree.pfmet_pdfdown);
+      dmReweightTree->Branch("pfmet_qcdscaleup", &dmtree.pfmet_qcdscaleup);
+      dmReweightTree->Branch("pfmet_qcdscaledown", &dmtree.pfmet_qcdscaledown);
+    }
+
 
     BTagUtils myBtagUtils(runProcess);
 
@@ -189,7 +246,9 @@ int main(int argc, char* argv[])
 
 
     WIMPReweighting myWIMPweights;
-
+    auto mxmv_pair = myWIMPweights.extractMassesFromUrl(url);
+    dmtree.mx = mxmv_pair.first;
+    dmtree.mv = mxmv_pair.second;
 
     //systematics
     bool runSystematics                        = runProcess.getParameter<bool>("runSystematics");
@@ -766,6 +825,8 @@ int main(int argc, char* argv[])
             if(phys.genWIMPs.size()==2) 	  genmet = phys.genWIMPs[0]+phys.genWIMPs[1];
             else if(phys.genGravitons.size()==1)  genmet = phys.genGravitons[0];
             else if(phys.genneutrinos.size()==2)  genmet = phys.genneutrinos[0]+phys.genneutrinos[1];
+
+            if ( dmReweightTree != nullptr ) dmtree.genmet = genmet.pt();
 
             LorentzVector dilep = phys.genleptons[0]+phys.genleptons[1];
             double dphizmet = fabs(deltaPhi(dilep.phi(),genmet.phi()));
@@ -1589,6 +1650,27 @@ int main(int argc, char* argv[])
         //### HISTOS FOR STATISTICAL ANALYSIS (include systematic variations)
         //##############################################################################
 
+        // Clear dmtree before variations loop
+        // Since met can shift or be excluded in a variation, make default -1 to make cut clear
+        if ( dmReweightTree != nullptr ) {
+          dmtree.pfmet = -1.;
+          dmtree.pfmet_jerup = -1.;
+          dmtree.pfmet_jerdown = -1.;
+          dmtree.pfmet_jesup = -1.;
+          dmtree.pfmet_jesdown = -1.;
+          dmtree.pfmet_umetup = -1.;
+          dmtree.pfmet_umetdown = -1.;
+          dmtree.pfmet_lesup = -1.;
+          dmtree.pfmet_lesdown = -1.;
+          dmtree.pfmet_puup = -1.;
+          dmtree.pfmet_pudown = -1.;
+          dmtree.pfmet_btagup = -1.;
+          dmtree.pfmet_btagdown = -1.;
+          dmtree.pfmet_pdfup = -1.;
+          dmtree.pfmet_pdfdown = -1.;
+          dmtree.pfmet_qcdscaleup = -1.;
+          dmtree.pfmet_qcdscaledown = -1.;
+        }
 
         //Fill histogram for posterior optimization, or for control regions
         for(size_t ivar=0; ivar<nvarsToInclude; ivar++) {
@@ -1791,11 +1873,33 @@ int main(int argc, char* argv[])
 
                     mon.fillHisto(TString("met_shapes")+varNames[ivar],tags,index, vMET.pt(), iweight);
                     mon.fillHisto(TString("met2_shapes")+varNames[ivar],tags,index, vMET.pt(), iweight);
+
+                    if (index==0 && dmReweightTree != nullptr ) {
+                        if(varNames[ivar]=="") dmtree.pfmet = vMET.pt();
+                        else if(varNames[ivar]=="_jerup") dmtree.pfmet_jerup = vMET.pt();
+                        else if(varNames[ivar]=="_jerdown") dmtree.pfmet_jerdown = vMET.pt();
+                        else if(varNames[ivar]=="_jesup") dmtree.pfmet_jesup = vMET.pt();
+                        else if(varNames[ivar]=="_jesdown") dmtree.pfmet_jesdown = vMET.pt();
+                        else if(varNames[ivar]=="_umetup") dmtree.pfmet_umetup = vMET.pt();
+                        else if(varNames[ivar]=="_umetdown") dmtree.pfmet_umetdown = vMET.pt();
+                        else if(varNames[ivar]=="_lesup") dmtree.pfmet_lesup = vMET.pt();
+                        else if(varNames[ivar]=="_lesdown") dmtree.pfmet_lesdown = vMET.pt();
+                        else if(varNames[ivar]=="_puup") dmtree.pfmet_puup = vMET.pt();
+                        else if(varNames[ivar]=="_pudown") dmtree.pfmet_pudown = vMET.pt();
+                        else if(varNames[ivar]=="_btagup") dmtree.pfmet_btagup = vMET.pt();
+                        else if(varNames[ivar]=="_btagdown") dmtree.pfmet_btagdown = vMET.pt();
+                        else if(varNames[ivar]=="_pdfup") dmtree.pfmet_pdfup = vMET.pt();
+                        else if(varNames[ivar]=="_pdfdown") dmtree.pfmet_pdfdown = vMET.pt();
+                        else if(varNames[ivar]=="_qcdscaleup") dmtree.pfmet_qcdscaleup = vMET.pt();
+                        else if(varNames[ivar]=="_qcdscaledown") dmtree.pfmet_qcdscaledown = vMET.pt();
+                    }
                 }
 
 
             }//all optimization END
         }//Systematic variation END
+        
+        if ( dmReweightTree != nullptr ) dmReweightTree->Fill();
     } // loop on all events END
 
 
@@ -1807,14 +1911,10 @@ int main(int argc, char* argv[])
     //##############################################
     //########     SAVING HISTO TO FILE     ########
     //##############################################
-    //save control plots to file
-    outUrl += "/";
-    outUrl += outFileUrl + ".root";
-    printf("Results saved in %s\n", outUrl.Data());
 
-    //save all to the file
-    TFile *ofile=TFile::Open(outUrl, "recreate");
+    ofile->cd();
     mon.Write();
+    if ( dmReweightTree != nullptr ) dmReweightTree->Write();
     ofile->Close();
 
     PU_Central_File->Close();
