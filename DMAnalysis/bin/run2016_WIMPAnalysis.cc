@@ -303,6 +303,8 @@ int main(int argc, char* argv[])
 
     //for MC normalization (to 1/pb)
     TH1F* Hcutflow  = (TH1F*) mon.addHistogram(  new TH1F ("cutflow"    , "cutflow"    ,6,0,6) ) ;
+    //for WIMP reweighting norms
+    TH1F* sumWIMPweights  = (TH1F*) mon.addHistogram( new TH1F ("sumWIMPweights"    , "sumWIMPweights"    ,2,0,2) ) ;
 
     mon.addHistogram( new TH1F( "nvtx_raw",	";Vertices;Events",50,0,50) );
     mon.addHistogram( new TH1F( "nvtxwgt_raw",	";Vertices;Events",50,0,50) );
@@ -785,12 +787,17 @@ int main(int argc, char* argv[])
             LorentzVector dilep = phys.genleptons[0]+phys.genleptons[1];
             double dphizmet = fabs(deltaPhi(dilep.phi(),genmet.phi()));
 
-            //reweighting
+            // WIMP interpolation reweighting
+            sumWIMPweights->Fill(0., 1.);
             if(doWIMPreweighting) {
-                if(url.Contains("TeV_DM_")) weight *= myWIMPweights.get1DWeights(genmet.pt(),"genmet_acc_simplmod");
-                if(url.Contains("TeV_EWKDM_S_Mx")) weight *= myWIMPweights.get1DWeights(genmet.pt(),"pt_chichi");
+                double wimpWeight = 1.;
+                if(url.Contains("TeV_DM_")) wimpWeight *= myWIMPweights.get1DWeights(genmet.pt(),"genmet_acc_simplmod");
+                if(url.Contains("TeV_EWKDM_S_Mx")) wimpWeight *= myWIMPweights.get1DWeights(genmet.pt(),"pt_chichi");
+                sumWIMPweights->Fill(1., wimpWeight);
+                weight *= wimpWeight;
+            } else {
+                sumWIMPweights->Fill(1., 1.);
             }
-            //if(doWIMPreweighting) weight *= myWIMPweights.get2DWeights(genmet.pt(),dphizmet,"dphi_vs_met");
 
             mon.fillHisto("met_Gen", tags, genmet.pt(), weight, true);
             mon.fillHisto("met2_Gen", tags, genmet.pt(), weight);
@@ -1124,7 +1131,6 @@ int main(int argc, char* argv[])
 
         // pielup reweightiing
         mon.fillHisto("nvtx_raw",   tags, phys.nvtx,      1.0);
-        //if(isMC) weight *= myWIMPweights.get1DWeights(phys.nvtx,"pileup_weights");
         mon.fillHisto("nvtxwgt_raw",tags, phys.nvtx,      weight);
 
 
