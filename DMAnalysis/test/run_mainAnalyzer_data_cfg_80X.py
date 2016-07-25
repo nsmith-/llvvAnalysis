@@ -1,8 +1,10 @@
 import FWCore.ParameterSet.Config as cms
+from FWCore.ParameterSet.VarParsing import VarParsing
 
 from llvvAnalysis.DMAnalysis.mainAnalyzer_cfi import *
 
 process.mainAnalyzer.isMC = cms.bool(False)
+
 options = VarParsing('analysis')
 options.parseArguments()
 

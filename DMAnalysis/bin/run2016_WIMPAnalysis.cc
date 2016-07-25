@@ -385,17 +385,13 @@ int main(int argc, char* argv[])
     // preselection plots
     double METBins[]= {0,10,20,30,40,50,60,70,80,90,100,120,140,160,180,200,250,300,350,400,500};
     const int nBinsMET = sizeof(METBins)/sizeof(double) - 1;
-
     double METBins2[]= {0,10,20,30,40,50,60,70,80,90,100,120,140,160,180,200,250,300,350,400,500,1000};
     const int nBinsMET2 = sizeof(METBins2)/sizeof(double) - 1;
-
     //double METBins3[]= {0,40,50,60,120,260,1000};
 //    double METBins3[]= {0,10,20,30,40,50,60,70,80,90,100,120,140,160,180,200,250,300,350,400,500,1000};
 //    const int nBinsMET3 = sizeof(METBins3)/sizeof(double) - 1;
-
     double MET2Bins[]= {0,80,160,240,320,400,480,560,640,800,1200};
     const int xnBinsMET2 = sizeof(MET2Bins)/sizeof(double) - 1;
-
     double MT2Bins[]= {0,100,200,300,400,500,600,700,800,1000,1200};
     const int xnBinsMT2 = sizeof(MT2Bins)/sizeof(double) - 1;
 */
@@ -409,32 +405,21 @@ int main(int argc, char* argv[])
     mon.addHistogram( new TH1F( "pfmet2_nm1",      ";E_{T}^{miss} [GeV];Events / 1 GeV", xnBinsMET2,MET2Bins));
     mon.addHistogram( new TH1F( "mt_nm1",          ";#it{m}_{T} [GeV];Events / 100 GeV", 12,0,1200));
     mon.addHistogram( new TH1F( "mt2_nm1",         ";#it{m}_{T} [GeV];Events / 1 GeV", xnBinsMT2,MT2Bins));
-
     mon.addHistogram( new TH1F( "pfmet_met80",       ";E_{T}^{miss} [GeV];Events / 80 GeV", 15,0,1200));
     mon.addHistogram( new TH1F( "pfmet2_met80",      ";E_{T}^{miss} [GeV];Events / 1 GeV", xnBinsMET2,MET2Bins));
     mon.addHistogram( new TH1F( "mt_met80",          ";#it{m}_{T} [GeV];Events / 100 GeV", 12,0,1200));
     mon.addHistogram( new TH1F( "mt2_met80",         ";#it{m}_{T} [GeV];Events / 1 GeV", xnBinsMT2,MT2Bins));
-
     mon.addHistogram( new TH1F( "pfmet_met140",       ";E_{T}^{miss} [GeV];Events / 80 GeV", 15,0,1200));
     mon.addHistogram( new TH1F( "pfmet2_met140",      ";E_{T}^{miss} [GeV];Events / 1 GeV", xnBinsMET2,MET2Bins));
     mon.addHistogram( new TH1F( "mt_met140",          ";#it{m}_{T} [GeV];Events / 100 GeV", 12,0,1200));
     mon.addHistogram( new TH1F( "mt2_met140",         ";#it{m}_{T} [GeV];Events / 1 GeV", xnBinsMT2,MT2Bins));
-
-
-
-
-
-
     //MET X-Y shift correction
     mon.addHistogram( new TH2F( "pfmetx_vs_nvtx",";Vertices;E_{X}^{miss} [GeV];Events",50,0,50, 200,-75,75) );
     mon.addHistogram( new TH2F( "pfmety_vs_nvtx",";Vertices;E_{Y}^{miss} [GeV];Events",50,0,50, 200,-75,75) );
     mon.addHistogram( new TH1F( "pfmetphi_wocorr",";#it{#phi}(E_{T}^{miss});Events", 50,-1.*TMath::Pi(),TMath::Pi()) );
     mon.addHistogram( new TH1F( "pfmetphi_wicorr",";#it{#phi}(E_{T}^{miss});Events", 50,-1.*TMath::Pi(),TMath::Pi()) );
-
     mon.addHistogram( new TH1F( "pfmet_wicorr",      ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET, METBins));
     mon.addHistogram( new TH1F( "pfmet2_wicorr",     ";E_{T}^{miss} [GeV];Events / 1 GeV", nBinsMET2, METBins2));
-
-
     // generator level plots
     mon.addHistogram( new TH1F( "pileup", ";pileup;Events", 50,0,50) );
     mon.addHistogram( new TH1F( "met_Gen", ";#it{p}_{T}(#bar{#chi}#chi) [GeV];Events", nBinsMET, METBins) );
@@ -443,7 +428,6 @@ int main(int argc, char* argv[])
     mon.addHistogram( new TH1F( "dphi_Gen", ";#Delta#phi(Z,#bar{#chi}#chi) [rad];Events", 100,0,TMath::Pi()) );
     mon.addHistogram( new TH1F( "zmass_Gen", ";#it{m}_{ll} [GeV] [GeV];Events", 250,0,250) );
     mon.addHistogram( new TH2F( "ptlep1vs2_Gen",";#it{p}_{T}^{l1} [GeV];#it{p}_{T}^{l2} [GeV];Events",250,0,500, 250,0,500) );
-
     h=(TH1F *)mon.addHistogram( new TH1F ("acceptance", ";;Events", 2,0,2) );
     h->GetXaxis()->SetBinLabel(1,"Gen");
     h->GetXaxis()->SetBinLabel(2,"Gen Acc");
@@ -456,7 +440,6 @@ int main(int argc, char* argv[])
 /*
     double JetPTBins[]= {20,40,60,80,100,120,150,300,500};
     const int nJetPTBins = sizeof(JetPTBins)/sizeof(double) - 1;
-
     for(size_t csvtag=0; csvtag<CSVkey.size(); csvtag++) {
         mon.addHistogram( new TH1F( TString("beff_Denom_")+CSVkey[csvtag],      "; Jet #it{p}_{T} [GeV];Events", nJetPTBins,JetPTBins) );
         mon.addHistogram( new TH1F( TString("ceff_Denom_")+CSVkey[csvtag],      "; Jet #it{p}_{T} [GeV];Events", nJetPTBins,JetPTBins) );
@@ -1424,8 +1407,8 @@ int main(int argc, char* argv[])
                                                 if(passResponseCut) {
                                                     mon.fillHisto( "sync_cutflow",  tags, ncut++, weight);
                                                     mon.fillHisto( "pfmet2_final",tags, metP4.pt(), weight, true);
-                                                    if(!isMC) fprintf(outTxtFile_final,"%d | %d | %lld | pfmet: %f | mt: %f | mass: %f \n",ev.run,ev.lumi
-,ev.event,metP4.pt(), MT_massless,zll.mass());
+                                                    if(!isMC) fprintf(outTxtFile_final,"%d | %d | %d | pfmet: %f | mt: %f | mass: %f |jpt: %f | Cat: %s \n",ev.run,ev.lumi
+,ev.event,metP4.pt(), MT_massless,zll.mass(),corrJets[0].pt(),(const char*) tag_cat);
 
                                                 } // passResponseCut
                                             } // passDphiJetMET
@@ -1516,30 +1499,22 @@ int main(int argc, char* argv[])
         //##############################################
         //########  Main Event Selection        ########
         //##############################################
-
         //for MET X-Y shift correction
         mon.fillHisto("pfmetx_vs_nvtx",tags,phys.nvtx,metP4.px(), weight);
         mon.fillHisto("pfmety_vs_nvtx",tags,phys.nvtx,metP4.py(), weight);
         LorentzVector metP4_XYCorr = METUtils::applyMETXYCorr(metP4,isMC,phys.nvtx);
         mon.fillHisto("pfmetphi_wocorr",tags, metP4.phi(), weight);
         mon.fillHisto("pfmetphi_wicorr",tags, metP4_XYCorr.phi(), weight);
-
         mon.fillHisto("pfmet_wicorr",tags, metP4_XYCorr.pt(), weight, true);
         mon.fillHisto("pfmet2_wicorr",tags, metP4_XYCorr.pt(), weight, true);
-
-
         if(passZmass) {
             mon.fillHisto("eventflow",  tags, 1, weight);
-
             if(passZpt) {
                 mon.fillHisto("eventflow",  tags, 2, weight);
-
                 if(pass3dLeptonVeto) {
                     mon.fillHisto("eventflow",  tags, 3, weight);
-
                     if(passBveto) {
                         mon.fillHisto("eventflow",  tags, 4, weight);
-
                         //preselection plots
                         if(!isMC) {
                             //data blinded
@@ -1555,34 +1530,27 @@ int main(int argc, char* argv[])
                             mon.fillHisto("mt_presel",   tags, MT_massless, weight);
                             mon.fillHisto("mt2_presel",   tags, MT_massless, weight, true);
                         }
-
                         mon.fillHisto("dphiZMET_presel",tags, dphiZMET, weight);
                         mon.fillHisto("balancedif_presel",tags, balanceDif, weight);
-
                         mon.fillHisto("axialpfmet_presel",    tags,  axialmet,  weight);
-
-
                         //forDY ctrl
                         if(passResponseCut) {
                             mon.fillHisto("pfmet_DYctrlN_3", tags, metP4.pt(), weight);
                             mon.fillHisto("balancedif_DYctrlN_3",tags, balanceDif, weight);
                             mon.fillHisto("dphiZMET_DYctrlN_3",tags, dphiZMET, weight);
                         }
-
                         //N-1 for MET
                         if(passDphiZMETcut && passResponseCut && passBalanceCut) {
                             mon.fillHisto("pfmet_nm1", tags, metP4.pt(), weight);
                             mon.fillHisto("pfmet2_nm1", tags, metP4.pt(), weight,true);
                             mon.fillHisto("mt_nm1",   tags, MT_massless, weight);
                             mon.fillHisto("mt2_nm1",   tags, MT_massless, weight,true);
-
                             if(metP4.pt()>80) {
                                 mon.fillHisto("pfmet_met80", tags, metP4.pt(), weight);
                                 mon.fillHisto("pfmet2_met80", tags, metP4.pt(), weight,true);
                                 mon.fillHisto("mt_met80",   tags, MT_massless, weight);
                                 mon.fillHisto("mt2_met80",   tags, MT_massless, weight,true);
                             }
-
                             if(metP4.pt()>140) {
                                 mon.fillHisto("pfmet_met140", tags, metP4.pt(), weight);
                                 mon.fillHisto("pfmet2_met140", tags, metP4.pt(), weight,true);
@@ -1590,35 +1558,23 @@ int main(int argc, char* argv[])
                                 mon.fillHisto("mt2_met140",   tags, MT_massless, weight,true);
                             }
                         }
-
                         if(passDphiZMETcut && passResponseCut) {
                             mon.fillHisto("eventflow",  tags, 5, weight);
-
                             if(passBalanceCut) {
                                 mon.fillHisto("eventflow",  tags, 6, weight);
-
                                 if(passMETcut) {
                                     mon.fillHisto("eventflow",  tags, 7, weight);
                                     mon.fillHisto("mt_final",   tags, MT_massless, weight);
                                     mon.fillHisto("pfmet_final",tags, metP4.pt(), weight, true);
                                     mon.fillHisto("pfmet2_final",tags, metP4.pt(), weight, true);
-
                                     if(passMETcut120) mon.fillHisto("mt_final120",   tags, MT_massless, weight);
-
                                     if(!isMC) fprintf(outTxtFile_final,"%d | %d | %d | pfmet: %f | mt: %f | mass: %f \n",ev.run,ev.lumi,ev.event,metP4.pt(), MT_massless,zll.mass());
-
                                 } //passMETcut
-
                             } //passBalanceCut
-
                         } //passDphiZMETcut
-
                     } //passBveto
-
                 } //pass3dLeptonVeto
-
             } //passZpt
-
         } //passZmass
 */
 

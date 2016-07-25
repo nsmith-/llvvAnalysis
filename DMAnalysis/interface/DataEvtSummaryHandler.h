@@ -27,8 +27,7 @@ typedef std::vector<LorentzVector> LorentzVectorCollection;
 
 struct DataEvtSummary_t {
 
-    Int_t run,lumi;
-    Long64_t event;
+    Int_t run,lumi,event;
     Float_t curAvgInstLumi,curIntegLumi;
     Bool_t hasTrigger;
     Int_t triggerType;

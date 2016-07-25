@@ -2,6 +2,9 @@
 from WMCore.Configuration import Configuration 
 
 config = Configuration()
+from WMCore.Configuration import Configuration 
+
+config = Configuration()
 
 config.section_("General")
 config.General.requestName = '@NAME'
@@ -30,4 +33,4 @@ config.section_("Site")
 config.Site.storageSite = '@STORAGESITE'
 
 config.section_("User")
-config.User.voGroup = 'dcms'
+#config.User.voGroup = 'dcms'
